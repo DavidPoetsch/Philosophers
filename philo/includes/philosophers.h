@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/06 11:47:30 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/06 12:27:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <pthread.h>
 
 #endif
