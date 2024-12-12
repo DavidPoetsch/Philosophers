@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/12 16:39:00 by dpotsch          ###   ########.fr       */
+/*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
+/*   Updated: 2024/12/12 12:39:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+# include "philosophers.h"
 
-# include "enums.h"
-# include "structs.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
+size_t	ft_strlen(char *str)
+{
+	size_t i;
 
-// Utils
-size_t	ft_strlen(char *str);
-int		ft_puterr(char *str);
-void	print_philo_state(int id, int state);
+	i = 0;
+	if (!str)
+		return (i);
+	while(str[i])
+		i++;
+	return (i);
+}
 
-#endif
+int	ft_puterr(char *str)
+{
+	return (write(STDERR_FILENO, str, ft_strlen(str)));
+}

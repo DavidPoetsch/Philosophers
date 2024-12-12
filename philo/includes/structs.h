@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/12 16:39:00 by dpotsch          ###   ########.fr       */
+/*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
+/*   Updated: 2024/12/12 15:19:16 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-# include "enums.h"
-# include "structs.h"
 # include <pthread.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 
-// Utils
-size_t	ft_strlen(char *str);
-int		ft_puterr(char *str);
-void	print_philo_state(int id, int state);
+typedef struct s_philo_handler	t_philo_handler;
+typedef struct s_philo			t_philo;
+
+struct							s_philo_handler
+{
+	size_t						philos;
+	size_t						forks;
+	size_t						meals_per_philo;
+	size_t						time_to_die;
+	size_t						time_to_eat;
+	size_t						time_to_sleep;
+};
+
+struct							s_philo
+{
+	int							id;
+	char						*name;
+	int							*value;
+	pthread_mutex_t				*fork;
+};
 
 #endif

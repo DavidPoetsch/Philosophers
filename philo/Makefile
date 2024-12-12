@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2024/12/06 11:46:21 by dpotsch          ###   ########.fr        #
+#    Updated: 2024/12/12 16:27:10 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,10 @@ CFLAGS = -Wall -Wextra -Werror
 
 BUILD_DIR := ./build
 
-SRCS = srcs/philosophers.c
+SRCS = srcs/philosophers.c \
+       srcs/philo_state.c \
+       srcs/philo_utils.c \
+       srcs/time_utils.c \
 
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o

@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   enums.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/12 16:39:00 by dpotsch          ###   ########.fr       */
+/*   Created: 2024/12/12 14:07:15 by dpotsch           #+#    #+#             */
+/*   Updated: 2024/12/12 14:27:07 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef ENUMS_H
+# define ENUMS_H
 
-# include "enums.h"
-# include "structs.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-// Utils
-size_t	ft_strlen(char *str);
-int		ft_puterr(char *str);
-void	print_philo_state(int id, int state);
+enum e_philo_state
+{
+	PHILO_STATE_UNDEFINED,
+	PHILO_HAS_TAKEN_FORK,
+	PHILO_IS_EATING,
+	PHILO_IS_SLEEPING,
+	PHILO_IS_THINKING,
+	PHILO_DIED,
+};
 
 #endif
