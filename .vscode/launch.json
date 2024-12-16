@@ -1,0 +1,14 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+			{
+					"type": "lldb",
+					"request": "launch",
+					"name": "Debug",
+					"program": "${workspaceFolder}/philo/build/philo", // Replace <executable file> with your executable name
+					"args": ["2"],
+					"cwd": "${workspaceFolder}",
+					"preLaunchTask": "Build philo"
+			}
+	]
+}
