@@ -1,4 +1,4 @@
-build/srcs/philo_utils.c.o: srcs/philo_utils.c includes/philosophers.h \
+build/srcs/init_philo.c.o: srcs/init_philo.c includes/philosophers.h \
   includes/philo_errors.h includes/enums.h includes/structs.h
 
 includes/philosophers.h:

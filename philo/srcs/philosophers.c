@@ -6,66 +6,133 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/12 17:03:22 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/16 17:44:43 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philosophers.h"
+#include "philosophers.h"
 
-void 	*eat(void *p)
+int think(t_philo_handler	*ph, t_philo	*philo)
 {
+	int result;
+
+	result = EATING_DENIED;
+	pthread_mutex_lock(&ph->lock);
+	ph->last_lock_id = philo->id;
+	if (ph->philos == 1)
+		result = EATING_ALLOWED;
+	else if (philo->fork1->state == FORK_AVAILABLE && philo->fork2->state == FORK_AVAILABLE)
+	{
+		philo->fork1->state = FORK_UNAVAILABLE;
+		philo->fork2->state = FORK_UNAVAILABLE;
+		result = EATING_ALLOWED;
+	}
+	pthread_mutex_unlock(&ph->lock);
+	return (result);
+}
+
+void eat(t_philo_handler	*ph, t_philo	*philo)
+{
+	pthread_mutex_lock(&philo->fork1->lock);
+	if (ph->philos > 1)
+		pthread_mutex_lock(&philo->fork2->lock);
+	print_philo_state(ph, philo->id, PHILO_IS_EATING);
+	usleep(ms_to_us(ph->time_to_eat));
+	philo->fork1->state = FORK_AVAILABLE;
+	philo->fork2->state = FORK_AVAILABLE;
+	pthread_mutex_unlock(&philo->fork1->lock);
+		if (ph->philos > 1)
+	pthread_mutex_unlock(&philo->fork2->lock);
+	philo->meals++;
+}
+
+void go_sleep(t_philo_handler	*ph, t_philo	*philo)
+{
+	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
+	usleep(ms_to_us(ph->time_to_sleep));
+}
+
+void	*philo_life(void *p)
+{
+	t_philo	*philo;
+	t_philo_handler	*ph;
+
 	if (!p)
 		return (NULL);
-	t_philo *philo = (t_philo *)p;
-	pthread_mutex_lock(philo->fork);
-	int i = 0;
-	while (i < 2)
+	philo = (t_philo *)p;
+	ph = philo->ph;
+	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
+	while(philo->meals < ph->meals_per_philo)
 	{
-		printf("%d\n", *philo->value);
-		sleep(1);
-		i++;
-		(*philo->value)++;
+		if (think(ph, philo) == EATING_ALLOWED)
+		{
+			eat(ph, philo);
+			go_sleep(ph, philo);
+			print_philo_state(ph, philo->id, PHILO_IS_THINKING);
+		}
 	}
-	printf("Philo %d: %s: finished\n", philo->id, philo->name);
-	pthread_mutex_unlock(philo->fork);
 	return (NULL);
 }
 
-int main (void)
+int	main(int argc, char **argv)
 {
-	t_philo p1;
-	t_philo p2;
-	pthread_mutex_t lock;
-	int value;
+	t_args			args;
+	t_philo_handler	ph;
+	int				i;
 
-	if (pthread_mutex_init(&lock, NULL) != 0)
+	init_args(&args, argc, argv);
+	if (init_philos(args, &ph) == ERROR)
+		return (EXIT_FAILURE);
+	i = 0;
+	while (i < ph.philos)
 	{
-		ft_puterr("Mutex initialization failed.\n");
-		return EXIT_FAILURE;
+		pthread_create(&ph.philo_lst[i].ptid, NULL, philo_life, &ph.philo_lst[i]);
+		i++;
 	}
-	p1.fork = &lock;
-	p2.fork = &lock;
-
-	p1.value = &value;
-	p2.value = &value;
-
-	print_philo_state(1, PHILO_STATE_UNDEFINED);
-	print_philo_state(1, PHILO_HAS_TAKEN_FORK);
-	print_philo_state(1, PHILO_IS_EATING);
-	print_philo_state(1, PHILO_IS_SLEEPING);
-	print_philo_state(1, PHILO_IS_THINKING);
-	print_philo_state(1, PHILO_DIED);
-
-	p1.id = 1;
-	p1.name = "Lukas";
-	p2.id = 2;
-	p2.name = "David";
-
-	pthread_t thread1 = 0;
-	pthread_t thread2 = 0;
-	pthread_create(&thread1, NULL, eat, &p1);
-	pthread_create(&thread2, NULL, eat, &p2);
-	pthread_join(thread1, NULL);
-	pthread_join(thread2, NULL);
+	i = 0;
+	while (i < ph.philos)
+	{
+		pthread_join(ph.philo_lst[i].ptid, NULL);
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
+
+
+// static pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;
+// static pthread_mutex_t m2 = PTHREAD_MUTEX_INITIALIZER;
+
+// void *test(void *p)
+// {
+// 	int res1;
+// 	int res2;
+// 	int *id;
+
+// 	if (!p)
+// 		return NULL;
+// 	id = (int*)p;
+// 	res1 = pthread_mutex_lock(&m1);
+// 	printf("%d: res1 = %d\n", *id, res1);
+// 	res2 = pthread_mutex_lock(&m2);
+// 	printf("%d: res2 = %d\n", *id, res2);
+// 	usleep(1000000);
+// 	pthread_mutex_unlock(&m1);
+// 	pthread_mutex_unlock(&m2);
+// 	return (NULL);
+// }
+
+// int	main(void)
+// {
+// 	pthread_t t1 = 0;
+// 	pthread_t t2 = 0;
+// 	int id1 = 1;
+// 	int id2 = 2;
+
+// 	pthread_mutex_init(&m1, NULL);
+// 	pthread_mutex_init(&m2, NULL);
+// 	pthread_create(&t1, NULL, &test, &id1);
+// 	pthread_create(&t2, NULL, &test, &id2);
+// 	pthread_join(t1, NULL);
+// 	pthread_join(t2, NULL);
+// 	return (EXIT_SUCCESS);
+// }

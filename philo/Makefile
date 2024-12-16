@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2024/12/12 16:27:10 by dpotsch          ###   ########.fr        #
+#    Updated: 2024/12/16 16:58:34 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,12 @@ CFLAGS = -Wall -Wextra -Werror
 BUILD_DIR := ./build
 
 SRCS = srcs/philosophers.c \
+       srcs/argument_utils.c \
+       srcs/ft_atoi.c \
+       srcs/init_philo.c \
        srcs/philo_state.c \
        srcs/philo_utils.c \
-       srcs/time_utils.c \
+       srcs/time_utils.c
 
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
@@ -56,12 +59,12 @@ LDFLAGS := ""
 # **************************************************************************** #
 # * BUILD
 all:
-	@$(MAKE) -s $(BUILD_DIR)/$(TARGET_EXEC)
+	@$(MAKE) -s $(TARGET_EXEC)
 	@echo "$(GREEN)Finished '$(TARGET_EXEC)'$(RESET)"
 
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+$(TARGET_EXEC): $(OBJS)
 	@echo "$(BLUE)Build    '$(TARGET_EXEC)'$(RESET)"
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+	$(CC) $(OBJS) -o $(BUILD_DIR)/$@ $(LDFLAGS)
 
 # Build step for C source
 # $(dir ...) is a Make function that extracts the directory of a file path.

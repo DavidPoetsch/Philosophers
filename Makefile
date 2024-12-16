@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2024/12/06 11:46:38 by dpotsch          ###   ########.fr        #
+#    Updated: 2024/12/16 17:05:08 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,13 +38,17 @@ fclean:
 	@$(MAKE) fclean -s -C $(TARGET_EXEC)
 
 debug:
-	@$(MAKE) debug -s -C $(TARGET_EXEC)
+	@$(MAKE) debug -C $(TARGET_EXEC)
 
 re: fclean all
 
 
 # **************************************************************************** #
-# * RUN
+# * RUN ./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP].
+# *     OPTIONAL [number_of_times_each_philosopher_must_eat].
+
+# Variables
+ARGS := 5 10000 1000 1000 1
 run: all
 	@printf "$(PINK)$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
 	@$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)
