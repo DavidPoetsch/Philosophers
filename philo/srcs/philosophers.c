@@ -6,95 +6,51 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/16 17:44:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/17 17:07:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int think(t_philo_handler	*ph, t_philo	*philo)
+int	start_philo_threads(t_philo_handler	*ph)
 {
-	int result;
+	int i;
 
-	result = EATING_DENIED;
-	pthread_mutex_lock(&ph->lock);
-	ph->last_lock_id = philo->id;
-	if (ph->philos == 1)
-		result = EATING_ALLOWED;
-	else if (philo->fork1->state == FORK_AVAILABLE && philo->fork2->state == FORK_AVAILABLE)
+	i = 0;
+	while (i < ph->philos)
 	{
-		philo->fork1->state = FORK_UNAVAILABLE;
-		philo->fork2->state = FORK_UNAVAILABLE;
-		result = EATING_ALLOWED;
+		pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life, &ph->philo_lst[i]);
+		i++;
 	}
-	pthread_mutex_unlock(&ph->lock);
-	return (result);
+	return (SUCCESS);
 }
 
-void eat(t_philo_handler	*ph, t_philo	*philo)
+int	join_philo_threads(t_philo_handler	*ph)
 {
-	pthread_mutex_lock(&philo->fork1->lock);
-	if (ph->philos > 1)
-		pthread_mutex_lock(&philo->fork2->lock);
-	print_philo_state(ph, philo->id, PHILO_IS_EATING);
-	usleep(ms_to_us(ph->time_to_eat));
-	philo->fork1->state = FORK_AVAILABLE;
-	philo->fork2->state = FORK_AVAILABLE;
-	pthread_mutex_unlock(&philo->fork1->lock);
-		if (ph->philos > 1)
-	pthread_mutex_unlock(&philo->fork2->lock);
-	philo->meals++;
-}
+	int i;
 
-void go_sleep(t_philo_handler	*ph, t_philo	*philo)
-{
-	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
-	usleep(ms_to_us(ph->time_to_sleep));
-}
-
-void	*philo_life(void *p)
-{
-	t_philo	*philo;
-	t_philo_handler	*ph;
-
-	if (!p)
-		return (NULL);
-	philo = (t_philo *)p;
-	ph = philo->ph;
-	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	while(philo->meals < ph->meals_per_philo)
+	i = 0;
+	while (i < ph->philos)
 	{
-		if (think(ph, philo) == EATING_ALLOWED)
-		{
-			eat(ph, philo);
-			go_sleep(ph, philo);
-			print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-		}
+		pthread_join(ph->philo_lst[i].ptid, NULL);
+		i++;
 	}
-	return (NULL);
+	return (SUCCESS);
 }
 
 int	main(int argc, char **argv)
 {
 	t_args			args;
 	t_philo_handler	ph;
-	int				i;
 
 	init_args(&args, argc, argv);
 	if (init_philos(args, &ph) == ERROR)
 		return (EXIT_FAILURE);
-	i = 0;
-	while (i < ph.philos)
-	{
-		pthread_create(&ph.philo_lst[i].ptid, NULL, philo_life, &ph.philo_lst[i]);
-		i++;
-	}
-	i = 0;
-	while (i < ph.philos)
-	{
-		pthread_join(ph.philo_lst[i].ptid, NULL);
-		i++;
-	}
+	ph.sim_state = SIM_RUNING;
+	start_monitoring_thread(&ph);
+	start_philo_threads(&ph);
+	join_philo_threads(&ph);
+	pthread_join(ph.ptid_mon, NULL);
 	return (EXIT_SUCCESS);
 }
 

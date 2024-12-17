@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:07:15 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/16 17:09:39 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/17 16:19:19 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 enum e_philo_state
 {
-	PHILO_STATE_UNDEFINED,
+	PHILO_IS_ALIVE,
 	PHILO_HAS_TAKEN_FORK,
 	PHILO_IS_EATING,
 	PHILO_IS_SLEEPING,
 	PHILO_IS_THINKING,
-	PHILO_DIED,
+	PHILO_IS_DEAD,
 };
 
 enum e_return_values
@@ -39,6 +39,17 @@ enum e_fork_state
 {
 	FORK_AVAILABLE,
 	FORK_UNAVAILABLE,
+};
+
+enum e_mutex_return_value
+{
+	M_LOCK_SUCCESS = 0,
+};
+
+enum e_simulation_state
+{
+	SIM_RUNING,
+	SIM_FINISHED,
 };
 
 #endif

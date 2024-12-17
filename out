@@ -1,38 +1,47 @@
-[0;34mBuild    'philo'[0m
-[0;32mFinished 'philo'[0m
-[0;35m./philo/build/philo 5 10000 1000 1000 2[0m
          0: Philo 1 is thinking.
-         0: Philo 1 is eating.
+         0: Philo 1 has taken a fork.
          0: Philo 3 is thinking.
-         0: Philo 3 is thinking.
-         0: Philo 2 is eating.
+         0: Philo 3 has taken a fork.
          0: Philo 4 is thinking.
          0: Philo 5 is thinking.
-      1000: Philo 3 is sleeping.
-      1000: Philo 4 is eating.
-      1000: Philo 1 is sleeping.
-      1000: Philo 2 is eating.
-      2000: Philo 3 is thinking.
-      2000: Philo 4 is sleeping.
-      2000: Philo 5 is eating.
-      2000: Philo 1 is thinking.
-      2000: Philo 3 is eating.
-      2000: Philo 2 is sleeping.
-      3000: Philo 4 is thinking.
-      3000: Philo 5 is sleeping.
-      3000: Philo 1 is eating.
-      3000: Philo 3 is sleeping.
-      3000: Philo 4 is eating.
-      3000: Philo 2 is thinking.
-      4000: Philo 5 is thinking.
-      4000: Philo 3 is thinking.
-      4000: Philo 1 is sleeping.
-      4000: Philo 2 is eating.
-      4000: Philo 4 is sleeping.
-      4000: Philo 5 is eating.
-      5000: Philo 1 is thinking.
-      5000: Philo 2 is sleeping.
-      5000: Philo 4 is thinking.
-      5000: Philo 5 is sleeping.
-      6000: Philo 2 is thinking.
-      6000: Philo 5 is thinking.
+         0: Philo 2 is thinking.
+        10: Philo 3 has taken a fork.
+        10: Philo 3 is eating.
+        10: Philo 1 has taken a fork.
+        10: Philo 1 is eating.
+      1073: Philo 1 is sleeping.
+      1073: Philo 5 has taken a fork.
+      1080: Philo 3 is sleeping.
+      1080: Philo 2 has taken a fork.
+      1083: Philo 5 has taken a fork.
+      1083: Philo 5 is eating.
+      1090: Philo 2 has taken a fork.
+      1090: Philo 2 is eating.
+      2148: Philo 1 is thinking.
+      2154: Philo 3 is thinking.
+      2159: Philo 5 is sleeping.
+      2159: Philo 4 has taken a fork.
+      2169: Philo 4 has taken a fork.
+      2169: Philo 4 is eating.
+      2170: Philo 2 is sleeping.
+      2171: Philo 1 has taken a fork.
+      2181: Philo 1 has taken a fork.
+      2181: Philo 1 is eating.
+      3239: Philo 5 is thinking.
+      3250: Philo 4 is sleeping.
+      3250: Philo 3 has taken a fork.
+      3252: Philo 2 is thinking.
+      3260: Philo 3 has taken a fork.
+      3260: Philo 3 is eating.
+      3263: Philo 1 is sleeping.
+      3263: Philo 5 has taken a fork.
+      3273: Philo 5 has taken a fork.
+      3273: Philo 5 is eating.
+      4327: Philo 4 is thinking.
+      4339: Philo 3 is sleeping.
+      4339: Philo 2 has taken a fork.
+      4342: Philo 1 is thinking.
+      4349: Philo 2 has taken a fork.
+      4349: Philo 2 is eating.
+      4353: Philo 5 is sleeping.
+      4353: Philo 4 has taken a fork.

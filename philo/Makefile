@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2024/12/16 16:58:34 by dpotsch          ###   ########.fr        #
+#    Updated: 2024/12/17 16:58:19 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,10 @@ SRCS = srcs/philosophers.c \
        srcs/argument_utils.c \
        srcs/ft_atoi.c \
        srcs/init_philo.c \
+       srcs/philo_handler.c \
+       srcs/philo_life.c \
+       srcs/philo_life_utils.c \
+       srcs/philo_monitoring.c \
        srcs/philo_state.c \
        srcs/philo_utils.c \
        srcs/time_utils.c

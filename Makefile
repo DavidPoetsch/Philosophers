@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2024/12/16 17:05:08 by dpotsch          ###   ########.fr        #
+#    Updated: 2024/12/17 12:33:49 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ re: fclean all
 # *     OPTIONAL [number_of_times_each_philosopher_must_eat].
 
 # Variables
-ARGS := 5 10000 1000 1000 1
+ARGS := 5 10000 100 100 2
 run: all
 	@printf "$(PINK)$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
 	@$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)
@@ -62,9 +62,14 @@ runf: all
 	@printf "$(PINK)funcheck -a $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
 	@funcheck -a $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)
 
-tests: $(TARGET_EXEC)
-	@printf "$(PINK)"
-	../testing/tester.sh
-	@printf "$(NC)"
+tests:
+	@printf "$(PINK)$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
+	@$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS) > out
+	@printf "$(PINK)python3 ./testing/visualize.py$(NC)\n"
+	@python3 ./testing/visualize.py
+
+visu:
+	@printf "$(PINK)python3 ./testing/visualize.py$(NC)\n"
+	@python3 ./testing/visualize.py
 
 .PHONY: all $(TARGET_EXEC) clean fclean re bonus run runv runf

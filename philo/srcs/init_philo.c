@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/16 16:55:56 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/17 15:31:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int alloc_philos(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
-static int	init_forks(t_philo_handler *ph)
+static int	init_philo(t_philo_handler *ph)
 {
 	int	i;
 	t_philo *philo;
@@ -125,10 +125,21 @@ static int init_mutexes(t_philo_handler *ph)
 
 static int init_start_time(t_philo_handler *ph)
 {
+	int	i;
+	t_philo *philo;
+
 	if (gettimeofday(&ph->tv_start, NULL) != 0)
 	{
 		ft_puterr(ERR_GETTIMEOFDAY);
 		return (ERROR);
+	}
+	i = 0;
+	while (i < ph->philos)
+	{
+		philo = &ph->philo_lst[i];
+		philo->tv_last_meal.tv_sec = ph->tv_start.tv_sec;
+		philo->tv_last_meal.tv_usec = ph->tv_start.tv_usec;
+		i++;
 	}
 	return (SUCCESS);
 }
@@ -161,7 +172,7 @@ int	init_philos(t_args args, t_philo_handler *ph)
 	if (res != ERROR)
 		res = alloc_philos(ph);
 	if (res != ERROR)
-		res = init_forks(ph);
+		res = init_philo(ph);
 	if (res != ERROR)
 		res = init_mutexes(ph);
 	if (res != ERROR)

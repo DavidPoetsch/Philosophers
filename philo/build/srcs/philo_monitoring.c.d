@@ -1,4 +1,4 @@
-build/srcs/argument_utils.c.o: srcs/argument_utils.c \
+build/srcs/philo_monitoring.c.o: srcs/philo_monitoring.c \
   includes/philosophers.h includes/enums.h includes/philo_errors.h \
   includes/structs.h
 
