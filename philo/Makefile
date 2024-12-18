@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2024/12/17 16:58:19 by dpotsch          ###   ########.fr        #
+#    Updated: 2024/12/18 15:51:59 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS = srcs/philosophers.c \
        srcs/philo_monitoring.c \
        srcs/philo_state.c \
        srcs/philo_utils.c \
-       srcs/time_utils.c
+       srcs/time_utils.c \
+       srcs/mutex_utils.c
 
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o

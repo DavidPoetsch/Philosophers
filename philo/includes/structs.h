@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/17 17:02:14 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/18 16:54:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTS_H
 
 # include <pthread.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <sys/time.h>
 
@@ -41,24 +42,26 @@ struct							s_philo_handler
 	int							time_to_sleep;
 	int							last_lock_id;
 	int							sim_state;
-	pthread_mutex_t				lock;
-	pthread_mutex_t				print_lock;
+	bool						meal_limit;
 	pthread_t					ptid_mon;
+	pthread_mutex_t				eat_lock;
+	pthread_mutex_t				print_lock;
+	pthread_mutex_t				sim_state_lock;
 };
 
 struct							s_fork
 {
-	int							state;
+	int							state; //! not used
 	pthread_mutex_t				lock;
 };
 
 struct							s_philo
 {
 	int							id;
-	char						*name;
-	int							meals;
 	pthread_t					ptid;
-	t_tv							tv_last_meal;
+	int							meals;
+	pthread_mutex_t				meals_lock;
+	t_tv						tv_last_meal;
 	t_fork						*fork1;
 	t_fork						*fork2;
 	t_philo_handler				*ph;

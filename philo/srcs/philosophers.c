@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/17 17:07:37 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/18 16:56:05 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ int	main(int argc, char **argv)
 {
 	t_args			args;
 	t_philo_handler	ph;
+	int res;
 
+	memset(&ph, 0, sizeof(t_philo_handler));
 	init_args(&args, argc, argv);
-	if (init_philos(args, &ph) == ERROR)
+	res = init_philos(args, &ph);
+	if (res == ERROR)
 		return (EXIT_FAILURE);
 	ph.sim_state = SIM_RUNING;
 	start_monitoring_thread(&ph);
@@ -53,42 +56,3 @@ int	main(int argc, char **argv)
 	pthread_join(ph.ptid_mon, NULL);
 	return (EXIT_SUCCESS);
 }
-
-
-// static pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;
-// static pthread_mutex_t m2 = PTHREAD_MUTEX_INITIALIZER;
-
-// void *test(void *p)
-// {
-// 	int res1;
-// 	int res2;
-// 	int *id;
-
-// 	if (!p)
-// 		return NULL;
-// 	id = (int*)p;
-// 	res1 = pthread_mutex_lock(&m1);
-// 	printf("%d: res1 = %d\n", *id, res1);
-// 	res2 = pthread_mutex_lock(&m2);
-// 	printf("%d: res2 = %d\n", *id, res2);
-// 	usleep(1000000);
-// 	pthread_mutex_unlock(&m1);
-// 	pthread_mutex_unlock(&m2);
-// 	return (NULL);
-// }
-
-// int	main(void)
-// {
-// 	pthread_t t1 = 0;
-// 	pthread_t t2 = 0;
-// 	int id1 = 1;
-// 	int id2 = 2;
-
-// 	pthread_mutex_init(&m1, NULL);
-// 	pthread_mutex_init(&m2, NULL);
-// 	pthread_create(&t1, NULL, &test, &id1);
-// 	pthread_create(&t2, NULL, &test, &id2);
-// 	pthread_join(t1, NULL);
-// 	pthread_join(t2, NULL);
-// 	return (EXIT_SUCCESS);
-// }

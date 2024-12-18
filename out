@@ -1,47 +1,17 @@
-         0: Philo 1 is thinking.
-         0: Philo 1 has taken a fork.
-         0: Philo 3 is thinking.
-         0: Philo 3 has taken a fork.
-         0: Philo 4 is thinking.
-         0: Philo 5 is thinking.
          0: Philo 2 is thinking.
-        10: Philo 3 has taken a fork.
-        10: Philo 3 is eating.
-        10: Philo 1 has taken a fork.
-        10: Philo 1 is eating.
-      1073: Philo 1 is sleeping.
-      1073: Philo 5 has taken a fork.
-      1080: Philo 3 is sleeping.
-      1080: Philo 2 has taken a fork.
-      1083: Philo 5 has taken a fork.
-      1083: Philo 5 is eating.
-      1090: Philo 2 has taken a fork.
-      1090: Philo 2 is eating.
-      2148: Philo 1 is thinking.
-      2154: Philo 3 is thinking.
-      2159: Philo 5 is sleeping.
-      2159: Philo 4 has taken a fork.
-      2169: Philo 4 has taken a fork.
-      2169: Philo 4 is eating.
-      2170: Philo 2 is sleeping.
-      2171: Philo 1 has taken a fork.
-      2181: Philo 1 has taken a fork.
-      2181: Philo 1 is eating.
-      3239: Philo 5 is thinking.
-      3250: Philo 4 is sleeping.
-      3250: Philo 3 has taken a fork.
-      3252: Philo 2 is thinking.
-      3260: Philo 3 has taken a fork.
-      3260: Philo 3 is eating.
-      3263: Philo 1 is sleeping.
-      3263: Philo 5 has taken a fork.
-      3273: Philo 5 has taken a fork.
-      3273: Philo 5 is eating.
-      4327: Philo 4 is thinking.
-      4339: Philo 3 is sleeping.
-      4339: Philo 2 has taken a fork.
-      4342: Philo 1 is thinking.
-      4349: Philo 2 has taken a fork.
-      4349: Philo 2 is eating.
-      4353: Philo 5 is sleeping.
-      4353: Philo 4 has taken a fork.
+         0: Philo 2 has taken a fork.
+         0: Philo 2 has taken a fork.
+         0: Philo 2 is eating.
+         0: Philo 1 is thinking.
+         0: Philo 3 is thinking.
+         0: Philo 4 is thinking.
+       200: Philo 2 is sleeping.
+       200: Philo 1 has taken a fork.
+       200: Philo 1 has taken a fork.
+       200: Philo 1 is eating.
+       400: Philo 2 is thinking.
+       400: Philo 4 has taken a fork.
+       400: Philo 4 has taken a fork.
+       400: Philo 4 is eating.
+       400: Philo 1 is sleeping.
+       410: Philo 2 died.

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/17 15:31:10 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/18 16:06:23 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ static int get_meals_per_philo(t_args args, t_philo_handler *ph)
 {
 	if (args.argc < 6)
 	{
-		ph->meals_per_philo = 1;
+		ph->meals_per_philo = 0;
+		ph->meal_limit = false;
 		return (SUCCESS);
 	}
+	ph->meal_limit = true;
 	ph->meals_per_philo = ft_atoi(args.argv[5]);
 	if (ph->meals_per_philo <= 0)
 	{
@@ -93,11 +95,8 @@ static int	init_philo(t_philo_handler *ph)
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		if (pthread_mutex_init(&philo->fork1->lock, NULL) != 0)
-		{
-			ft_puterr("Mutex initialization failed.\n");
-			return (ERROR);
-		}
+		init_mutex(&philo->fork1->lock);
+		init_mutex(&philo->meals_lock);
 		philo->fork1->state = FORK_AVAILABLE;
 		if (i + 1 == ph->philos)
 			ph->philo_lst[i].fork2 = ph->philo_lst[0].fork1;
@@ -110,16 +109,9 @@ static int	init_philo(t_philo_handler *ph)
 
 static int init_mutexes(t_philo_handler *ph)
 {
-	if (pthread_mutex_init(&ph->print_lock, NULL) != 0)
-	{
-		ft_puterr(ERR_MUTEX_INIT);
-		return (ERROR);
-	}
-	if (pthread_mutex_init(&ph->lock, NULL) != 0)
-	{
-		ft_puterr(ERR_MUTEX_INIT);
-		return (ERROR);
-	}
+	init_mutex(&ph->print_lock);
+	init_mutex(&ph->eat_lock);
+	init_mutex(&ph->sim_state_lock);
 	return (SUCCESS);
 }
 
@@ -146,7 +138,7 @@ static int init_start_time(t_philo_handler *ph)
 
 /**
  * @brief ./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP].
- *  OPTIONAL [number_of_times_each_philosopher_must_eat].
+*  OPTIONAL [number_of_times_each_philosopher_must_eat].
  * @param args 
  * @param ph 
  * @return int 
