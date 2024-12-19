@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/17 17:23:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/19 13:51:58 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,36 @@
 static void	print_formated_time(t_philo_handler *ph)
 {
 	t_tv	tv_curr;
-	long	ms;
+	size_t	ms;
 
-	if (gettimeofday(&tv_curr, NULL) != 0)
-	{
-		printf("Time error: ");
+	if (get_current_time(&tv_curr) == ERROR)
 		return ;
-	}
 	ms = get_time_duration_in_ms(ph->tv_start, tv_curr);
-	printf("%10ld: ", ms);
+	printf("%10zu ", ms);
 }
 
 void	print_philo_state(t_philo_handler *ph, int id, int state)
 {
-	pthread_mutex_lock(&ph->print_lock);
-	if (ph->sim_state == SIM_RUNING)
+	int sim_state;
+
+	sim_state = SIM_FINISHED;
+	pthread_mutex_lock(&ph->m_print);
+	get_int_mutex(&ph->m_sim_state, &sim_state);
+	if (sim_state == SIM_RUNING)
 	{
 		print_formated_time(ph);
 		if (state == PHILO_IS_ALIVE)
-			printf("Philo %d is alive.\n", id);
+			printf("%d is alive.\n", id);
 		else if (state == PHILO_HAS_TAKEN_FORK)
-			printf("Philo %d has taken a fork.\n", id);
+			printf("%d has taken a fork.\n", id);
 		else if (state == PHILO_IS_EATING)
-			printf("Philo %d is eating.\n", id);
+			printf("%d is eating.\n", id);
 		else if (state == PHILO_IS_SLEEPING)
-			printf("Philo %d is sleeping.\n", id);
+			printf("%d is sleeping.\n", id);
 		else if (state == PHILO_IS_THINKING)
-			printf("Philo %d is thinking.\n", id);
+			printf("%d is thinking.\n", id);
 		else if (state == PHILO_IS_DEAD)
-			printf("Philo %d died.\n", id);
+			printf("%d died.\n", id);
 	}
-	pthread_mutex_unlock(&ph->print_lock);
+	pthread_mutex_unlock(&ph->m_print);
 }

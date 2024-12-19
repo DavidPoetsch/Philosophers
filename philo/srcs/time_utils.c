@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:46:12 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/18 16:12:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/19 11:40:23 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ unsigned int	ms_to_us(unsigned int ms)
 	return (ms * 1000);
 }
 
-long	get_time_duration_in_ms(t_tv tv_start, t_tv tv_end)
+size_t	get_time_duration_in_ms(t_tv tv_start, t_tv tv_end)
 {
 	long	seconds;
 	long	microseconds;
-	long	milliseconds;
+	size_t	milliseconds;
 
 	if (tv_start.tv_sec > tv_end.tv_sec)
 		return (-1);

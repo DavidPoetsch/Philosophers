@@ -6,28 +6,29 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/18 16:56:05 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:47:28 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	start_philo_threads(t_philo_handler	*ph)
+int	start_philo_threads(t_philo_handler *ph)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < ph->philos)
 	{
-		pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life, &ph->philo_lst[i]);
+		pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life,
+			&ph->philo_lst[i]);
 		i++;
 	}
 	return (SUCCESS);
 }
 
-int	join_philo_threads(t_philo_handler	*ph)
+int	join_philo_threads(t_philo_handler *ph)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < ph->philos)
@@ -42,14 +43,14 @@ int	main(int argc, char **argv)
 {
 	t_args			args;
 	t_philo_handler	ph;
-	int res;
+	int				res;
 
 	memset(&ph, 0, sizeof(t_philo_handler));
 	init_args(&args, argc, argv);
 	res = init_philos(args, &ph);
 	if (res == ERROR)
 		return (EXIT_FAILURE);
-	ph.sim_state = SIM_RUNING;
+	ph.m_sim_state.value = SIM_RUNING;
 	start_monitoring_thread(&ph);
 	start_philo_threads(&ph);
 	join_philo_threads(&ph);

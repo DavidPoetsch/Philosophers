@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/18 17:30:49 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:57:23 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,32 @@
 
 static int check_philo_death(t_philo_handler *ph, t_philo *philo, t_tv	*tv_curr)
 {
-	long	ms;
+	int	ms;
+	t_tv tv_last_meal;
 
-	ms = get_time_duration_in_ms(philo->tv_last_meal, *tv_curr);
+	get_tv_mutex(&philo->m_tv_last_meal, &tv_last_meal);
+	ms = get_time_duration_in_ms(tv_last_meal, *tv_curr);
 	if (ms >= ph->time_to_die)
 	{
+		// printf("dead: %ld, %ld \n", philo->m_tv_last_meal.tv.tv_sec, philo->m_tv_last_meal.tv.tv_usec);
+		// printf("dead: %ld, %ld \n", tv_curr->tv_sec, tv_curr->tv_usec);
 		print_philo_state(ph, philo->id, PHILO_IS_DEAD);
 		return (SIM_FINISHED);
 	}
+	return (SIM_RUNING);
+}
+
+int	philo_meals_finished(t_philo_handler *ph, t_philo *philo, int *philo_meals_total)
+{
+	int philo_meals;
+
+	if (ph->meal_limit == false)
+		return (SIM_RUNING);
+	philo_meals = 0;
+	get_int_mutex(&philo->m_meals, &philo_meals);
+	(*philo_meals_total) -= philo_meals;
+	if (*philo_meals_total <= 0)
+		return (SIM_FINISHED);
 	return (SIM_RUNING);
 }
 
@@ -31,33 +49,23 @@ static int	check_philos_state(t_philo_handler *ph)
 	t_philo *philo;
 	t_tv	tv_curr;
 	int sim_state;
-	int philo_meals;
+	int philo_meals_total;
 
 	if (get_current_time(&tv_curr) == ERROR)
 		return (SIM_FINISHED);
 	i = 0;
-	philo_meals = 0;
+	philo_meals_total = ph->meals_per_philo * ph->philos;
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		pthread_mutex_lock(&philo->meals_lock);
-		philo_meals += philo_meals_left(ph, philo);
-		sim_state = check_philo_death(ph, philo, &tv_curr);
-		pthread_mutex_unlock(&philo->meals_lock);
+		sim_state = philo_meals_finished(ph, philo, &philo_meals_total);
+		if (sim_state != SIM_FINISHED)
+			sim_state = check_philo_death(ph, philo, &tv_curr);
 		if (sim_state == SIM_FINISHED)
 			break;
 		i++;
 	}
-	if (philo_meals == 0)
-		return (SIM_FINISHED);
 	return (sim_state);
-}
-
-void	update_sim_state(t_philo_handler *ph, int sim_state)
-{
-	pthread_mutex_lock(&ph->sim_state_lock);
-	ph->sim_state = sim_state;
-	pthread_mutex_unlock(&ph->sim_state_lock);
 }
 
 void	*philo_monitoring(void *p)
@@ -73,7 +81,7 @@ void	*philo_monitoring(void *p)
 		sim_state = check_philos_state(ph);
 		if (sim_state == SIM_FINISHED)
 		{
-			update_sim_state(ph, sim_state);
+			set_int_mutex(&ph->m_sim_state, sim_state);
 			break;
 		}
 		usleep(ms_to_us(5));

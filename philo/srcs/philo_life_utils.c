@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/18 17:17:35 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/19 15:47:21 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,16 @@
 
 void	update_meals_eaten(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->meals_lock);
-	philo->meals++;
-	pthread_mutex_unlock(&philo->meals_lock);
+	pthread_mutex_lock(&philo->m_meals.m);
+	philo->m_meals.value++;
+	pthread_mutex_unlock(&philo->m_meals.m);
 }
 
 void	update_last_meal_time(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->meals_lock);
-	if (gettimeofday(&philo->tv_last_meal, NULL) != 0)
-	{
-		printf("Time error: ");
-		return ;
-	}
-	pthread_mutex_unlock(&philo->meals_lock);
-}
-
-int philo_meals_left(t_philo_handler *ph, t_philo *philo)
-{
-	if (ph->meal_limit == false)
-		return (1);
-	if (philo->meals < ph->meals_per_philo)
-		return (1);
-	return (0);
+	pthread_mutex_lock(&philo->m_tv_last_meal.m);
+	get_current_time(&philo->m_tv_last_meal.tv);
+	pthread_mutex_unlock(&philo->m_tv_last_meal.m);
 }
 
 void	philo_usleep(t_philo_handler	*ph, int ms_sleep)
@@ -45,15 +32,27 @@ void	philo_usleep(t_philo_handler	*ph, int ms_sleep)
 	int sim_state;
 
 	ms_slept = 0;
-	pthread_mutex_lock(&ph->sim_state_lock);
-	sim_state = ph->sim_state;
-	pthread_mutex_unlock(&ph->sim_state_lock);
+	sim_state = 0;
+	get_int_mutex(&ph->m_sim_state, &sim_state);
 	while(ms_slept < ms_sleep && sim_state == SIM_RUNING)
 	{
-		pthread_mutex_lock(&ph->sim_state_lock);
-		sim_state = ph->sim_state;
-		pthread_mutex_unlock(&ph->sim_state_lock);
 		usleep(ms_to_us(MS_SIM_SLEEP));
 		ms_slept += MS_SIM_SLEEP;
+		get_int_mutex(&ph->m_sim_state, &sim_state);
 	}
+}
+
+int check_simulation_state(t_philo_handler *ph, t_philo *philo)
+{
+	int sim_state;
+	int meals_eaten;
+
+	sim_state = 0;
+	meals_eaten = -1;
+	if (ph->meal_limit)
+		get_int_mutex(&philo->m_meals, &meals_eaten);
+	if (meals_eaten >= ph->meals_per_philo)
+		return (SIM_FINISHED);
+	get_int_mutex(&ph->m_sim_state, &sim_state);
+	return (sim_state);
 }

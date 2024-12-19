@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/12 12:39:24 by dpotsch          ###   ########.fr       */
+/*   Updated: 2024/12/19 11:52:57 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,13 @@ int	ft_puterr(char *str)
 {
 	return (write(STDERR_FILENO, str, ft_strlen(str)));
 }
+
+void	ft_swap_ptr(void **p1, void **p2)
+{
+	void	*tmp;
+
+	tmp = *p1;
+	*p1 = *p2;
+	*p2 = tmp;
+}
+

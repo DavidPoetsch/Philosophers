@@ -1,17 +1,40 @@
-         0: Philo 2 is thinking.
-         0: Philo 2 has taken a fork.
-         0: Philo 2 has taken a fork.
-         0: Philo 2 is eating.
-         0: Philo 1 is thinking.
-         0: Philo 3 is thinking.
-         0: Philo 4 is thinking.
-       200: Philo 2 is sleeping.
-       200: Philo 1 has taken a fork.
-       200: Philo 1 has taken a fork.
-       200: Philo 1 is eating.
-       400: Philo 2 is thinking.
-       400: Philo 4 has taken a fork.
-       400: Philo 4 has taken a fork.
-       400: Philo 4 is eating.
-       400: Philo 1 is sleeping.
-       410: Philo 2 died.
+         0 2 is thinking.
+         0 2 has taken a fork.
+         0 2 has taken a fork.
+         0 2 is eating.
+         0 4 is thinking.
+         0 4 has taken a fork.
+         0 4 has taken a fork.
+         0 4 is eating.
+         0 1 is thinking.
+         0 3 is thinking.
+       204 2 is sleeping.
+       204 4 is sleeping.
+       204 1 has taken a fork.
+       204 1 has taken a fork.
+       204 1 is eating.
+       204 3 has taken a fork.
+       204 3 has taken a fork.
+       204 3 is eating.
+       409 1 is sleeping.
+       409 3 is sleeping.
+       409 2 is thinking.
+       409 2 has taken a fork.
+       409 2 has taken a fork.
+       409 2 is eating.
+       409 4 is thinking.
+       409 4 has taken a fork.
+       409 4 has taken a fork.
+       409 4 is eating.
+       614 3 is thinking.
+       614 1 is thinking.
+       614 4 is sleeping.
+       614 2 is sleeping.
+       614 1 has taken a fork.
+       614 1 has taken a fork.
+       614 1 is eating.
+       614 3 has taken a fork.
+       614 3 has taken a fork.
+       614 3 is eating.
+       823 1 is sleeping.
+       823 2 died.

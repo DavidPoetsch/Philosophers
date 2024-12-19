@@ -15,6 +15,19 @@ def on_key(event):
     if event.key == 'escape':  # Check if the pressed key is 'ESC'
         plt.close(event.canvas.figure)  # Close the figure
 
+def line_contains_keyword(line):
+	if "thinking" in line :
+		return True
+	if "fork" in line :
+		return True
+	if "eating" in line :
+		return True
+	if "sleeping" in line :
+		return True
+	if "died" in line :
+		return True
+	return False
+
 def parse_action(line):
 	if "thinking" in line :
 		return "thinking"
@@ -33,13 +46,12 @@ def parse_data(filename):
 			lines = file.readlines()
 	for line in lines:
 			line = line.strip()
-			if ": Philo" in line:
+			if line_contains_keyword(line):
 					parts = line.split()
-					ms = int(parts[0][:-1])
-					philo_id = int(parts[2])
+					ms = int(parts[0])
+					philo_id = int(parts[1])
 					action = parse_action(parts[-1].strip('.'))
 					results.append([ms, philo_id, action])
-	
 	return results
 
 def get_max_philo(data):
