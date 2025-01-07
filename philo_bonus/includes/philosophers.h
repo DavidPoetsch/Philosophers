@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/07 11:17:39 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/07 17:03:29 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,17 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <semaphore.h>
+#include <fcntl.h>
 
 # define TIME_TO_TAKE_FORKS 0
 # define MS_SIM_SLEEP 3
 # define MS_MON_SLEEP 5
+
+// SEMAPHORE NAMES
+# define SEM_NAME_FORKS "/sem_forks"
+# define SEM_NAME_PRINT "/sem_print"
+# define SEM_NAME_PHILO "/sem_philo"
 
 void			*philo_life(void *p);
 // int				ask_for_eat_permission(t_philo_handler *ph, t_philo *philo);
@@ -53,9 +60,9 @@ int				get_current_time(t_tv *tv);
 int				start_monitoring_thread(t_philo_handler *ph);
 
 // Mutex utils
-int				init_mutex(pthread_mutex_t *mt);
-int				set_int_mutex(t_int_mutex *t_mut, int value);
-int				get_int_mutex(t_int_mutex *t_mut, int *value);
-int				set_tv_mutex(t_tv_mutex *t_mut, t_tv tv_new);
-int				get_tv_mutex(t_tv_mutex *t_mut, t_tv *tv_res);
+int				init_semaphore(sem_t *sem, const char *name, int value);
+int				set_int_sem(t_int_sem *t_sem, int value);
+int				get_int_sem(t_int_sem *t_sem, int *value);
+int				set_tv_sem(t_tv_sem *t_sem, t_tv tv_new);
+int				get_tv_sem(t_tv_sem *t_sem, t_tv *tv_res);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/07 13:53:54 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/07 13:03:57 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,13 @@ int go_sleep(t_philo_handler	*ph, t_philo	*philo)
 	return (res);
 }
 
-/**
- * @brief Delay needed for odd number of philos.
- *        The delay is necessary for fair fork access.
- */
 void	think(t_philo_handler	*ph, t_philo	*philo)
 {
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
 	if (ph->philos % 2 != 0)
 		usleep(ms_to_us(20));
+	//! more accurate calculation needed
+	// !delay needed for FAIR thread balance
 }
 
 /**
@@ -66,9 +64,7 @@ void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
 			break;
 	}
 }
-/**
- * @brief Life of a philosopher (EAT-SLEEP-THINK-REPEAT).
- */
+
 void	*philo_life(void *p)
 {
 	int res;

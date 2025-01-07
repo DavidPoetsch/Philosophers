@@ -6,11 +6,11 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/07 13:39:35 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/01/07 13:39:26 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-TARGET_EXEC := philo
+TARGET_EXEC := philo_bonus
 
 # Colors
 RED    := \033[0;31m
@@ -80,7 +80,6 @@ $(BUILD_DIR)/%.c.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 re: fclean all
-
 
 # **************************************************************************** #
 # * DEBUG

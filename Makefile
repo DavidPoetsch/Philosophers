@@ -6,13 +6,17 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2024/12/17 12:33:49 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/01/07 13:42:13 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 TARGET_EXEC := philo
 TARGET_DIR := ./$(TARGET_EXEC)/build
 LIBS_DIR := ./$(TARGET_EXEC)/libs
+
+TARGET_EXEC_BONUS := philo_bonus
+TARGET_DIR_BONUS := ./$(TARGET_EXEC_BONUS)/build
+LIBS_DIR_BONUS := ./$(TARGET_EXEC_BONUS)/libs
 
 # Colors
 RED    := \033[0;31m
@@ -28,20 +32,31 @@ all:
 $(TARGET_EXEC):
 	@$(MAKE) -s -C $(TARGET_EXEC)
 
-bonus:
-	@$(MAKE) bonus -s -C $(TARGET_EXEC)
-
 clean:
 	@$(MAKE) clean -s -C $(TARGET_EXEC)
 
 fclean:
 	@$(MAKE) fclean -s -C $(TARGET_EXEC)
 
+re: fclean all
+
+#* BONUS *#
+bonus:
+	@$(MAKE) bonus -s -C $(TARGET_EXEC_BONUS)
+
+$(TARGET_EXEC_BONUS):
+	@$(MAKE) -s -C $(TARGET_EXEC_BONUS)
+
+bclean:
+	@$(MAKE) clean -s -C $(TARGET_EXEC_BONUS)
+
+bfclean:
+	@$(MAKE) fclean -s -C $(TARGET_EXEC_BONUS)
+
 debug:
 	@$(MAKE) debug -C $(TARGET_EXEC)
 
-re: fclean all
-
+bre: fclean all
 
 # **************************************************************************** #
 # * RUN ./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP].
@@ -62,7 +77,7 @@ runf: all
 	@printf "$(PINK)funcheck -a $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
 	@funcheck -a $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)
 
-tests:
+tests: all
 	@printf "$(PINK)$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
 	@$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS) > out
 	@printf "$(PINK)python3 ./testing/visualize.py$(NC)\n"
@@ -72,4 +87,4 @@ visu:
 	@printf "$(PINK)python3 ./testing/visualize.py$(NC)\n"
 	@python3 ./testing/visualize.py
 
-.PHONY: all $(TARGET_EXEC) clean fclean re bonus run runv runf
+.PHONY: all $(TARGET_EXEC) $(TARGET_EXEC_BONUS) clean fclean re bonus run runv runf
