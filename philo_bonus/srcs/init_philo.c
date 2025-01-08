@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/07 17:05:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/08 15:01:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static int get_meals_per_philo(t_args args, t_philo_handler *ph)
 
 int alloc_philos(t_philo_handler *ph)
 {
-	pthread_mutex_t	*forks;
 	int i;
 
 	ph->philo_lst = (t_philo *)malloc(ph->philos * sizeof(t_philo));
@@ -104,16 +103,6 @@ static int init_start_time(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
-static int init_sem_philo_handler(t_philo_handler *ph)
-{
-	int res;
-
-	res = init_semaphore(ph->sem_forks, SEM_NAME_FORKS, ph->philos);
-	if (res != ERROR)
-		res = init_semaphore(ph->sem_print, SEM_NAME_PRINT, 1);
-	return (res);
-}
-
 /**
  * @brief ./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP].
 *  OPTIONAL [number_of_times_each_philosopher_must_eat].
@@ -142,7 +131,7 @@ int	init_philos(t_args args, t_philo_handler *ph)
 	if (res != ERROR)
 		res = alloc_philos(ph);
 	if (res != ERROR)
-		res = init_sem_philo_handler(ph);
+		res = init_semaphores(ph);
 	if (res != ERROR)
 		res = init_start_time(ph);
 	return (res);

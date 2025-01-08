@@ -6,34 +6,46 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/07 17:05:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/08 16:49:06 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	start_philo_threads(t_philo_handler *ph)
+int	fork_philo_process(t_philo_handler *ph)
 {
 	int	i;
+	t_philo *philo;
 
 	i = 0;
 	while (i < ph->philos)
 	{
-		pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life,
-			&ph->philo_lst[i]);
+		philo = &ph->philo_lst[i];
+		philo->process.state = STATE_PROCESS_FORKED;
+		philo->process.pid = fork();
+		if (philo->process.pid < 0)
+		{
+			philo->process.state = STATE_PROCESS_FORK_FAILED;
+			philo->process.exit_status = EXIT_FAILURE;
+			//todo set simulation state to finished
+			ft_puterr(ERR_FORK_PROCESS);
+			return (ERROR);
+		}
+		else if (philo->process.pid == 0)
+			philo_life(&ph->philo_lst[i]);
 		i++;
 	}
 	return (SUCCESS);
 }
 
-int	join_philo_threads(t_philo_handler *ph)
+int	wait_philo_process(t_philo_handler *ph)
 {
 	int	i;
 
 	i = 0;
 	while (i < ph->philos)
 	{
-		pthread_join(ph->philo_lst[i].ptid, NULL);
+		wait_for_process(&ph->philo_lst[i].process);
 		i++;
 	}
 	return (SUCCESS);
@@ -49,11 +61,17 @@ int	main(int argc, char **argv)
 	init_args(&args, argc, argv);
 	res = init_philos(args, &ph);
 	if (res == ERROR)
+	{
+		//todo close semaphores
+		//todo free semaphore names
+		close_semaphores(&ph);
 		return (EXIT_FAILURE);
-	ph.sem_sim_state.value = SIM_RUNING;
-	start_monitoring_thread(&ph);
-	start_philo_threads(&ph);
-	join_philo_threads(&ph);
-	pthread_join(ph.ptid_mon, NULL);
+	}
+	res = start_sim_mon_thread(&ph);
+	if (res == SUCCESS)
+		fork_philo_process(&ph);
+	wait_philo_process(&ph);
+	pthread_join(ph.ptid_sim_mon, NULL);
+	close_semaphores(&ph);
 	return (EXIT_SUCCESS);
 }

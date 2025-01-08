@@ -5,86 +5,86 @@
 #                                                     +:+ +:+         +:+      #
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/07 13:42:13 by dpotsch          ###   ########.fr        #
+#    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
+#    Updated: 2025/01/08 14:40:27 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-TARGET_EXEC := philo
-TARGET_DIR := ./$(TARGET_EXEC)/build
-LIBS_DIR := ./$(TARGET_EXEC)/libs
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-TARGET_EXEC_BONUS := philo_bonus
-TARGET_DIR_BONUS := ./$(TARGET_EXEC_BONUS)/build
-LIBS_DIR_BONUS := ./$(TARGET_EXEC_BONUS)/libs
+BUILD_DIR = ./build
 
-# Colors
-RED    := \033[0;31m
-GREEN  := \033[0;32m
-YELLOW := \033[0;33m
-BLUE   := \033[0;34m
-PINK   := \033[0;35m
-NC  := \033[0m
+# Prepends BUILD_DIR and appends .o to every src file
+# As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
+# OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+#OBJS := $(SRCS:srcs/%.c=$(BUILD_DIR)/srcs/%.o)
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
+# String substitution (suffix version without %).
+# As an example, ./build/hello.cpp.o turns into ./build/hello.cpp.d
+DEPS := $(OBJS:.o=.d)
+
+# Every include dir will need to be passed to CC so it can find header files.
+INC_DIRS := ./includes
+# Add a prefix to INC_DIRS. So moduleA would become -ImoduleA.
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+
+# The -MMD and -MP flags together generate 'Makefiles' for us!
+# These files will have .d instead of .o as the output.
+CPPFLAGS := $(INC_FLAGS) -MMD -MP
+
+# -L specifies the library search path.
+# -l tells the linker to link against a specific library.
+# ft refers to the library name. 
+LDFLAGS := ""
+
+
+# **************************************************************************** #
+# * BUILD
 all:
-	@$(MAKE) -s -C $(TARGET_EXEC)
+	@$(MAKE) -s $(TARGET_EXEC)
+	@echo "$(GREEN)Finished '$(TARGET_EXEC)'$(RESET)"
 
-$(TARGET_EXEC):
-	@$(MAKE) -s -C $(TARGET_EXEC)
+$(TARGET_EXEC): $(OBJS)
+	@echo "$(BLUE)Build    '$(TARGET_EXEC)'$(RESET)"
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
-clean:
-	@$(MAKE) clean -s -C $(TARGET_EXEC)
-
-fclean:
-	@$(MAKE) fclean -s -C $(TARGET_EXEC)
+# Build step for C source
+# $(dir ...) is a Make function that extracts the directory of a file path.
+# $@ represents the target file in a rule (the file being built).
+# $< gets the first prerequiste.
+$(BUILD_DIR)/%.c.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 re: fclean all
 
-#* BONUS *#
-bonus:
-	@$(MAKE) bonus -s -C $(TARGET_EXEC_BONUS)
-
-$(TARGET_EXEC_BONUS):
-	@$(MAKE) -s -C $(TARGET_EXEC_BONUS)
-
-bclean:
-	@$(MAKE) clean -s -C $(TARGET_EXEC_BONUS)
-
-bfclean:
-	@$(MAKE) fclean -s -C $(TARGET_EXEC_BONUS)
-
-debug:
-	@$(MAKE) debug -C $(TARGET_EXEC)
-
-bre: fclean all
 
 # **************************************************************************** #
-# * RUN ./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP].
-# *     OPTIONAL [number_of_times_each_philosopher_must_eat].
+# * DEBUG
+debug: clean
+	@echo "$(PINK)Compiling with debug information$(RESET)"
+	$(MAKE) $(TARGET_EXEC) CFLAGS="-Wall -Wextra -Werror -g"
+	@echo "$(GREEN)Finished '$(TARGET_EXEC)'$(RESET)"
 
-# Variables
-ARGS := 5 10000 100 100 2
-run: all
-	@printf "$(PINK)$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
-	@$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)
 
-VALG_FLAGS := --trace-children=yes --leak-check=full
-runv: all
-	@printf "$(PINK)$(VALG_FLAGS) $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
-	@valgrind $(VALG_FLAGS) $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)
+# **************************************************************************** #
+# * CLEAN
 
-runf: all
-	@printf "$(PINK)funcheck -a $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
-	@funcheck -a $(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)
+clean:
+	@echo "$(YELLOW)Clean    '$(TARGET_EXEC)'$(RESET)"
+	@rm -rf $(BUILD_DIR)/srcs
 
-tests: all
-	@printf "$(PINK)$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS)$(NC)\n"
-	@$(TARGET_DIR)/$(TARGET_EXEC) $(ARGS) > out
-	@printf "$(PINK)python3 ./testing/visualize.py$(NC)\n"
-	@python3 ./testing/visualize.py
+fclean:
+	@echo "$(YELLOW)F-Clean  '$(TARGET_EXEC)'$(RESET)"
+	@$(MAKE) -s clean
+	@rm -rf $(BUILD_DIR)
 
-visu:
-	@printf "$(PINK)python3 ./testing/visualize.py$(NC)\n"
-	@python3 ./testing/visualize.py
+.PHONY: all clean fclean re bonus debug
 
-.PHONY: all $(TARGET_EXEC) $(TARGET_EXEC_BONUS) clean fclean re bonus run runv runf
+# Include the .d dependencies. The - at the front suppresses the errors of 
+# missing dependencies. Initially, all the .d files will be missing, 
+# and we don't want those errors to show up.
+-include $(DEPS)
+-include Makefile.colors

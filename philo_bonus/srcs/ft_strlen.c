@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 14:48:29 by dpotsch          ###   ########.fr       */
+/*   Created: 2024/08/13 21:33:57 by dpotsch           #+#    #+#             */
+/*   Updated: 2025/01/08 14:47:32 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philosophers.h"
+#include "philosophers.h"
 
-int	ft_puterr(char *str)
+/**
+ * @brief					The function computes the length of the string s.
+ * @param s 			String to check
+ * @return size_t	The strlen() function returns the number of characters that
+									precede the terminating NUL character.
+ */
+size_t	ft_strlen(const char *s)
 {
-	return (write(STDERR_FILENO, str, ft_strlen(str)));
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
-
-void	ft_swap_ptr(void **p1, void **p2)
-{
-	void	*tmp;
-
-	tmp = *p1;
-	*p1 = *p2;
-	*p2 = tmp;
-}
-

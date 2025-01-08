@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 13:51:58 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/08 17:09:41 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	print_philo_state(t_philo_handler *ph, int id, int state)
 	int sim_state;
 
 	sim_state = SIM_FINISHED;
-	pthread_mutex_lock(&ph->m_print);
-	get_int_mutex(&ph->m_sim_state, &sim_state);
+	sem_wait(ph->sem_print.sem);
+	// get_int_sem(&ph->sem_sim_state, &sim_state); //todo fix somehow
 	if (sim_state == SIM_RUNING)
 	{
 		print_formated_time(ph);
@@ -46,5 +46,5 @@ void	print_philo_state(t_philo_handler *ph, int id, int state)
 		else if (state == PHILO_IS_DEAD)
 			printf("%d died.\n", id);
 	}
-	pthread_mutex_unlock(&ph->m_print);
+	sem_post(ph->sem_print.sem);
 }

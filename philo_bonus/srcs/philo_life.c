@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/07 13:03:57 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/08 17:08:16 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@ int eat(t_philo_handler	*ph, t_philo	*philo)
 {
 	int res;
 
-	pthread_mutex_lock(philo->fork1);
+	res = SIM_RUNING;
+	sem_wait(ph->sem_forks.sem);
 	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
-	pthread_mutex_lock(philo->fork2);
+	sem_wait(ph->sem_forks.sem);
 	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
-	// usleep(ms_to_us(TIME_TO_TAKE_FORKS)); //! delete
 	print_philo_state(ph, philo->id, PHILO_IS_EATING);
-	update_last_meal_time(philo);
-	res = philo_usleep(ph, ph->time_to_eat);
-	pthread_mutex_unlock(philo->fork2);
-	pthread_mutex_unlock(philo->fork1);
-	update_meals_eaten(philo);
+	// update_last_meal_time(philo);
+	// res = philo_usleep(ph, ph->time_to_eat);
+	usleep(ms_to_us(ph->time_to_eat));
+	sem_post(ph->sem_forks.sem);
+	sem_post(ph->sem_forks.sem);
+	philo->meals++;
 	return (res);
 }
 
@@ -34,52 +35,51 @@ int go_sleep(t_philo_handler	*ph, t_philo	*philo)
 {
 	int res;
 
+	res = SIM_RUNING;
 	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
-	res = philo_usleep(ph, ph->time_to_sleep);
+	// res = philo_usleep(ph, ph->time_to_sleep);
+	usleep(ms_to_us(ph->time_to_eat));
 	return (res);
 }
 
 void	think(t_philo_handler	*ph, t_philo	*philo)
 {
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	if (ph->philos % 2 != 0)
-		usleep(ms_to_us(20));
-	//! more accurate calculation needed
-	// !delay needed for FAIR thread balance
+	usleep(ms_to_us(20));
 }
 
-/**
- * @brief Routine for 1 philo.
- * Philo should die because he can only get 1 fork.
- */
-void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
+static void	send_finished(t_philo_handler	*ph)
 {
-	if (ph->philos > 1)
-		return;
-	pthread_mutex_lock(philo->fork1);
-	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
-	while(1)
-	{
-		if (check_simulation_state(ph, philo) != SIM_RUNING)
-			break;
-	}
+	sem_post(ph->sem_sim_state.sem);
+	// post philo_handler sem_philo_finished
 }
 
-void	*philo_life(void *p)
+static int	check_sim_running(t_philo_handler	*ph, t_philo	*philo)
+{
+	int sim_state;
+
+	sim_state = SIM_RUNING;
+	if (philo->meals >= ph->meals_per_philo)
+		return(SIM_FINISHED);
+	get_int_sem(&philo->sem_sim_state, &sim_state);
+	if (sim_state == SIM_FINISHED)
+		return(SIM_FINISHED);
+	return (SIM_RUNING);
+}
+
+void	philo_life(void *p)
 {
 	int res;
 	t_philo	*philo;
 	t_philo_handler	*ph;
 
 	if (!p)
-		return (NULL);
+		return ;
 	philo = (t_philo *)p;
 	ph = philo->ph;
+	start_philo_mon_thread(philo); // todo handl error
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	if (philo->id % 2 == 0)
-		usleep(ms_to_us(10));
-	lonely_philo_life(ph, philo);
-	while(check_simulation_state(ph, philo) == SIM_RUNING)
+	while(check_sim_running(ph, philo))
 	{
 		res = eat(ph, philo);
 		if (res == SIM_RUNING)
@@ -87,5 +87,7 @@ void	*philo_life(void *p)
 		if (res == SIM_RUNING)
 			think(ph, philo);
 	}
-	return (NULL);
+	send_finished(ph);
+	pthread_join(philo->ptid_mon_sim_state, NULL);// wait for local monitoring thread
+	exit(EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 15:47:28 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/08 15:21:49 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ int	join_philo_threads(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
+
+//! test 181 605 200 200 10
+//601 is a very tight timing, and the more philos you have the slower it gets, so with that many it dies... Which is fine imo
+//If you increase it to 605 or something it should work though
 int	main(int argc, char **argv)
 {
 	t_args			args;

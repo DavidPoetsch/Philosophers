@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:07:15 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 11:41:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/08 12:17:34 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,26 @@ enum e_return_values
 	SUCCESS = 1,
 };
 
-enum e_mutex_return_value
-{
-	M_LOCK_SUCCESS = 0,
-};
-
 enum e_simulation_state
 {
 	SIM_RUNING,
 	SIM_FINISHED,
+};
+
+enum e_semaphore_state
+{
+	SEM_STATE_FAILED,
+	SEM_STATE_OPEN,
+	SEM_STATE_CLOSED,
+	SEM_STATE_UNLINKED,
+};
+
+enum e_state_process
+{
+	STATE_PROCESS_INIT,
+	STATE_PROCESS_FORKED,
+	STATE_PROCESS_FORK_FAILED,
+	STATE_PROCESS_FINISHED,
 };
 
 #endif
