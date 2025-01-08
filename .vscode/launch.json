@@ -5,10 +5,10 @@
 					"type": "lldb",
 					"request": "launch",
 					"name": "Debug",
-					"program": "${workspaceFolder}/philo/build/philo", // Replace <executable file> with your executable name
-					"args": ["2"],
+					"program": "${workspaceFolder}/philo_bonus/philo_bonus",
+					"args": ["5", "800", "200", "200", "5"],
 					"cwd": "${workspaceFolder}",
-					"preLaunchTask": "Build philo"
+					// "preLaunchTask": "Build philo"
 			}
 	]
 }
