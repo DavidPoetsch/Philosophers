@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/08 14:40:27 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/01/09 21:24:06 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ fclean:
 	@echo "$(YELLOW)F-Clean  '$(TARGET_EXEC)'$(RESET)"
 	@$(MAKE) -s clean
 	@rm -rf $(BUILD_DIR)
+	@rm -f $(TARGET_EXEC)
 
 .PHONY: all clean fclean re bonus debug
 

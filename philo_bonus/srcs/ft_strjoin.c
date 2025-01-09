@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 09:32:38 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 10:39:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 static char	*ft_strcat(char *dest, char const *src);
 

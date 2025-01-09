@@ -6,26 +6,26 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:28:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 17:10:39 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 19:49:02 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
-static int	notify_philos(t_philo_handler *ph)
+int	post_simulation_finished(t_philo_handler *ph)
 {
 	int	i;
 
 	i = 0;
 	while (i < ph->philos)
 	{
-		sem_post(ph->sem_sim_state.sem);
+		sem_post(ph->sem_stop_simulation.sem);
 		i++;
 	}
 	return (SUCCESS);
 }
 
-static void	*sim_monitoring(void *p)
+static void	*t_sim_monitoring(void *p)
 {
 	int				philo_finished_count;
 	t_philo_handler	*ph;
@@ -36,18 +36,27 @@ static void	*sim_monitoring(void *p)
 	philo_finished_count = 0;
 	while (1)
 	{
-		sem_wait(ph->sem_sim_state.sem);
+		sem_wait(ph->sem_philo_finished.sem);
 		philo_finished_count++;
 		if (philo_finished_count >= ph->philos)
 			break ;
 	}
-	notify_philos(ph);
-	printf("SIM FINISHED\n"); //! delete
+	post_simulation_finished(ph);
+	// printf("SIM FINISHED\n"); //! delete
 	return (NULL);
 }
 
 int	start_sim_mon_thread(t_philo_handler *ph)
 {
-	pthread_create(&ph->ptid_sim_mon, NULL, sim_monitoring, ph);
+	int	res;
+
+	res = SUCCESS;
+	if (pthread_create(&ph->ptid_sim_mon, NULL, t_sim_monitoring, ph) != 0)
+		res = ERROR;
+	if (res == ERROR)
+	{
+		ft_puterr(ERR_CREATE_THREAD);
+		post_simulation_finished(ph);
+	}
 	return (SUCCESS);
 }

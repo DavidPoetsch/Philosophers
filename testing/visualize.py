@@ -11,9 +11,16 @@ state_colors = {
     "died": "red",
 }
 
+show_times = True
+
 def on_key(event):
-    if event.key == 'escape':  # Check if the pressed key is 'ESC'
-        plt.close(event.canvas.figure)  # Close the figure
+	global show_times
+	if event.key == 'escape':  # Check if the pressed key is 'ESC'
+			plt.close(event.canvas.figure)  # Close the figure
+	elif event.key == 't':  # Toggle time deltas on 'T'
+			show_times = not show_times
+			plt.close(event.canvas.figure)  # Close the figure
+			draw_plot()
 
 def line_contains_keyword(line):
 	if "thinking" in line :
@@ -61,7 +68,7 @@ def get_max_philo(data):
 			max_philos = philo
 	return int(max_philos)
 
-def prepare_data():
+def prepare_data(data, max_philos):
 	philosophers = {ph: [] for ph in range(1, max_philos + 1)}
 	for timestamp, philo, state in data:
 		philosophers[philo].append((timestamp, state))
@@ -72,7 +79,7 @@ def prepare_data():
 		philosophers[philo].append(end_event)
 	return philosophers
 
-def format_plot(ax):
+def format_plot(ax, max_philos):
 	# Add legend
 	legend_patches = [mpatches.Patch(color=color, label=state) for state, color in state_colors.items()]
 	ax.legend(handles=legend_patches, title="State", loc="upper right")
@@ -89,20 +96,38 @@ def show_plot():
 	plt.tight_layout()
 	plt.show()
 
-def plot_data(philosophers):
-	fig, ax = plt.subplots(figsize=(10, max_philos + 1))
+def plot_data(philosophers, max_philos):
+	global show_times
+	# Define maximum figure size in inches
+	max_width_in_inches = 10
+	max_height_in_inches = 8
+
+	# Ensure the figure size does not exceed the max dimensions
+	fig, ax = plt.subplots(figsize=(min(10, max_width_in_inches), 
+																	min(max_philos + 1, max_height_in_inches)), dpi=100)
 	for philo, events in philosophers.items():
 		for i in range(len(events) - 1):
 			start_time = events[i][0]
 			end_time = events[i + 1][0]
 			state = events[i][1]
-			ax.barh(philo, end_time - start_time, left=start_time, color=state_colors[state], edgecolor="black")
-	format_plot(ax)
+			duration = end_time - start_time
+
+			ax.barh(philo, end_time - start_time, left=start_time,
+							color=state_colors[state], edgecolor="black")
+			if show_times:
+				ax.text(start_time + duration / 2, philo, f"{duration}ms", 
+								ha='center', va='center', fontsize=8, 
+								color="white" if state != "thinking" else "black")
+
+	format_plot(ax, max_philos)
 	fig.canvas.mpl_connect('key_press_event', on_key)
 
-filename = 'out'
-data = parse_data(filename)
-max_philos = get_max_philo(data)
-philosophers = prepare_data()
-plot_data(philosophers)
-show_plot()
+def draw_plot():
+	filename = 'out'
+	data = parse_data(filename)
+	max_philos = get_max_philo(data)
+	philosophers = prepare_data(data, max_philos)
+	plot_data(philosophers, max_philos)
+	show_plot()
+
+draw_plot()

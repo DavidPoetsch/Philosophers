@@ -6,17 +6,19 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:20:27 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 17:06:47 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 12:47:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 static int close_sem_philo_handler(t_philo_handler *ph)
 {
 	close_semaphore(&ph->sem_forks);
 	close_semaphore(&ph->sem_print);
-	close_semaphore(&ph->sem_sim_state);
+	close_semaphore(&ph->sem_print_block);
+	close_semaphore(&ph->sem_philo_finished);
+	close_semaphore(&ph->sem_stop_simulation);
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/08 17:10:13 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/01/09 19:49:41 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRCS = srcs/philosophers.c \
        srcs/time_utils.c \
        srcs/wait_utils.c \
        srcs/ft_strlen.c \
-       srcs/sim_monitoring.c
+       srcs/sim_monitoring.c \
+       srcs/thread_utils.c
 
 -include ../Makefile 
 -include ../testing/Makefile

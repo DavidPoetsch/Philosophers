@@ -6,80 +6,80 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 17:08:16 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 19:50:57 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
-int eat(t_philo_handler	*ph, t_philo	*philo)
+int	eat(t_philo_handler *ph, t_philo *philo)
 {
-	int res;
+	int	res;
 
 	res = SIM_RUNING;
 	sem_wait(ph->sem_forks.sem);
-	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
+	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
 	sem_wait(ph->sem_forks.sem);
-	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
-	print_philo_state(ph, philo->id, PHILO_IS_EATING);
-	// update_last_meal_time(philo);
-	// res = philo_usleep(ph, ph->time_to_eat);
-	usleep(ms_to_us(ph->time_to_eat));
+	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
+	print_philo_state(ph, philo, PHILO_IS_EATING);
+	update_last_meal_time(philo);
+	res = philo_usleep(philo, ph->time_to_eat);
+	// usleep(ms_to_us(ph->time_to_eat));
 	sem_post(ph->sem_forks.sem);
 	sem_post(ph->sem_forks.sem);
-	philo->meals++;
+	update_meals_eaten(philo);
 	return (res);
 }
 
-int go_sleep(t_philo_handler	*ph, t_philo	*philo)
+int	go_sleep(t_philo_handler *ph, t_philo *philo)
 {
-	int res;
+	int	res;
 
 	res = SIM_RUNING;
-	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
-	// res = philo_usleep(ph, ph->time_to_sleep);
-	usleep(ms_to_us(ph->time_to_eat));
+	print_philo_state(ph, philo, PHILO_IS_SLEEPING);
+	res = philo_usleep(philo, ph->time_to_sleep);
+	// usleep(ms_to_us(ph->time_to_eat));
 	return (res);
 }
 
-void	think(t_philo_handler	*ph, t_philo	*philo)
+void	think(t_philo_handler *ph, t_philo *philo)
 {
-	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	usleep(ms_to_us(20));
+	print_philo_state(ph, philo, PHILO_IS_THINKING);
+	// usleep(ms_to_us(3));
 }
 
-static void	send_finished(t_philo_handler	*ph)
+static void	send_finished(t_philo_handler *ph)
 {
-	sem_post(ph->sem_sim_state.sem);
+	sem_post(ph->sem_philo_finished.sem);
 	// post philo_handler sem_philo_finished
 }
 
-static int	check_sim_running(t_philo_handler	*ph, t_philo	*philo)
+static int	check_sim_running(t_philo_handler *ph, t_philo *philo)
 {
-	int sim_state;
+	int	sim_state;
+	int	meals;
 
-	sim_state = SIM_RUNING;
-	if (philo->meals >= ph->meals_per_philo)
-		return(SIM_FINISHED);
+	get_int_sem(&philo->sem_meals, &meals);
+	if (ph->meal_limit && meals >= ph->meals_per_philo)
+		return (SIM_FINISHED);
 	get_int_sem(&philo->sem_sim_state, &sim_state);
 	if (sim_state == SIM_FINISHED)
-		return(SIM_FINISHED);
+		return (SIM_FINISHED);
 	return (SIM_RUNING);
 }
 
-void	philo_life(void *p)
+static void	*t_philo_life(void *p)
 {
-	int res;
-	t_philo	*philo;
+	int				res;
+	t_philo			*philo;
 	t_philo_handler	*ph;
 
 	if (!p)
-		return ;
+		return (NULL);
 	philo = (t_philo *)p;
 	ph = philo->ph;
-	start_philo_mon_thread(philo); // todo handl error
-	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	while(check_sim_running(ph, philo))
+	print_philo_state(ph, philo, PHILO_IS_THINKING);
+	while (check_sim_running(ph, philo) == SIM_RUNING)
 	{
 		res = eat(ph, philo);
 		if (res == SIM_RUNING)
@@ -88,6 +88,29 @@ void	philo_life(void *p)
 			think(ph, philo);
 	}
 	send_finished(ph);
-	pthread_join(philo->ptid_mon_sim_state, NULL);// wait for local monitoring thread
+	return (NULL);
+}
+
+void	philo_life(void *p)
+{
+	t_philo	*philo;
+	int		res;
+
+	if (!p)
+		return ;
+	philo = (t_philo *)p;
+	res = t_create(&philo->t_mon_sim_state, t_mon_sim_state, philo);
+	if (res != ERROR)
+		res = t_create(&philo->t_mon_death, t_mon_philo_death, philo);
+	if (res != ERROR)
+		res = t_create(&philo->t_philo_life, t_philo_life, philo);
+	if (philo->t_mon_sim_state.state == STATE_THREAD_CREATED)
+		t_join(&philo->t_mon_sim_state);
+	if (philo->t_mon_death.state == STATE_THREAD_CREATED)
+		t_join(&philo->t_mon_death);
+	if (philo->t_philo_life.state == STATE_THREAD_CREATED)
+		t_join(&philo->t_philo_life);
+	if (res == ERROR)
+		exit(EXIT_FAILURE);
 	exit(EXIT_SUCCESS);
 }

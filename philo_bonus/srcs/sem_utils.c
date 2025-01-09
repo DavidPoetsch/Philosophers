@@ -6,21 +6,23 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 14:52:55 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 17:20:19 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 int init_semaphore(t_sem *sem, int value)
 {
 	if (!sem || !sem->name)
 		return (ERROR);
 	sem->state = SEM_STATE_FAILED;
-	sem->sem = sem_open(sem->name, O_CREAT, 0644, value);
+	sem->sem = sem_open(sem->name, O_CREAT | O_EXCL, 0644, value);
 	if (sem->sem == SEM_FAILED)
 	{
 		ft_puterr(ERR_SEM_INIT);
+		sem_close(sem->sem);
+		sem_unlink(sem->name);
 		return (ERROR);
 	}
 	sem->state = SEM_STATE_OPEN;
@@ -31,18 +33,25 @@ int close_semaphore(t_sem *sem)
 {
 	if (!sem || !sem->name)
 		return (ERROR);
-	if (sem->state != SEM_STATE_OPEN)
-		return (SUCCESS);
+	// if (sem->state != SEM_STATE_OPEN)
+	// 	return (SUCCESS);
 	if (sem_close(sem->sem) == -1) {
+		ft_puterr("close ");
+		ft_puterr(sem->name);
+		ft_puterr(": ");
 		ft_puterr(ERR_SEM_CLOSE);
-		return (ERROR);
+		// return (ERROR);
 	}
-	sem->state = SEM_STATE_CLOSED;
+	// sem->state = SEM_STATE_CLOSED;
 	if (sem_unlink(sem->name) == -1) {
+		ft_puterr("close ");
+		ft_puterr(sem->name);
+		ft_puterr(": ");
+		// printf("sem name: %s\n", sem->name);
 		ft_puterr(ERR_SEM_UNLINK);
-		return (ERROR);
+		// return (ERROR);
 	}
-	sem->state = SEM_STATE_UNLINKED;
+	// sem->state = SEM_STATE_UNLINKED;
 	if (sem->free_name)
 	{
 		free(sem->name);

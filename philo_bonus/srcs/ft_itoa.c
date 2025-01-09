@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:38:42 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 10:39:22 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 static void	get_len(long n, int *len);
 static void	convert_number(long n, int len, char *res);

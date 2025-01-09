@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:13:22 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 12:18:03 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 void	wait_for_process(t_process *process)
 {

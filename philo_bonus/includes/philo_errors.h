@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:52:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 12:12:29 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 17:39:00 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@
 # define ERR_SEM_UNLINK "philo: close_semaphore: semaphore unlink failed.\n"
 # define ERR_CREATE_SEM_NAME "philo: create_sem_name: semaphore initialization failed.\n"
 # define ERR_FORK_PROCESS "philo: fork process failed\n"
-
+# define ERR_CREATE_THREAD "philo: failed to create thread\n"
 #endif

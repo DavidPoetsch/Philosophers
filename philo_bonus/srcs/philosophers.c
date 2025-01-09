@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 16:49:06 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 21:40:00 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 int	fork_philo_process(t_philo_handler *ph)
 {
@@ -20,6 +20,8 @@ int	fork_philo_process(t_philo_handler *ph)
 	i = 0;
 	while (i < ph->philos)
 	{
+		if (i == ph->philos -1 && ph->philos % 2 == 0)
+			usleep(20);
 		philo = &ph->philo_lst[i];
 		philo->process.state = STATE_PROCESS_FORKED;
 		philo->process.pid = fork();

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:07:15 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 12:17:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 19:44:12 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,14 @@ enum e_state_process
 	STATE_PROCESS_FORK_FAILED,
 	STATE_PROCESS_FINISHED,
 };
+
+enum e_thread_create_return
+{
+	STATE_THREAD_UNDEFINED,
+	STATE_THREAD_FAILED_TO_CREATE,
+	STATE_THREAD_CREATED,
+	STATE_THREAD_JOINED,
+};
+
 
 #endif

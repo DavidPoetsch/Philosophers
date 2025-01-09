@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 21:33:57 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 14:47:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 /**
  * @brief					The function computes the length of the string s.
