@@ -23,6 +23,8 @@ def on_key(event):
 			draw_plot()
 
 def line_contains_keyword(line):
+	if "address" in line : #line used for debugging
+		return False
 	if "thinking" in line :
 		return True
 	if "fork" in line :
@@ -55,6 +57,7 @@ def parse_data(filename):
 			line = line.strip()
 			if line_contains_keyword(line):
 					parts = line.split()
+					parts[:] = parts[:5]
 					ms = int(parts[0])
 					philo_id = int(parts[1])
 					action = parse_action(parts[-1].strip('.'))

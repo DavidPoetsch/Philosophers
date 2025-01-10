@@ -1,0 +1,122 @@
+address of philo 1 fork 1: 0x124e05c70
+address of philo 1 fork 2: 0x124e05cb0
+address of philo 2 fork 1: 0x124e05cf0
+address of philo 2 fork 2: 0x124e05cb0
+address of philo 3 fork 1: 0x124e05cf0
+address of philo 3 fork 2: 0x124e05d30
+address of philo 4 fork 1: 0x124e05c70
+address of philo 4 fork 2: 0x124e05d30
+         0 1 is thinking.
+         0 1 has taken fork. 1: (0x124e05c70)
+         0 1 has taken fork. 2: (0x124e05cb0)
+         0 1 is eating.
+         0 2 is thinking.
+         0 3 is thinking.
+         0 3 has taken fork. 1: (0x124e05cf0)
+         0 3 has taken fork. 2: (0x124e05d30)
+         0 3 is eating.
+         0 4 is thinking.
+       203 1 is sleeping.
+       204 3 is sleeping.
+       204 4 has taken fork. 1: (0x124e05c70)
+       204 4 has taken fork. 2: (0x124e05d30)
+       204 4 is eating.
+       204 2 has taken fork. 1: (0x124e05cf0)
+       204 2 has taken fork. 2: (0x124e05cb0)
+       204 2 is eating.
+       408 2 is sleeping.
+       408 3 is thinking.
+       408 3 has taken fork. 1: (0x124e05cf0)
+       408 3 has taken fork. 2: (0x124e05d30)
+       408 3 is eating.
+       408 4 is sleeping.
+       408 1 is thinking.
+       408 1 has taken fork. 1: (0x124e05c70)
+       408 1 has taken fork. 2: (0x124e05cb0)
+       408 1 is eating.
+       609 1 is sleeping.
+       609 3 is sleeping.
+       609 2 is thinking.
+       609 2 has taken fork. 1: (0x124e05cf0)
+       609 2 has taken fork. 2: (0x124e05cb0)
+       609 2 is eating.
+       609 4 is thinking.
+       609 4 has taken fork. 1: (0x124e05c70)
+       609 4 has taken fork. 2: (0x124e05d30)
+       609 4 is eating.
+       810 2 is sleeping.
+       810 4 is sleeping.
+       810 1 is thinking.
+       810 1 has taken fork. 1: (0x124e05c70)
+       810 1 has taken fork. 2: (0x124e05cb0)
+       810 1 is eating.
+       810 3 is thinking.
+       810 3 has taken fork. 1: (0x124e05cf0)
+       810 3 has taken fork. 2: (0x124e05d30)
+       810 3 is eating.
+      1013 3 is sleeping.
+      1013 4 is thinking.
+      1013 2 is thinking.
+      1013 2 has taken fork. 1: (0x124e05cf0)
+      1013 2 has taken fork. 2: (0x124e05cb0)
+      1013 2 is eating.
+      1013 1 is sleeping.
+      1013 4 has taken fork. 1: (0x124e05c70)
+      1013 4 has taken fork. 2: (0x124e05d30)
+      1013 4 is eating.
+      1217 2 is sleeping.
+      1217 3 is thinking.
+      1217 3 has taken fork. 1: (0x124e05cf0)
+      1217 3 has taken fork. 2: (0x124e05d30)
+      1217 3 is eating.
+      1217 4 is sleeping.
+      1217 1 is thinking.
+      1217 1 has taken fork. 1: (0x124e05c70)
+      1217 1 has taken fork. 2: (0x124e05cb0)
+      1217 1 is eating.
+      1420 1 is sleeping.
+      1421 3 is sleeping.
+      1421 2 is thinking.
+      1421 2 has taken fork. 1: (0x124e05cf0)
+      1421 2 has taken fork. 2: (0x124e05cb0)
+      1421 2 is eating.
+      1421 4 is thinking.
+      1421 4 has taken fork. 1: (0x124e05c70)
+      1421 4 has taken fork. 2: (0x124e05d30)
+      1421 4 is eating.
+      1622 4 is sleeping.
+      1623 3 is thinking.
+      1623 1 is thinking.
+      1623 1 has taken fork. 1: (0x124e05c70)
+      1623 2 is sleeping.
+      1623 3 has taken fork. 1: (0x124e05cf0)
+      1623 3 has taken fork. 2: (0x124e05d30)
+      1623 3 is eating.
+      1623 1 has taken fork. 2: (0x124e05cb0)
+      1623 1 is eating.
+      1825 3 is sleeping.
+      1827 4 is thinking.
+      1827 2 is thinking.
+      1827 2 has taken fork. 1: (0x124e05cf0)
+      1827 1 is sleeping.
+      1827 2 has taken fork. 2: (0x124e05cb0)
+      1827 2 is eating.
+      1827 4 has taken fork. 1: (0x124e05c70)
+      1827 4 has taken fork. 2: (0x124e05d30)
+      1827 4 is eating.
+      2027 4 is sleeping.
+      2027 3 is thinking.
+      2027 2 is sleeping.
+      2027 3 has taken fork. 1: (0x124e05cf0)
+      2027 3 has taken fork. 2: (0x124e05d30)
+      2027 3 is eating.
+      2030 1 is thinking.
+      2030 1 has taken fork. 1: (0x124e05c70)
+      2030 1 has taken fork. 2: (0x124e05cb0)
+      2030 1 is eating.
+      2229 2 is thinking.
+      2229 3 is sleeping.
+      2229 2 has taken fork. 1: (0x124e05cf0)
+      2229 4 is thinking.
+      2236 1 is sleeping.
+      2237 2 died.

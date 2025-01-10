@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 21:40:00 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/10 08:58:58 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,3 +77,4 @@ int	main(int argc, char **argv)
 	close_semaphores(&ph);
 	return (EXIT_SUCCESS);
 }
+

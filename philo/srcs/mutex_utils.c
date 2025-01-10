@@ -6,11 +6,31 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 13:39:59 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/10 11:16:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+#include <errno.h>
+
+int	lock_mutex(pthread_mutex_t *mutex)
+{
+	int ret;
+
+	ret = pthread_mutex_lock(mutex);
+	if (ret != 0) {
+			// Handle the error
+			if (ret == EINVAL) {
+					fprintf(stderr, "Mutex is not properly initialized\n");
+			} else if (ret == EDEADLK) {
+					fprintf(stderr, "Deadlock detected\n");
+			} else {
+					fprintf(stderr, "Unknown error: %d\n", ret);
+			}
+			return (ERROR);
+	}
+	return (SUCCESS);
+}
 
 int	init_mutex(pthread_mutex_t *mt)
 {

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 19:50:57 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/10 10:04:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,12 @@ static int	check_sim_running(t_philo_handler *ph, t_philo *philo)
 	int	sim_state;
 	int	meals;
 
-	get_int_sem(&philo->sem_meals, &meals);
-	if (ph->meal_limit && meals >= ph->meals_per_philo)
-		return (SIM_FINISHED);
+	if (ph->meal_limit)
+	{
+		get_int_sem(&philo->sem_meals, &meals);
+		if (meals >= ph->meals_per_philo)
+			return (SIM_FINISHED);
+	}
 	get_int_sem(&philo->sem_sim_state, &sim_state);
 	if (sim_state == SIM_FINISHED)
 		return (SIM_FINISHED);

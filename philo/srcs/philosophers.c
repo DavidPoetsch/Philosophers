@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/08 15:21:49 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/10 11:28:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,20 @@ int	join_philo_threads(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
+void	print_debug_info(t_philo_handler *ph)
+{
+	int i;
+	t_philo *philo;
+
+	i = 0;
+	while (i < ph->philos)
+	{
+		philo = &ph->philo_lst[i];
+		printf("address of philo %d fork 1: %p\n",i + 1, philo->fork1);
+		printf("address of philo %d fork 2: %p\n",i + 1, philo->fork2);
+		i++;
+	}
+}
 
 //! test 181 605 200 200 10
 //601 is a very tight timing, and the more philos you have the slower it gets, so with that many it dies... Which is fine imo
@@ -52,6 +66,7 @@ int	main(int argc, char **argv)
 	memset(&ph, 0, sizeof(t_philo_handler));
 	init_args(&args, argc, argv);
 	res = init_philos(args, &ph);
+	print_debug_info(&ph);	//!delete after debugging
 	if (res == ERROR)
 		return (EXIT_FAILURE);
 	ph.m_sim_state.value = SIM_RUNING;
@@ -59,5 +74,6 @@ int	main(int argc, char **argv)
 	start_philo_threads(&ph);
 	join_philo_threads(&ph);
 	pthread_join(ph.ptid_mon, NULL);
+	//! free stuff / forks/ philos
 	return (EXIT_SUCCESS);
 }

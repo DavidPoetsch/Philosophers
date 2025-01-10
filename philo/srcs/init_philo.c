@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 13:43:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/10 11:23:40 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,20 @@ static int get_meals_per_philo(t_args args, t_philo_handler *ph)
 
 int alloc_philos(t_philo_handler *ph)
 {
-	pthread_mutex_t	*forks;
 	int i;
 
 	ph->philo_lst = (t_philo *)malloc(ph->philos * sizeof(t_philo));
 	if (!ph->philo_lst)
 		return (ERROR);
-	forks = (pthread_mutex_t *)malloc(ph->philos * sizeof(pthread_mutex_t));
-	if (!forks)
+	ph->forks = (pthread_mutex_t *)malloc(ph->philos * sizeof(pthread_mutex_t));
+	if (!ph->forks)
 		return (ERROR);
 	i = 0;
 	while (i < ph->philos)
 	{
 		ph->philo_lst[i].id = i + 1;
 		ph->philo_lst[i].ph = ph;
-		ph->philo_lst[i].fork1 = &forks[i];
+		ph->philo_lst[i].fork1 = &ph->forks[i];
 		i++;
 	}
 	return (SUCCESS);
@@ -127,7 +126,7 @@ static int init_mutexes(t_philo_handler *ph)
 		philo = &ph->philo_lst[i];
 		init_mutex(&philo->m_meals.m);
 		init_mutex(&philo->m_tv_last_meal.m);
-		init_mutex(philo->fork1);
+		init_mutex(&ph->forks[i]);
 		i++;
 	}
 	return (SUCCESS);

@@ -1,0 +1,23 @@
+address of philo 1 fork 1: 0x14d605c70
+address of philo 1 fork 2: 0x14d605cb0
+address of philo 2 fork 1: 0x14d605cf0
+address of philo 2 fork 2: 0x14d605cb0
+address of philo 3 fork 1: 0x14d605cf0
+address of philo 3 fork 2: 0x14d605c70
+         0 1 is thinking.
+         0 1 has taken fork. 1: (0x14d605c70)
+         0 1 has taken fork. 2: (0x14d605cb0)
+         0 1 is eating.
+         0 3 is thinking.
+         0 3 has taken fork. 1: (0x14d605cf0)
+         0 2 is thinking.
+       202 1 is sleeping.
+       202 3 has taken fork. 2: (0x14d605c70)
+       202 3 is eating.
+       407 3 is sleeping.
+       407 1 is thinking.
+       407 2 has taken fork. 1: (0x14d605cf0)
+       407 2 has taken fork. 2: (0x14d605cb0)
+       407 2 is eating.
+       429 1 has taken fork. 1: (0x14d605c70)
+       604 1 died.

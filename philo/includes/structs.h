@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 13:33:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/10 11:22:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ struct							s_tv_mutex
 struct							s_philo_handler
 {
 	t_philo						*philo_lst;
+	pthread_mutex_t *forks;
 	int							philos;
 	t_tv						tv_start;
 	int							time_to_die;

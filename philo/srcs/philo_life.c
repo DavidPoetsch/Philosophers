@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/07 13:53:54 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/10 11:16:25 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int eat(t_philo_handler	*ph, t_philo	*philo)
 {
 	int res;
 
-	pthread_mutex_lock(philo->fork1);
-	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
-	pthread_mutex_lock(philo->fork2);
-	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
+	lock_mutex(philo->fork1);
+	print_philo_state_fork(ph, philo, 1);
+	lock_mutex(philo->fork2);
+	print_philo_state_fork(ph, philo, 2);
 	// usleep(ms_to_us(TIME_TO_TAKE_FORKS)); //! delete
 	print_philo_state(ph, philo->id, PHILO_IS_EATING);
 	update_last_meal_time(philo);
