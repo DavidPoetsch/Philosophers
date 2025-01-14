@@ -6,16 +6,57 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/14 10:53:24 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 18:04:56 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	start_philo_threads(t_philo_handler *ph)
+double get_thread_delay(t_philo_handler *ph)
+{
+	double delay;
+
+	delay = 0.0;
+	if (ph->philos <= 1 || ph->philos % 2 == 0)
+		return (0.0);
+	if (ph->time_to_eat < ph->time_to_die)
+	{
+		delay = ((double)ph->time_to_die - 10) / ((double)ph->philos - 1);
+		delay *= 1000;
+	}
+	return (delay);
+}
+
+void	start_threads_odd_philos(t_philo_handler *ph, bool odd)
 {
 	int	i;
+	double delay;
 
+	delay = get_thread_delay(ph);
+	i = 0;
+	while (i < ph->philos)
+	{
+		if (((i % 2 == 0) && !odd) || ((i % 2 != 0) && odd))
+		{
+			pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life,
+				&ph->philo_lst[i]);
+			if (delay > 0)
+				usleep(delay);
+		}
+		i++;
+	}
+}
+
+int	start_philo_threads(t_philo_handler *ph)
+{
+	int i;
+
+	if (ph->philos % 2 != 0)
+	{
+		start_threads_odd_philos(ph, false);
+		start_threads_odd_philos(ph, true);
+		return (SUCCESS);
+	}
 	i = 0;
 	while (i < ph->philos)
 	{
@@ -71,8 +112,6 @@ int	main(int argc, char **argv)
 		philo_free(&ph);
 		return (EXIT_FAILURE);
 	}
-	if (res == ERROR)
-		return (EXIT_FAILURE);
 	ph.m_sim_state.value = SIM_RUNING;
 	start_monitoring_thread(&ph);
 	start_philo_threads(&ph);
