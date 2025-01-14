@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/09 21:24:06 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/01/14 11:21:15 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 # -L specifies the library search path.
 # -l tells the linker to link against a specific library.
 # ft refers to the library name. 
-LDFLAGS := ""
+LDFLAGS := "-fsanitize=thread"
 
 
 # **************************************************************************** #
@@ -65,7 +65,7 @@ re: fclean all
 # * DEBUG
 debug: clean
 	@echo "$(PINK)Compiling with debug information$(RESET)"
-	$(MAKE) $(TARGET_EXEC) CFLAGS="-Wall -Wextra -Werror -g"
+	$(MAKE) $(TARGET_EXEC) CFLAGS="-Wall -Wextra -Werror -fsanitize=thread -g"
 	@echo "$(GREEN)Finished '$(TARGET_EXEC)'$(RESET)"
 
 

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 11:16:25 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:12:49 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int eat(t_philo_handler	*ph, t_philo	*philo)
 	print_philo_state(ph, philo->id, PHILO_IS_EATING);
 	update_last_meal_time(philo);
 	res = philo_usleep(ph, ph->time_to_eat);
-	pthread_mutex_unlock(philo->fork2);
-	pthread_mutex_unlock(philo->fork1);
+	pthread_mutex_unlock(&philo->fork2->m);
+	pthread_mutex_unlock(&philo->fork1->m);
 	update_meals_eaten(philo);
 	return (res);
 }
@@ -58,7 +58,7 @@ void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
 {
 	if (ph->philos > 1)
 		return;
-	pthread_mutex_lock(philo->fork1);
+	lock_mutex(philo->fork1);
 	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
 	while(1)
 	{

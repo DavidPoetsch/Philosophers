@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 11:28:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:53:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,11 @@ int	main(int argc, char **argv)
 	memset(&ph, 0, sizeof(t_philo_handler));
 	init_args(&args, argc, argv);
 	res = init_philos(args, &ph);
-	print_debug_info(&ph);	//!delete after debugging
+	if (res == ERROR)
+	{
+		philo_free(&ph);
+		return (EXIT_FAILURE);
+	}
 	if (res == ERROR)
 		return (EXIT_FAILURE);
 	ph.m_sim_state.value = SIM_RUNING;
@@ -75,5 +79,6 @@ int	main(int argc, char **argv)
 	join_philo_threads(&ph);
 	pthread_join(ph.ptid_mon, NULL);
 	//! free stuff / forks/ philos
+	philo_free(&ph);
 	return (EXIT_SUCCESS);
 }

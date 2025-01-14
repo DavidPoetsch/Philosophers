@@ -6,73 +6,41 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 11:23:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:49:42 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philosophers.h"
 
-static int get_philos(t_args args, t_philo_handler *ph)
+static int alloc_forks(t_philo_handler *ph)
 {
-	ph->philos = ft_atoi(args.argv[1]);
-	if (ph->philos <= 0)
+	if (!ph)
+		return (ERROR);
+	ph->forks = (t_mutex *)malloc(ph->philos * sizeof(t_mutex));
+	if (!ph->forks)
 	{
-		ft_puterr(ERR_INVALID_PHILOS);
+		ft_puterr(ERR_MALLOC_FORKS);
+		free(ph->philo_lst);
+		ph->philo_lst = NULL;
 		return (ERROR);
 	}
 	return (SUCCESS);
 }
 
-static int get_times(t_args args, t_philo_handler *ph)
-{
-	ph->time_to_die = ft_atoi(args.argv[2]);
-	if (ph->time_to_die <= 0)
-	{
-		ft_puterr(ERR_INVALID_TTD);
-		return (ERROR);
-	}
-	ph->time_to_eat = ft_atoi(args.argv[3]);
-	if (ph->time_to_eat <= 0)
-	{
-		ft_puterr(ERR_INVALID_TTE);
-		return (ERROR);
-	}
-	ph->time_to_sleep = ft_atoi(args.argv[4]);
-	if (ph->time_to_sleep <= 0)
-	{
-		ft_puterr(ERR_INVALID_TTS);
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
-
-static int get_meals_per_philo(t_args args, t_philo_handler *ph)
-{
-	if (args.argc < 6)
-	{
-		ph->meals_per_philo = 0;
-		ph->meal_limit = false;
-		return (SUCCESS);
-	}
-	ph->meal_limit = true;
-	ph->meals_per_philo = ft_atoi(args.argv[5]);
-	if (ph->meals_per_philo <= 0)
-	{
-		ft_puterr(ERR_INVALID_MEALS);
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
-
-int alloc_philos(t_philo_handler *ph)
+static int alloc_philos(t_philo_handler *ph)
 {
 	int i;
 
+	if (!ph)
+		return (ERROR);
+	ph->state = PH_STATE_UNDEFINED;
 	ph->philo_lst = (t_philo *)malloc(ph->philos * sizeof(t_philo));
 	if (!ph->philo_lst)
+	{
+		ft_puterr(ERR_MALLOC_PHILOS);
 		return (ERROR);
-	ph->forks = (pthread_mutex_t *)malloc(ph->philos * sizeof(pthread_mutex_t));
-	if (!ph->forks)
+	}
+	if (alloc_forks(ph) == ERROR)
 		return (ERROR);
 	i = 0;
 	while (i < ph->philos)
@@ -82,6 +50,7 @@ int alloc_philos(t_philo_handler *ph)
 		ph->philo_lst[i].fork1 = &ph->forks[i];
 		i++;
 	}
+	ph->state = PH_STATE_PHILOS_INIT;
 	return (SUCCESS);
 }
 
@@ -167,18 +136,7 @@ int	init_philos(t_args args, t_philo_handler *ph)
 
 	if (!ph)
 		return (ERROR);
-	res = SUCCESS;
-	if (args.argc < 5 || args.argc > 6)
-	{
-		ft_puterr(ERR_INVALID_ARGS);
-		res = ERROR;
-	}
-	if (res != ERROR)
-		res = get_philos(args, ph);
-	if (res != ERROR)
-		res = get_times(args, ph);
-	if (res != ERROR)
-		res = get_meals_per_philo(args, ph);
+	res = parse_arguments(args, ph);
 	if (res != ERROR)
 		res = alloc_philos(ph);
 	if (res != ERROR)

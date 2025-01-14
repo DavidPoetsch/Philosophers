@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 11:15:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:06:06 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # define TIME_TO_TAKE_FORKS 0
 # define MS_SIM_SLEEP 3
 # define MS_MON_SLEEP 5
+
+# define M_LOCK_SUCCESS 0
+
+// Parse arguments
+int				parse_arguments(t_args args, t_philo_handler *ph);
 
 void			*philo_life(void *p);
 // int				ask_for_eat_permission(t_philo_handler *ph, t_philo *philo);
@@ -55,10 +60,14 @@ int				get_current_time(t_tv *tv);
 int				start_monitoring_thread(t_philo_handler *ph);
 
 // Mutex utils
-int				init_mutex(pthread_mutex_t *mt);
-int	lock_mutex(pthread_mutex_t *mutex);
+int				init_mutex(t_mutex *mutex);
+int				lock_mutex(t_mutex *mutex);
+int				destroy_mutex(t_mutex *mutex);
 int				set_int_mutex(t_int_mutex *t_mut, int value);
 int				get_int_mutex(t_int_mutex *t_mut, int *value);
 int				set_tv_mutex(t_tv_mutex *t_mut, t_tv tv_new);
 int				get_tv_mutex(t_tv_mutex *t_mut, t_tv *tv_res);
+
+// Philo free
+int	philo_free(t_philo_handler *ph);
 #endif

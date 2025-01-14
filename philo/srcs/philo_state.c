@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 10:42:58 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:15:54 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_philo_state(t_philo_handler *ph, int id, int state)
 	int sim_state;
 
 	sim_state = SIM_FINISHED;
-	pthread_mutex_lock(&ph->m_print);
+	lock_mutex(&ph->m_print);
 	get_int_mutex(&ph->m_sim_state, &sim_state);
 	if (sim_state == SIM_RUNING)
 	{
@@ -46,7 +46,7 @@ void	print_philo_state(t_philo_handler *ph, int id, int state)
 		else if (state == PHILO_IS_DEAD)
 			printf("%d died.\n", id);
 	}
-	pthread_mutex_unlock(&ph->m_print);
+	pthread_mutex_unlock(&ph->m_print.m);
 }
 
 void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
@@ -54,7 +54,7 @@ void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 	int sim_state;
 
 	sim_state = SIM_FINISHED;
-	pthread_mutex_lock(&ph->m_print);
+	lock_mutex(&ph->m_print);
 	get_int_mutex(&ph->m_sim_state, &sim_state);
 	if (sim_state == SIM_RUNING)
 	{
@@ -66,5 +66,5 @@ void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 		else
 			printf("%d has taken a fork.\n", philo->id);
 	}
-	pthread_mutex_unlock(&ph->m_print);
+	pthread_mutex_unlock(&ph->m_print.m);
 }

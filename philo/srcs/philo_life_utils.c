@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 10:47:19 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:14:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	update_meals_eaten(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->m_meals.m);
+	lock_mutex(&philo->m_meals.m);
 	philo->m_meals.value += 1;
-	pthread_mutex_unlock(&philo->m_meals.m);
+	pthread_mutex_unlock(&philo->m_meals.m.m);
 }
 
 void	update_last_meal_time(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->m_tv_last_meal.m);
+	lock_mutex(&philo->m_tv_last_meal.m);
 	get_current_time(&philo->m_tv_last_meal.tv);
-	pthread_mutex_unlock(&philo->m_tv_last_meal.m);
+	pthread_mutex_unlock(&philo->m_tv_last_meal.m.m);
 }
 
 // void	philo_usleep(t_philo_handler	*ph, int ms_sleep)

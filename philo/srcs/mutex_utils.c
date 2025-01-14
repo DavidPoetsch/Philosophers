@@ -6,20 +6,21 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 11:16:24 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:51:05 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <errno.h>
 
-int	lock_mutex(pthread_mutex_t *mutex)
+int	lock_mutex(t_mutex *mutex)
 {
 	int ret;
 
-	ret = pthread_mutex_lock(mutex);
+	if (!mutex)
+		return (ERROR);
+	ret = pthread_mutex_lock(&mutex->m);
 	if (ret != 0) {
-			// Handle the error
 			if (ret == EINVAL) {
 					fprintf(stderr, "Mutex is not properly initialized\n");
 			} else if (ret == EDEADLK) {
@@ -32,68 +33,31 @@ int	lock_mutex(pthread_mutex_t *mutex)
 	return (SUCCESS);
 }
 
-int	init_mutex(pthread_mutex_t *mt)
+int	init_mutex(t_mutex *mutex)
 {
-	if (pthread_mutex_init(mt, NULL) != 0)
+	if (!mutex)
+		return (ERROR);
+	mutex->state = M_STATE_UNDEFINED;
+	if (pthread_mutex_init(&mutex->m, NULL) != 0)
 	{
 		ft_puterr(ERR_MUTEX_INIT);
 		return (ERROR);
 	}
+	mutex->state = M_STATE_INIT;
 	return (SUCCESS);
 }
 
-int	set_int_mutex(t_int_mutex *t_mut, int value)
+int	destroy_mutex(t_mutex *mutex)
 {
-	if (!t_mut)
+	if (!mutex)
 		return (ERROR);
-	if (pthread_mutex_lock(&t_mut->m) == M_LOCK_SUCCESS)
-	{
-		t_mut->value = value;
-		pthread_mutex_unlock(&t_mut->m);
+	if (mutex->state != M_STATE_INIT)
 		return (SUCCESS);
-	}
-	return (ERROR);
-}
-
-int	get_int_mutex(t_int_mutex *t_mut, int *value)
-{
-	if (!t_mut || !value)
+	if (pthread_mutex_destroy(&mutex->m) != 0)
 	{
+		ft_puterr(ERR_MUTEX_DESTROY);
 		return (ERROR);
 	}
-	if (pthread_mutex_lock(&t_mut->m) == M_LOCK_SUCCESS)
-	{
-		*value = t_mut->value;
-		pthread_mutex_unlock(&t_mut->m);
-		return (SUCCESS);
-	}
-	return (ERROR);
-}
-
-int	set_tv_mutex(t_tv_mutex *t_mut, t_tv tv_new)
-{
-	if (!t_mut)
-		return (ERROR);
-	if (pthread_mutex_lock(&t_mut->m) == M_LOCK_SUCCESS)
-	{
-		t_mut->tv.tv_sec = tv_new.tv_sec;
-		t_mut->tv.tv_usec = tv_new.tv_usec;
-		pthread_mutex_unlock(&t_mut->m);
-		return (SUCCESS);
-	}
-	return (ERROR);
-}
-
-int	get_tv_mutex(t_tv_mutex *t_mut, t_tv *tv_res)
-{
-	if (!t_mut || !tv_res)
-		return (ERROR);
-	if (pthread_mutex_lock(&t_mut->m) == M_LOCK_SUCCESS)
-	{
-		tv_res->tv_sec = t_mut->tv.tv_sec;
-		tv_res->tv_usec = t_mut->tv.tv_usec;
-		pthread_mutex_unlock(&t_mut->m);
-		return (SUCCESS);
-	}
-	return (ERROR);
+	mutex->state = M_STATE_DESTROYED;
+	return (SUCCESS);
 }

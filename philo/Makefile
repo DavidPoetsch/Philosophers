@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/08 14:42:12 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/01/14 10:17:39 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,10 @@ SRCS = srcs/philosophers.c \
        srcs/philo_state.c \
        srcs/philo_utils.c \
        srcs/time_utils.c \
-       srcs/mutex_utils.c
+       srcs/mutex_utils.c \
+       srcs/mutex_value_utils.c \
+       srcs/parse_arguments.c \
+       srcs/philo_free.c
 
 -include ../Makefile
 -include ../testing/Makefile

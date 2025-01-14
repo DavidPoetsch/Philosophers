@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:07:15 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 11:41:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/14 09:49:41 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,24 @@ enum e_return_values
 	SUCCESS = 1,
 };
 
-enum e_mutex_return_value
+enum e_mutex_state
 {
-	M_LOCK_SUCCESS = 0,
+	M_STATE_UNDEFINED,
+	M_STATE_INIT,
+	M_STATE_DESTROYED,
 };
 
 enum e_simulation_state
 {
 	SIM_RUNING,
 	SIM_FINISHED,
+};
+
+enum e_state_philo_handler
+{
+	PH_STATE_UNDEFINED,
+	PH_STATE_PHILOS_INIT,
+	PH_STATE_PHILOS_FREE,
 };
 
 #endif
