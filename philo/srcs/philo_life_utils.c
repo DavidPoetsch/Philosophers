@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/14 10:14:24 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/15 09:50:16 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,11 @@ int	philo_usleep(t_philo_handler	*ph, int ms_sleep)
 	return (SIM_RUNING);
 }
 
-int check_simulation_state(t_philo_handler *ph, t_philo *philo)
+int check_simulation_state(t_philo_handler *ph)
 {
 	int sim_state;
-	int meals_eaten;
 
-	sim_state = 0;
-	meals_eaten = -1;
-	if (ph->meal_limit)
-		get_int_mutex(&philo->m_meals, &meals_eaten);
-	if (meals_eaten >= ph->meals_per_philo)
-		return (SIM_FINISHED);
+	sim_state = SIM_FINISHED;
 	get_int_mutex(&ph->m_sim_state, &sim_state);
 	return (sim_state);
 }

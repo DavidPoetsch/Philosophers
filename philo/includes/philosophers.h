@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/14 10:06:06 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/15 09:50:12 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			*philo_life(void *p);
 void			update_meals_eaten(t_philo *philo);
 void			update_last_meal_time(t_philo *philo);
 int				philo_usleep(t_philo_handler	*ph, int ms_sleep);
-int				check_simulation_state(t_philo_handler *ph, t_philo *philo);
+int				check_simulation_state(t_philo_handler *ph);
 
 // Init philo
 int				init_philos(t_args args, t_philo_handler *ph);
