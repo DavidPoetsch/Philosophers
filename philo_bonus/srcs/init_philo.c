@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 12:43:44 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/13 16:06:34 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ static int init_start_time(t_philo_handler *ph)
 		philo = &ph->philo_lst[i];
 		philo->sem_tv_last_meal.tv.tv_sec = ph->tv_start.tv_sec;
 		philo->sem_tv_last_meal.tv.tv_usec = ph->tv_start.tv_usec;
-		philo->sem_meals.value = 0;
+		// philo->sem_meals.value = 0;
+		philo->meals = 0;
 		i++;
 	}
 	return (SUCCESS);
@@ -136,4 +137,3 @@ int	init_philos(t_args args, t_philo_handler *ph)
 		res = init_start_time(ph);
 	return (res);
 }
-

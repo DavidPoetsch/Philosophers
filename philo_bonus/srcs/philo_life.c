@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 10:04:10 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/13 16:07:33 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@ int	eat(t_philo_handler *ph, t_philo *philo)
 	int	res;
 
 	res = SIM_RUNING;
+	sem_wait(ph->sem_forks_request.sem);
 	sem_wait(ph->sem_forks.sem);
 	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
 	sem_wait(ph->sem_forks.sem);
 	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
+	sem_post(ph->sem_forks_request.sem);
 	print_philo_state(ph, philo, PHILO_IS_EATING);
 	update_last_meal_time(philo);
 	res = philo_usleep(philo, ph->time_to_eat);
 	// usleep(ms_to_us(ph->time_to_eat));
 	sem_post(ph->sem_forks.sem);
 	sem_post(ph->sem_forks.sem);
-	update_meals_eaten(philo);
+	// update_meals_eaten(philo);
+	philo->meals++;
 	return (res);
 }
 
@@ -45,7 +48,8 @@ int	go_sleep(t_philo_handler *ph, t_philo *philo)
 void	think(t_philo_handler *ph, t_philo *philo)
 {
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
-	// usleep(ms_to_us(3));
+	if (ph->philos % 2 != 0)
+		usleep(ms_to_us(20));
 }
 
 static void	send_finished(t_philo_handler *ph)
@@ -57,14 +61,15 @@ static void	send_finished(t_philo_handler *ph)
 static int	check_sim_running(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
-	int	meals;
+	// int	meals;
 
-	if (ph->meal_limit)
+	if (ph->meal_limit && philo->meals >= ph->meals_per_philo)
 	{
-		get_int_sem(&philo->sem_meals, &meals);
-		if (meals >= ph->meals_per_philo)
-			return (SIM_FINISHED);
+		if (!philo->finished)
+			send_finished(ph);
+		philo->finished = true;
 	}
+	sim_state = SIM_RUNING;
 	get_int_sem(&philo->sem_sim_state, &sim_state);
 	if (sim_state == SIM_FINISHED)
 		return (SIM_FINISHED);
@@ -90,7 +95,7 @@ static void	*t_philo_life(void *p)
 		if (res == SIM_RUNING)
 			think(ph, philo);
 	}
-	send_finished(ph);
+	// send_finished(ph);
 	return (NULL);
 }
 

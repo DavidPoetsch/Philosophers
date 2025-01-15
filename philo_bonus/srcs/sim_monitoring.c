@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:28:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 10:04:00 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/13 17:22:35 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	post_simulation_finished(t_philo_handler *ph)
 	while (i < ph->philos)
 	{
 		sem_post(ph->sem_forks.sem);
+		sem_post(ph->sem_forks_request.sem);
 		sem_post(ph->sem_stop_simulation.sem);
 		i++;
 	}

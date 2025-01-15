@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 20:09:20 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/13 09:43:31 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 // SEMAPHORE NAMES
 # define SEM_NAME_FORKS "/sem_forks"
+# define SEM_NAME_FORKS_REQ "/sem_forks_request"
 # define SEM_NAME_PRINT "/sem_print"
 # define SEM_NAME_PRINT_BLOCK "/sem_print_block"
 

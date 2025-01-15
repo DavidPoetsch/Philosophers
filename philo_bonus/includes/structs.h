@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 19:38:16 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/13 16:03:56 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ struct							s_philo_handler
 	int							time_to_sleep;
 	int							meals_per_philo;
 	bool						meal_limit;
+	t_sem						sem_forks_request;
 	t_sem						sem_forks;
 	t_sem						sem_print;
 	t_sem						sem_print_block;
@@ -96,7 +97,9 @@ struct							s_philo
 	t_thread_info			t_mon_sim_state;
 	t_thread_info			t_mon_death;
 	t_int_sem					sem_sim_state;
-	t_int_sem					sem_meals;
+	// t_int_sem					sem_meals;
+	int								meals;
+	bool							finished;
 	t_tv_sem					sem_tv_last_meal;
 };
 

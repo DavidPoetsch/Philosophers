@@ -6,18 +6,18 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 20:25:42 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/13 16:06:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	update_meals_eaten(t_philo *philo)
-{
-	sem_wait(philo->sem_meals.sem.sem);
-	philo->sem_meals.value += 1;
-	sem_post(philo->sem_meals.sem.sem);
-}
+// void	update_meals_eaten(t_philo *philo)
+// {
+// 	sem_wait(philo->sem_meals.sem.sem);
+// 	philo->sem_meals.value += 1;
+// 	sem_post(philo->sem_meals.sem.sem);
+// }
 
 void	update_last_meal_time(t_philo *philo)
 {

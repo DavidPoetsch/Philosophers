@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/10 08:58:58 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/01/13 17:00:00 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@ int	fork_philo_process(t_philo_handler *ph)
 {
 	int	i;
 	t_philo *philo;
+	double delay;
 
+	delay = 0;
+	if (ph->time_to_eat > 5 && ph->philos > 1 && ph->philos % 2 != 0)
+		delay = ((((double)ph->time_to_eat - 5) / (double)(ph->philos -1)) * 1000);
+	
 	i = 0;
 	while (i < ph->philos)
 	{
 		if (i == ph->philos -1 && ph->philos % 2 == 0)
-			usleep(20);
+			// usleep(20);
 		philo = &ph->philo_lst[i];
 		philo->process.state = STATE_PROCESS_FORKED;
 		philo->process.pid = fork();
@@ -36,6 +41,7 @@ int	fork_philo_process(t_philo_handler *ph)
 		else if (philo->process.pid == 0)
 			philo_life(&ph->philo_lst[i]);
 		i++;
+		usleep(delay);
 	}
 	return (SUCCESS);
 }
