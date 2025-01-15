@@ -57,7 +57,7 @@ def parse_data(filename):
 			line = line.strip()
 			if line_contains_keyword(line):
 					parts = line.split()
-					parts[:] = parts[:5]
+					parts[:] = parts[:6]
 					ms = int(parts[0])
 					philo_id = int(parts[1])
 					action = parse_action(parts[-1].strip('.'))
