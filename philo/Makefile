@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/14 10:17:39 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/12 17:25:13 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ SRCS = srcs/philosophers.c \
        srcs/argument_utils.c \
        srcs/ft_atoi.c \
        srcs/init_philo.c \
+       srcs/join_philo_threads.c \
+       srcs/start_philo_threads.c \
        srcs/philo_handler.c \
        srcs/philo_life.c \
        srcs/philo_life_utils.c \
@@ -26,7 +28,8 @@ SRCS = srcs/philosophers.c \
        srcs/mutex_utils.c \
        srcs/mutex_value_utils.c \
        srcs/parse_arguments.c \
-       srcs/philo_free.c
+       srcs/philo_free.c \
+       srcs/debug.c
 
 -include ../Makefile
 -include ../testing/Makefile

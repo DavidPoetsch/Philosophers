@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/15 09:50:12 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/12 21:41:44 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define DEBUG true
+# define DEBUG false
 # define TIME_TO_TAKE_FORKS 0
 # define MS_SIM_SLEEP 3
 # define MS_MON_SLEEP 5
@@ -42,6 +42,9 @@ int				check_simulation_state(t_philo_handler *ph);
 
 // Init philo
 int				init_philos(t_args args, t_philo_handler *ph);
+
+// Join Philo threads
+int				join_philo_threads(t_philo_handler *ph);
 
 // Utils
 size_t			ft_strlen(char *str);
@@ -69,5 +72,12 @@ int				set_tv_mutex(t_tv_mutex *t_mut, t_tv tv_new);
 int				get_tv_mutex(t_tv_mutex *t_mut, t_tv *tv_res);
 
 // Philo free
-int	philo_free(t_philo_handler *ph);
+int				philo_free(t_philo_handler *ph);
+
+// Start philo threads
+int				start_philo_threads(t_philo_handler *ph);
+
+// Debug
+void	print_debug_info(t_philo_handler *ph);
+
 #endif

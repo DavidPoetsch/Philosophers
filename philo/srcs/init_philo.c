@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/14 10:49:42 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/12 17:07:14 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,25 @@ static int	assign_forks(t_philo_handler *ph)
 
 static int init_mutexes(t_philo_handler *ph)
 {
+	int res;
 	int	i;
 	t_philo *philo;
 
-	init_mutex(&ph->m_print);
-	init_mutex(&ph->m_sim_state.m);
+	res = init_mutex(&ph->m_print);
+	if (res == SUCCESS)
+		res = init_mutex(&ph->m_sim_state.m);
 	i = 0;
-	while (i < ph->philos)
+	while (res == SUCCESS && i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		init_mutex(&philo->m_meals.m);
-		init_mutex(&philo->m_tv_last_meal.m);
-		init_mutex(&ph->forks[i]);
+		res = init_mutex(&philo->m_meals.m);
+		if (res == SUCCESS)
+			res = init_mutex(&philo->m_tv_last_meal.m);
+		if (res == SUCCESS)
+			res = init_mutex(&ph->forks[i]);
 		i++;
 	}
-	return (SUCCESS);
+	return (res);
 }
 
 static int init_start_time(t_philo_handler *ph)
@@ -137,13 +141,13 @@ int	init_philos(t_args args, t_philo_handler *ph)
 	if (!ph)
 		return (ERROR);
 	res = parse_arguments(args, ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = alloc_philos(ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = assign_forks(ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_mutexes(ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_start_time(ph);
 	return (res);
 }

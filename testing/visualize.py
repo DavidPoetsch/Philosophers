@@ -48,6 +48,9 @@ def parse_action(line):
 		return "sleeping"
 	if "died" in line :
 		return "died"
+	else:
+		print(f"cant find any state in line '{line}'")
+		exit(0)
 
 def parse_data(filename):
 	results = []
@@ -60,7 +63,7 @@ def parse_data(filename):
 					parts[:] = parts[:5]
 					ms = int(parts[0])
 					philo_id = int(parts[1])
-					action = parse_action(parts[-1].strip('.'))
+					action = parse_action(line)
 					results.append([ms, philo_id, action])
 	return results
 
@@ -76,6 +79,9 @@ def prepare_data(data, max_philos):
 	for timestamp, philo, state in data:
 		philosophers[philo].append((timestamp, state))
 	for philo, events in philosophers.items():
+		if (len(events) <= 0):
+			print(f"No events for philo {philo} found!")
+			exit(0)
 		timestamp_end = int(events[-1][0])
 		timestamp_end += 100
 		end_event = (timestamp_end, events[-1][1])

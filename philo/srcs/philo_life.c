@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/15 09:53:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/12 21:59:04 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	think(t_philo_handler	*ph, t_philo	*philo)
 {
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
 	if (ph->philos % 2 != 0)
-		usleep(ms_to_us(2));
+		usleep(ms_to_us(1));
 }
 
 /**
@@ -82,8 +82,8 @@ void	*philo_life(void *p)
 	philo = (t_philo *)p;
 	ph = philo->ph;
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	// if (philo->id % 2 == 0)
-	// 	usleep(ms_to_us(10));
+	if (philo->id % 2 == 0)
+		usleep(ms_to_us(10));
 	lonely_philo_life(ph, philo);
 	while(check_simulation_state(ph) == SIM_RUNING)
 	{
