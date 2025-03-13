@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 15:54:06 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 16:40:47 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	update_last_meal_time(t_philo *philo)
 	pthread_mutex_unlock(&philo->m_tv_last_meal.m.m);
 }
 
-bool sim_runing(t_philo_handler *ph)
+bool	sim_runing(t_philo_handler *ph)
 {
-	int sim_state;
+	int	sim_state;
 
 	sim_state = SIM_FINISHED;
 	if (get_int_mutex(&ph->m_sim_state, &sim_state) == ERROR)

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/14 10:51:05 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 16:51:35 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,26 @@
 
 int	lock_mutex(t_mutex *mutex)
 {
-	int ret;
+	int	ret;
 
 	if (!mutex)
 		return (ERROR);
 	ret = pthread_mutex_lock(&mutex->m);
-	if (ret != 0) {
-			if (ret == EINVAL) {
-					fprintf(stderr, "Mutex is not properly initialized\n");
-			} else if (ret == EDEADLK) {
-					fprintf(stderr, "Deadlock detected\n");
-			} else {
-					fprintf(stderr, "Unknown error: %d\n", ret);
-			}
-			return (ERROR);
+	if (ret != 0)
+	{
+		if (ret == EINVAL)
+		{
+			fprintf(stderr, "Mutex is not properly initialized\n");
+		}
+		else if (ret == EDEADLK)
+		{
+			fprintf(stderr, "Deadlock detected\n");
+		}
+		else
+		{
+			fprintf(stderr, "Unknown error: %d\n", ret);
+		}
+		return (ERROR);
 	}
 	return (SUCCESS);
 }

@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:13:11 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 17:14:30 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 16:51:39 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philosophers.h"
+#include "philosophers.h"
 
 int	join_philo_threads(t_philo_handler *ph)
 {

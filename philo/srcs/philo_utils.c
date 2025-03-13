@@ -6,20 +6,20 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/19 11:52:57 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:08:48 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philosophers.h"
+#include "philosophers.h"
 
 size_t	ft_strlen(char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (!str)
 		return (i);
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -37,4 +37,3 @@ void	ft_swap_ptr(void **p1, void **p2)
 	*p1 = *p2;
 	*p2 = tmp;
 }
-

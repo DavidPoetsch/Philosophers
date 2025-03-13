@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 14:50:41 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:08:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	print_formated_time(t_philo_handler *ph)
 
 void	print_philo_state(t_philo_handler *ph, int id, int state)
 {
-	int sim_state;
+	int	sim_state;
 
 	sim_state = SIM_FINISHED;
 	lock_mutex(&ph->m_print);
@@ -54,7 +54,7 @@ void	print_philo_state(t_philo_handler *ph, int id, int state)
 
 void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 {
-	int sim_state;
+	int	sim_state;
 
 	sim_state = SIM_FINISHED;
 	lock_mutex(&ph->m_print);

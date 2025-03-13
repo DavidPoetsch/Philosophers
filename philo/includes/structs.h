@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 14:36:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 16:40:31 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct s_philo_handler	t_philo_handler;
 typedef struct s_philo			t_philo;
 typedef struct s_args			t_args;
 typedef struct timeval			t_tv;
-typedef struct s_int_mutex	t_int_mutex;
+typedef struct s_int_mutex		t_int_mutex;
 typedef struct s_tv_mutex		t_tv_mutex;
 typedef struct s_mutex			t_mutex;
 
@@ -35,20 +35,20 @@ struct							s_args
 
 struct							s_mutex
 {
-	pthread_mutex_t	m;
-	int state;
+	pthread_mutex_t				m;
+	int							state;
 };
 
 struct							s_int_mutex
 {
-	int						value;
-	t_mutex				m;
+	int							value;
+	t_mutex						m;
 };
 
 struct							s_tv_mutex
 {
 	t_tv						tv;
-	t_mutex				m;
+	t_mutex						m;
 };
 
 struct							s_philo_handler
@@ -62,22 +62,22 @@ struct							s_philo_handler
 	int							meals_per_philo;
 	bool						meal_limit;
 	pthread_t					ptid_mon;
-	t_mutex 		*forks;
-	t_mutex				m_print;
-	t_int_mutex				m_sim_state;
-	int						state;
+	t_mutex						*forks;
+	t_mutex						m_print;
+	t_int_mutex					m_sim_state;
+	int							state;
 };
 
 struct							s_philo
 {
 	int							id;
-	pthread_t				ptid;
-	t_int_mutex			m_state;
-	t_int_mutex			m_meals;
-	t_tv_mutex			m_tv_last_meal;
-	t_mutex					*fork1;
-	t_mutex					*fork2;
-	t_philo_handler	*ph;
+	pthread_t					ptid;
+	t_int_mutex					m_state;
+	t_int_mutex					m_meals;
+	t_tv_mutex					m_tv_last_meal;
+	t_mutex						*fork1;
+	t_mutex						*fork2;
+	t_philo_handler				*ph;
 };
 
 #endif

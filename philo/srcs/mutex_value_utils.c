@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:12:20 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 15:31:55 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:08:54 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief ### Increment int mutex by 1 with INT_MAX limit.
- * 
+ *
  * @param t_mut mutex
  * @return int SUCCESS or ERROR
  */
@@ -26,7 +26,7 @@ int	inc_int_mutex(t_int_mutex *t_mut)
 		return (ERROR);
 	if (t_mut->value < INT_MAX)
 		t_mut->value += 1;
-	else 
+	else
 		return (ERROR);
 	pthread_mutex_unlock(&t_mut->m.m);
 	return (SUCCESS);
@@ -34,7 +34,7 @@ int	inc_int_mutex(t_int_mutex *t_mut)
 
 /**
  * @brief ### Set the int mutex to give value.
- * 
+ *
  * @param t_mut mutex
  * @param value new value
  * @return int SUCCESS or ERROR
@@ -52,7 +52,7 @@ int	set_int_mutex(t_int_mutex *t_mut, int value)
 
 /**
  * @brief ### Get the value from an t_int_mutex.
- * 
+ *
  * @param t_mut mutex
  * @param value value pointer
  * @return int SUCCESS or ERROR
@@ -72,7 +72,7 @@ int	get_int_mutex(t_int_mutex *t_mut, int *value)
 
 /**
  * @brief ### Set the time value mutex to given value.
- * 
+ *
  * @param t_mut mutex
  * @param tv_new new time value
  * @return int SUCCESS or ERROR
@@ -93,7 +93,7 @@ int	set_tv_mutex(t_tv_mutex *t_mut, t_tv tv_new)
 
 /**
  * @brief ### Get the value from an t_tv_mutex.
- * 
+ *
  * @param t_mut mutex
  * @param tv_res timevalue struct pointer (result)
  * @return int SUCCESS or ERROR

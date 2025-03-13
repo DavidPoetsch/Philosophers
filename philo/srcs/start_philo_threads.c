@@ -6,15 +6,15 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:17:06 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 09:20:07 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:09:00 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static double get_thread_delay(t_philo_handler *ph)
+static double	get_thread_delay(t_philo_handler *ph)
 {
-	double delay;
+	double	delay;
 
 	delay = 0.0;
 	if (ph->philos <= 1 || ph->philos % 2 == 0)
@@ -29,8 +29,8 @@ static double get_thread_delay(t_philo_handler *ph)
 
 static void	start_threads_odd_even_philos(t_philo_handler *ph, bool odd)
 {
-	int	i;
-	double delay;
+	int		i;
+	double	delay;
 
 	delay = get_thread_delay(ph);
 	i = 0;
@@ -49,7 +49,7 @@ static void	start_threads_odd_even_philos(t_philo_handler *ph, bool odd)
 
 int	start_philo_threads(t_philo_handler *ph)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ph->philos % 2 != 0)
@@ -63,7 +63,7 @@ int	start_philo_threads(t_philo_handler *ph)
 	{
 		pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life,
 			&ph->philo_lst[i]);
-			i++;
+		i++;
 	}
 	return (SUCCESS);
 }

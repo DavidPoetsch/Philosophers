@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/14 17:03:05 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/13 16:35:00 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,4 +88,4 @@ fclean:
 # missing dependencies. Initially, all the .d files will be missing, 
 # and we don't want those errors to show up.
 -include $(DEPS)
--include Makefile.colors
+-include colors.mk

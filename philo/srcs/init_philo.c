@@ -6,13 +6,13 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 14:39:10 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:08:14 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philosophers.h"
+#include "philosophers.h"
 
-static int alloc_forks(t_philo_handler *ph)
+static int	alloc_forks(t_philo_handler *ph)
 {
 	if (!ph)
 		return (ERROR);
@@ -27,9 +27,9 @@ static int alloc_forks(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
-static int alloc_philos(t_philo_handler *ph)
+static int	alloc_philos(t_philo_handler *ph)
 {
-	int i;
+	int	i;
 
 	if (!ph)
 		return (ERROR);
@@ -65,8 +65,8 @@ static int alloc_philos(t_philo_handler *ph)
  */
 static int	assign_forks(t_philo_handler *ph)
 {
-	int	i;
-	t_philo *philo;
+	int		i;
+	t_philo	*philo;
 
 	i = 0;
 	while (i < ph->philos)
@@ -76,7 +76,7 @@ static int	assign_forks(t_philo_handler *ph)
 			ph->philo_lst[i].fork2 = ph->philo_lst[0].fork1;
 		else
 			ph->philo_lst[i].fork2 = ph->philo_lst[i + 1].fork1;
-			i++;
+		i++;
 	}
 	i = 0;
 	while (i < ph->philos)
@@ -89,11 +89,11 @@ static int	assign_forks(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
-static int init_mutexes(t_philo_handler *ph)
+static int	init_mutexes(t_philo_handler *ph)
 {
-	int res;
-	int	i;
-	t_philo *philo;
+	int		res;
+	int		i;
+	t_philo	*philo;
 
 	res = init_mutex(&ph->m_print);
 	if (res == SUCCESS)
@@ -115,37 +115,16 @@ static int init_mutexes(t_philo_handler *ph)
 	return (res);
 }
 
-static int init_start_time(t_philo_handler *ph)
-{
-	int	i;
-	t_philo *philo;
-
-	if (gettimeofday(&ph->tv_start, NULL) != 0)
-	{
-		ft_puterr(ERR_GETTIMEOFDAY);
-		return (ERROR);
-	}
-	i = 0;
-	while (i < ph->philos)
-	{
-		philo = &ph->philo_lst[i];
-		philo->m_tv_last_meal.tv.tv_sec = ph->tv_start.tv_sec;
-		philo->m_tv_last_meal.tv.tv_usec = ph->tv_start.tv_usec;
-		i++;
-	}
-	return (SUCCESS);
-}
-
 /**
  * @brief ./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP].
-*  OPTIONAL [number_of_times_each_philosopher_must_eat].
+ *  OPTIONAL [number_of_times_each_philosopher_must_eat].
  * @param args
  * @param ph
  * @return int
  */
 int	init_philos(t_args args, t_philo_handler *ph)
 {
-	int res;
+	int	res;
 
 	if (!ph)
 		return (ERROR);
@@ -160,4 +139,3 @@ int	init_philos(t_args args, t_philo_handler *ph)
 		res = init_start_time(ph);
 	return (res);
 }
-

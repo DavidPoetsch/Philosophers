@@ -6,13 +6,13 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:01:45 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 14:36:50 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:09:05 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	free_philos(t_philo_handler *ph)
+static int	free_philos(t_philo_handler *ph)
 {
 	if (!ph || !ph->philo_lst)
 		return (SUCCESS);
@@ -23,15 +23,15 @@ int	free_philos(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
-int	destroy_mutexs(t_philo_handler *ph)
+static int	destroy_mutexs(t_philo_handler *ph)
 {
-	int i;
-	t_philo *philo;
+	int		i;
+	t_philo	*philo;
 
 	destroy_mutex(&ph->m_print);
 	destroy_mutex(&ph->m_sim_state.m);
-	i =0;
-	while(i < ph->philos)
+	i = 0;
+	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
 		destroy_mutex(&ph->forks[i]);

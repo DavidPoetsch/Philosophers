@@ -6,13 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 14:52:51 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 16:43:59 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static int	check_philo_death(t_philo_handler *ph, t_philo *philo, t_tv *tv_curr)
+static int	check_philo_death(t_philo_handler *ph, t_philo *philo,
+		t_tv *tv_curr)
 {
 	int		ms;
 	t_tv	tv_last_meal;
@@ -27,13 +28,13 @@ static int	check_philo_death(t_philo_handler *ph, t_philo *philo, t_tv *tv_curr)
 	return (SIM_RUNING);
 }
 
-static int	philo_meals_finished(t_philo_handler *ph, t_philo *philo, int *philos_finished)
+static int	philo_meals_finished(t_philo_handler *ph, t_philo *philo,
+		int *philos_finished)
 {
-	int meals;
+	int	meals;
 
 	if (ph->meal_limit == false)
 		return (SIM_RUNING);
-
 	meals = 0;
 	get_int_mutex(&philo->m_meals, &meals);
 	if (meals >= ph->meals_per_philo)
@@ -66,22 +67,7 @@ static int	check_philos_state(t_philo_handler *ph, t_tv tv_curr)
 	return (sim_state);
 }
 
-static void	set_state_finished(t_philo_handler *ph)
-{
-	int i;
-	t_philo *philo;
-
-	set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
-	i = 0;
-	while(i < ph->philos)
-	{
-		philo = &ph->philo_lst[i];
-		set_int_mutex(&philo->m_state, SIM_FINISHED);
-		i++;
-	}
-}
-
-void	*philo_monitoring(void *p)
+static void	*philo_monitoring(void *p)
 {
 	int				sim_state;
 	t_philo_handler	*ph;

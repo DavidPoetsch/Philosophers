@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/09 19:49:41 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/13 16:35:22 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,5 +32,5 @@ SRCS = srcs/philosophers.c \
        srcs/sim_monitoring.c \
        srcs/thread_utils.c
 
--include ../Makefile 
+-include ../general.mk
 -include ../testing/Makefile

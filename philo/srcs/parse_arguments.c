@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:41:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 11:47:10 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:09:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ static int	get_arg_meals_per_philo(t_args args, t_philo_handler *ph)
 	return (SUCCESS);
 }
 
-int parse_arguments(t_args args, t_philo_handler *ph)
+int	parse_arguments(t_args args, t_philo_handler *ph)
 {
-	int res;
+	int	res;
 
 	if (!ph)
 		return (ERROR);

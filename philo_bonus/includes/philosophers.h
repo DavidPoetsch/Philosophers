@@ -6,13 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/13 09:43:31 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 16:23:30 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+# include "defines.h"
 # include "enums.h"
 # include "philo_errors.h"
 # include "structs.h"
@@ -26,30 +27,10 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define TIME_TO_TAKE_FORKS 0
-# define MS_SIM_SLEEP 2
-# define MS_MON_SLEEP 5
-# define MS_DEATH_CHECK 7
-
-// SEMAPHORE NAMES
-# define SEM_NAME_FORKS "/sem_forks"
-# define SEM_NAME_FORKS_REQ "/sem_forks_request"
-# define SEM_NAME_PRINT "/sem_print"
-# define SEM_NAME_PRINT_BLOCK "/sem_print_block"
-
-# define SEM_NAME_PHILO_FIN "/sem_philo_finished"
-# define SEM_NAME_STOP_SIM "/sem_stop_sim"
-
-# define SEM_NAME_SIM_STATE "/sem_simulation_state"     //! delete
-# define SEM_NAME_MEALS "/sem_philo_meals"              //! delete
-# define SEM_NAME_LAST_MEAL "/sem_philo_last_meal_time" //! delete
-
 void			philo_life(void *p);
-// int				ask_for_eat_permission(t_philo_handler *ph, t_philo *philo);
 void			update_meals_eaten(t_philo *philo);
 void			update_last_meal_time(t_philo *philo);
 int				philo_usleep(t_philo *philo, int ms_sleep);
-int				check_simulation_state(t_philo_handler *ph, t_philo *philo);
 
 // Init philo
 int				init_philos(t_args args, t_philo_handler *ph);

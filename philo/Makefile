@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/13 11:19:56 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/13 17:04:21 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,16 +14,15 @@ TARGET_EXEC := philo
 
 SRCS = srcs/philosophers.c \
        srcs/argument_utils.c \
-       srcs/ft_atoi.c \
        srcs/init_philo.c \
-       srcs/int_check.c \
        srcs/join_philo_threads.c \
        srcs/start_philo_threads.c \
-       srcs/philo_handler.c \
        srcs/philo_life.c \
        srcs/philo_life_utils.c \
+       srcs/philo_monitoring_utils.c \
        srcs/philo_monitoring.c \
        srcs/philo_state.c \
+       srcs/philo_utils_2.c \
        srcs/philo_utils.c \
        srcs/time_utils.c \
        srcs/mutex_utils.c \
@@ -32,5 +31,5 @@ SRCS = srcs/philosophers.c \
        srcs/philo_free.c \
        srcs/debug.c
 
--include ../Makefile
+-include ../general.mk
 -include ../testing/Makefile

@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2025/01/08 16:06:04 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/13 16:34:58 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,4 +42,4 @@ visu:
 
 .PHONY: run runv runf tests visu
 
--include ../Makefile.colors
+-include ../colors.mk
