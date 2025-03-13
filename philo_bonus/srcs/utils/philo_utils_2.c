@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   philo_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 09:09:52 by dpotsch           #+#    #+#             */
-/*   Updated: 2024/12/16 09:38:27 by dpotsch          ###   ########.fr       */
+/*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
+/*   Updated: 2025/03/13 18:01:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-static int	ft_is_space(char c);
-static int	ft_isdigit(int c);
+#include "../../includes/philosophers.h"
+
+static int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+static int	ft_is_space(char c)
+{
+	if (c == ' ')
+		return (1);
+	if (c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v')
+		return (1);
+	return (0);
+}
 
 /**
  * @brief				The function converts the initial portion of the string
@@ -47,16 +59,28 @@ int	ft_atoi(const char *nptr)
 	return (number);
 }
 
-static int	ft_isdigit(int c)
+bool	int_check(const char *str)
 {
-	return (c >= '0' && c <= '9');
-}
+	size_t	i;
+	bool	is_neg;
+	size_t	num;
 
-static int	ft_is_space(char c)
-{
-	if (c == ' ')
-		return (1);
-	if (c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v')
-		return (1);
-	return (0);
+	i = 0;
+	is_neg = false;
+	num = 0;
+	if (!str || str[i] == '\0')
+		return (false);
+	is_neg = (str[i] == '-');
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!ft_isdigit(str[i]))
+		return (false);
+	while (ft_isdigit(str[i]))
+	{
+		num = num * 10 + str[i] - '0';
+		if ((!is_neg && num > INT_MAX) || (is_neg && num > 2147483648))
+			return (false);
+		i++;
+	}
+	return (true);
 }

@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:38:42 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 18:01:16 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../../includes/philosophers.h"
 
 static void	get_len(long n, int *len);
 static void	convert_number(long n, int len, char *res);
@@ -69,17 +69,3 @@ static void	convert_number(long n, int len, char *res)
 		res[len - 1] = c;
 	}
 }
-
-/*
-int	main(void)
-{
-	printf("res = '%s'\n", ft_itoa(2147483647));
-	printf("res = '%s'\n", ft_itoa(-2147483648));
-	printf("res = '%s'\n", ft_itoa(-100));
-	printf("res = '%s'\n", ft_itoa(-10));
-	printf("res = '%s'\n", ft_itoa(-1));
-	printf("res = '%s'\n", ft_itoa(-0));
-	printf("res = '%s'\n", ft_itoa(123));
-	return (0);
-}
- */

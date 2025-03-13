@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   init_philo_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/13 21:33:57 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
+/*   Created: 2025/03/13 17:07:22 by dpotsch           #+#    #+#             */
+/*   Updated: 2025/03/13 17:28:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-/**
- * @brief					The function computes the length of the string s.
- * @param s 			String to check
- * @return size_t	The strlen() function returns the number of characters that
-									precede the terminating NUL character.
- */
-size_t	ft_strlen(const char *s)
+int	init_start_time(t_philo_handler *ph)
 {
-	size_t	i;
+	int		i;
+	t_philo	*philo;
 
+	if (gettimeofday(&ph->tv_start, NULL) != 0)
+	{
+		ft_puterr(ERR_GETTIMEOFDAY);
+		return (ERROR);
+	}
 	i = 0;
-	while (s[i])
+	while (i < ph->philos)
+	{
+		philo = &ph->philo_lst[i];
+		philo->sem_tv_last_meal.tv.tv_sec = ph->tv_start.tv_sec;
+		philo->sem_tv_last_meal.tv.tv_usec = ph->tv_start.tv_usec;
 		i++;
-	return (i);
+	}
+	return (SUCCESS);
 }

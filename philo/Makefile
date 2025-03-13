@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/13 17:04:21 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/13 17:10:39 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ TARGET_EXEC := philo
 
 SRCS = srcs/philosophers.c \
        srcs/argument_utils.c \
+       srcs/init_philo_2.c \
        srcs/init_philo.c \
        srcs/join_philo_threads.c \
        srcs/start_philo_threads.c \

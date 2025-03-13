@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:46:12 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 18:01:43 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../../includes/philosophers.h"
 
 unsigned int	ms_to_us(unsigned int ms)
 {

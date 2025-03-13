@@ -6,31 +6,33 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/13 16:35:22 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/13 18:09:42 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 TARGET_EXEC := philo_bonus
 
 SRCS = srcs/philosophers.c \
-       srcs/argument_utils.c \
+       srcs/utils/ft_itoa.c \
+       srcs/utils/ft_strjoin.c \
+       srcs/utils/philo_utils_1.c \
+       srcs/utils/philo_utils_2.c \
+       srcs/utils/time_utils.c \
+       srcs/utils/argument_utils.c \
+       srcs/utils/sem_utils.c \
+       srcs/utils/thread_utils.c \
        srcs/close_semaphores.c \
-       srcs/ft_atoi.c \
-       srcs/ft_itoa.c \
-       srcs/ft_strjoin.c \
+       srcs/parse_arguments.c \
+       srcs/init_philo_2.c \
        srcs/init_philo.c \
        srcs/init_semaphores.c \
        srcs/philo_life.c \
        srcs/philo_life_utils.c \
        srcs/philo_monitoring.c \
-       srcs/philo_state.c \
-       srcs/philo_utils.c \
-       srcs/sem_utils.c \
-       srcs/time_utils.c \
-       srcs/wait_utils.c \
-       srcs/ft_strlen.c \
        srcs/sim_monitoring.c \
-       srcs/thread_utils.c
+       srcs/start_philo_process.c \
+       srcs/philo_state.c \
+       srcs/wait_utils.c \
 
 -include ../general.mk
 -include ../testing/Makefile

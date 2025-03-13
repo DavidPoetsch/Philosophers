@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 09:32:38 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 09:20:36 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 18:01:22 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../../includes/philosophers.h"
 
 static char	*ft_strcat(char *dest, char const *src);
 
@@ -21,7 +21,7 @@ static char	*ft_strcat(char *dest, char const *src);
  * @param s2	The suffix string.
  * @return char*	Combined string.
  */
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char*s1, const char *s2)
 {
 	char	*str;
 	size_t	strlen;
@@ -55,20 +55,3 @@ static char	*ft_strcat(char *dest, char const *src)
 	dest[len_dest + i] = '\0';
 	return (dest);
 }
-
-/*
-int	main(int argc, char **argv)
-{
-	char const	*s1;
-	char const	*s2;
-	char		*dest;
-
-	s1 = "Hello";
-	s2 = "World";
-	dest = ft_strjoin(s1, s2);
-	printf("result = '%s'\n", dest);
-	printf("dest len = %zu\n", ft_strlen((char const *)dest));
-	if(dest != NULL)
-		free(dest);
-}
- */

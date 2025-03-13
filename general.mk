@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    general.mk                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/13 16:35:00 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/13 17:38:03 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ fclean:
 	@$(MAKE) -s clean
 	@rm -rf $(BUILD_DIR)
 	@rm -f $(TARGET_EXEC)
+	@rm -rf out
 
 .PHONY: all clean fclean re bonus debug
 

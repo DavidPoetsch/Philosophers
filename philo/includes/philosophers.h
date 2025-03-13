@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 17:08:05 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 17:26:19 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void			print_philo_state_fork(t_philo_handler *ph, t_philo *philo,
 
 int				ft_atoi(const char *nptr);
 bool			int_check(const char *str);
-size_t			ft_strlen(char *str);
+size_t	ft_strlen(const char *str);
 int				ft_puterr(char *str);
 void			ft_swap_ptr(void **p1, void **p2);
 

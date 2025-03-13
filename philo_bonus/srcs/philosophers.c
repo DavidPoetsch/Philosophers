@@ -6,73 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 16:33:23 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 18:02:51 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-// static double get_process_delay(t_philo_handler *ph)
-// {
-// 	double delay;
-
-// 	delay = 0.0;
-// 	if (ph->philos <= 1 || ph->philos % 2 == 0)
-// 		return (0.0);
-// 	if (ph->time_to_eat < ph->time_to_die)
-// 	{
-// 		delay = ((double)ph->time_to_die) / ((double)ph->philos * 2);
-// 		delay *= 1000;
-// 	}
-// 	return (delay);
-// }
-
-int	fork_philo_process(t_philo_handler *ph)
-{
-	int	i;
-	t_philo *philo;
-	double delay;
-
-	delay = 0;
-	if (ph->time_to_eat > 5 && ph->philos > 1 && ph->philos % 2 != 0)
-		delay = ((((double)ph->time_to_eat - 5) / (double)(ph->philos -1)) * 1000);
-	
-	i = 0;
-	while (i < ph->philos)
-	{
-		if (i == ph->philos -1 && ph->philos % 2 == 0)
-			// usleep(20);
-		philo = &ph->philo_lst[i];
-		philo->process.state = STATE_PROCESS_FORKED;
-		philo->process.pid = fork();
-		if (philo->process.pid == FAILED)
-		{
-			philo->process.state = STATE_PROCESS_FORK_FAILED;
-			philo->process.exit_status = EXIT_FAILURE;
-			//todo set simulation state to finished
-			ft_puterr(ERR_FORK_PROCESS);
-			return (ERROR);
-		}
-		else if (philo->process.pid == CHILD)
-			philo_life(&ph->philo_lst[i]);
-		i++;
-		usleep(delay);
-	}
-	return (SUCCESS);
-}
-
-int	wait_philo_process(t_philo_handler *ph)
-{
-	int	i;
-
-	i = 0;
-	while (i < ph->philos)
-	{
-		wait_for_process(&ph->philo_lst[i].process);
-		i++;
-	}
-	return (SUCCESS);
-}
 
 int	main(int argc, char **argv)
 {
@@ -92,10 +30,9 @@ int	main(int argc, char **argv)
 	}
 	res = start_sim_mon_thread(&ph);
 	if (res == SUCCESS)
-		fork_philo_process(&ph);
-	wait_philo_process(&ph);
+		start_philo_process(&ph);
+	wait_philo_processes(&ph);
 	pthread_join(ph.ptid_sim_mon, NULL);
 	close_semaphores(&ph);
 	return (EXIT_SUCCESS);
 }
-
