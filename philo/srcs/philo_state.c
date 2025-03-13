@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 21:42:06 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 14:50:41 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	print_philo_state(t_philo_handler *ph, int id, int state)
 		else if (state == PHILO_IS_THINKING)
 			printf("%d is thinking.\n", id);
 		else if (state == PHILO_IS_DEAD)
+		{
+			set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
 			printf("%d died.\n", id);
+		}
 	}
 	pthread_mutex_unlock(&ph->m_print.m);
 }

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 21:58:28 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 14:52:51 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,18 @@ static int	check_philo_death(t_philo_handler *ph, t_philo *philo, t_tv *tv_curr)
 	return (SIM_RUNING);
 }
 
-int	philo_meals_finished(t_philo_handler *ph, t_philo *philo, int *meals_total,
-		int *meals)
+static int	philo_meals_finished(t_philo_handler *ph, t_philo *philo, int *philos_finished)
 {
+	int meals;
+
 	if (ph->meal_limit == false)
 		return (SIM_RUNING);
-	(*meals) = 0;
-	get_int_mutex(&philo->m_meals, meals);
-	(*meals_total) -= (*meals);
-	if (*meals_total <= 0)
+
+	meals = 0;
+	get_int_mutex(&philo->m_meals, &meals);
+	if (meals >= ph->meals_per_philo)
+		(*philos_finished)++;
+	if (*philos_finished >= ph->philos)
 		return (SIM_FINISHED);
 	return (SIM_RUNING);
 }
@@ -45,16 +48,15 @@ static int	check_philos_state(t_philo_handler *ph, t_tv tv_curr)
 	int		i;
 	t_philo	*philo;
 	int		sim_state;
-	int		meals_total;
-	int		meals;
+	int		philos_finished;
 
 	i = 0;
-	meals_total = ph->meals_per_philo * ph->philos;
-	meals = 0;
+	philos_finished = 0;
+	sim_state = SIM_FINISHED;
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		sim_state = philo_meals_finished(ph, philo, &meals_total, &meals);
+		sim_state = philo_meals_finished(ph, philo, &philos_finished);
 		if (sim_state != SIM_FINISHED)
 			sim_state = check_philo_death(ph, philo, &tv_curr);
 		if (sim_state == SIM_FINISHED)
@@ -62,6 +64,21 @@ static int	check_philos_state(t_philo_handler *ph, t_tv tv_curr)
 		i++;
 	}
 	return (sim_state);
+}
+
+static void	set_state_finished(t_philo_handler *ph)
+{
+	int i;
+	t_philo *philo;
+
+	set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
+	i = 0;
+	while(i < ph->philos)
+	{
+		philo = &ph->philo_lst[i];
+		set_int_mutex(&philo->m_state, SIM_FINISHED);
+		i++;
+	}
 }
 
 void	*philo_monitoring(void *p)
@@ -82,7 +99,7 @@ void	*philo_monitoring(void *p)
 			sim_state = check_philos_state(ph, tv_curr);
 		if (sim_state == SIM_FINISHED)
 		{
-			set_int_mutex(&ph->m_sim_state, sim_state);
+			set_state_finished(ph);
 			break ;
 		}
 		usleep(ms_to_us(MS_MON_SLEEP));

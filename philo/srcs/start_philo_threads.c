@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:17:06 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 22:06:23 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 09:20:07 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static double get_thread_delay(t_philo_handler *ph)
 		return (0.0);
 	if (ph->time_to_eat < ph->time_to_die)
 	{
-		delay = ((double)ph->time_to_die * 0.9) / ((double)ph->philos + 100); //! delay need more adjustment
+		delay = ((double)ph->time_to_die) / ((double)ph->philos * 2);
 		delay *= 1000;
 	}
 	return (delay);

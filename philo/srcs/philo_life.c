@@ -6,53 +6,88 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 21:59:04 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 16:04:27 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+/**
+ * @brief ### Eat
+ * 
+ * - Take fork 1.
+ * 
+ * - Take fork 2.
+ * 
+ * - update last meal time.
+ * 
+ * - eat for x time.
+ * 
+ * - put forks down.
+ * 
+ * - update meal count.
+ * 
+ * @param ph philo handler
+ * @param philo philo
+ * @return int sim state
+ */
 int eat(t_philo_handler	*ph, t_philo	*philo)
 {
-	int res;
+	int sim_state;
 
 	lock_mutex(philo->fork1);
 	print_philo_state_fork(ph, philo, 1);
 	lock_mutex(philo->fork2);
 	print_philo_state_fork(ph, philo, 2);
-	// usleep(ms_to_us(TIME_TO_TAKE_FORKS)); //! delete
 	print_philo_state(ph, philo->id, PHILO_IS_EATING);
 	update_last_meal_time(philo);
-	res = philo_usleep(ph, ph->time_to_eat);
+	sim_state = philo_usleep(philo, ph->time_to_eat);
 	pthread_mutex_unlock(&philo->fork2->m);
 	pthread_mutex_unlock(&philo->fork1->m);
 	update_meals_eaten(philo);
-	return (res);
+	return (sim_state);
 }
 
+/**
+ * @brief ### Sleep
+ * 
+ * - After eat philo sleeps for x time.
+ * 
+ * @param ph philo handler
+ * @param philo philo
+ * @return int sim state
+ */
 int go_sleep(t_philo_handler	*ph, t_philo	*philo)
 {
 	int res;
 
 	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
-	res = philo_usleep(ph, ph->time_to_sleep);
+	res = philo_usleep(philo, ph->time_to_sleep);
 	return (res);
 }
 
 /**
- * @brief Delay needed for odd number of philos.
- *        The delay is necessary for fair fork access.
+ * @brief ### Think
+ * 
+ * - After sleep, philo is thinking.
+ * 
+ * Delay needed for odd number of philos.
+ * The delay is necessary for fair fork access.
+ * 
+ * @param ph 
+ * @param philo 
  */
 void	think(t_philo_handler	*ph, t_philo	*philo)
 {
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
 	if (ph->philos % 2 != 0)
-		usleep(ms_to_us(1));
+		usleep(US_DELAY_THINKING);
 }
 
 /**
- * @brief Routine for 1 philo.
- * Philo should die because he can only get 1 fork.
+ * @brief ### Routine for 1 philo.
+ * 
+ * - Philo should die because he can only get 1 fork.
  */
 void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
 {
@@ -60,16 +95,12 @@ void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
 		return;
 	lock_mutex(philo->fork1);
 	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
-	while(1)
-	{
-		if (check_simulation_state(ph) != SIM_RUNING)
-			break;
-	}
+	while(sim_runing(ph))
 	pthread_mutex_unlock(&philo->fork1->m);
 }
 
 /**
- * @brief Life of a philosopher (EAT-SLEEP-THINK-REPEAT).
+ * @brief ### Life of a philosopher (EAT - SLEEP - THINK - REPEAT).
  */
 void	*philo_life(void *p)
 {
@@ -82,10 +113,10 @@ void	*philo_life(void *p)
 	philo = (t_philo *)p;
 	ph = philo->ph;
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 == 0 && ph->philos % 2 == 0)
 		usleep(ms_to_us(10));
 	lonely_philo_life(ph, philo);
-	while(check_simulation_state(ph) == SIM_RUNING)
+	while(sim_runing(ph))
 	{
 		res = eat(ph, philo);
 		if (res == SIM_RUNING)

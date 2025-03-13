@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 21:02:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 12:09:30 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ int	main(int argc, char **argv)
 	memset(&ph, 0, sizeof(t_philo_handler));
 	init_args(&args, argc, argv);
 	res = init_philos(args, &ph);
-	if (res == ERROR)
+	if (res == SUCCESS)
 	{
-		philo_free(&ph);
-		return (EXIT_FAILURE);
+		ph.m_sim_state.value = SIM_RUNING;
+		start_monitoring_thread(&ph);
+		start_philo_threads(&ph);
+		join_philo_threads(&ph);
+		pthread_join(ph.ptid_mon, NULL);
 	}
-	ph.m_sim_state.value = SIM_RUNING;
-	start_monitoring_thread(&ph);
-	start_philo_threads(&ph);
-	join_philo_threads(&ph);
-	pthread_join(ph.ptid_mon, NULL);
 	philo_free(&ph);
+	if (res != SUCCESS)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

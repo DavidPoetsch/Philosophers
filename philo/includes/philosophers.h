@@ -6,13 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 21:41:44 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 15:54:18 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+# include "defines.h"
 # include "enums.h"
 # include "philo_errors.h"
 # include "structs.h"
@@ -22,23 +23,15 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-# define DEBUG false
-# define TIME_TO_TAKE_FORKS 0
-# define MS_SIM_SLEEP 3
-# define MS_MON_SLEEP 5
-
-# define M_LOCK_SUCCESS 0
+# include <limits.h> //!check libs
 
 // Parse arguments
 int				parse_arguments(t_args args, t_philo_handler *ph);
-
 void			*philo_life(void *p);
-// int				ask_for_eat_permission(t_philo_handler *ph, t_philo *philo);
 void			update_meals_eaten(t_philo *philo);
 void			update_last_meal_time(t_philo *philo);
-int				philo_usleep(t_philo_handler	*ph, int ms_sleep);
-int				check_simulation_state(t_philo_handler *ph);
+bool			sim_runing(t_philo_handler *ph);
+int				philo_usleep(t_philo *philo, int ms_sleep);
 
 // Init philo
 int				init_philos(t_args args, t_philo_handler *ph);
@@ -54,6 +47,7 @@ void			print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork);
 void			init_args(t_args *args, int argc, char *argv[]);
 int				ft_atoi(const char *nptr);
 void			ft_swap_ptr(void **p1, void **p2);
+bool			int_check(const char *str);
 
 // Time utils
 unsigned int	ms_to_us(unsigned int ms);
@@ -66,6 +60,7 @@ int				start_monitoring_thread(t_philo_handler *ph);
 int				init_mutex(t_mutex *mutex);
 int				lock_mutex(t_mutex *mutex);
 int				destroy_mutex(t_mutex *mutex);
+int				inc_int_mutex(t_int_mutex *t_mut);
 int				set_int_mutex(t_int_mutex *t_mut, int value);
 int				get_int_mutex(t_int_mutex *t_mut, int *value);
 int				set_tv_mutex(t_tv_mutex *t_mut, t_tv tv_new);

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/15 09:50:16 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 15:54:06 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	update_meals_eaten(t_philo *philo)
 {
-	lock_mutex(&philo->m_meals.m);
-	philo->m_meals.value += 1;
-	pthread_mutex_unlock(&philo->m_meals.m.m);
+	inc_int_mutex(&philo->m_meals);
 }
 
 void	update_last_meal_time(t_philo *philo)
@@ -26,50 +24,40 @@ void	update_last_meal_time(t_philo *philo)
 	pthread_mutex_unlock(&philo->m_tv_last_meal.m.m);
 }
 
-// void	philo_usleep(t_philo_handler	*ph, int ms_sleep)
-// {
-// 	int ms_slept;
-// 	int sim_state;
-
-// 	ms_slept = 0;
-// 	sim_state = 0;
-// 	while(sim_state == SIM_RUNING)
-// 	{
-// 		usleep(ms_to_us(MS_SIM_SLEEP));
-// 		ms_slept += MS_SIM_SLEEP;
-// 		if (ms_slept >= ms_sleep)
-// 			return ;
-// 		get_int_mutex(&ph->m_sim_state, &sim_state);
-// 	}
-// }
-
-int	philo_usleep(t_philo_handler	*ph, int ms_sleep)
-{
-	int	ms;
-	int sim_state;
-	t_tv tv_start;
-	t_tv tv_curr;
-
-	ms = 0;
-	sim_state = SIM_RUNING;
-	get_current_time(&tv_start);
-	while (ms <= ms_sleep)
-	{
-		if (sim_state != SIM_RUNING)
-			return (SIM_FINISHED);
-		usleep(ms_to_us(MS_SIM_SLEEP));
-		get_int_mutex(&ph->m_sim_state, &sim_state);
-		get_current_time(&tv_curr);
-		ms = get_time_duration_in_ms(tv_start, tv_curr);
-	}
-	return (SIM_RUNING);
-}
-
-int check_simulation_state(t_philo_handler *ph)
+bool sim_runing(t_philo_handler *ph)
 {
 	int sim_state;
 
 	sim_state = SIM_FINISHED;
-	get_int_mutex(&ph->m_sim_state, &sim_state);
+	if (get_int_mutex(&ph->m_sim_state, &sim_state) == ERROR)
+		return (false);
+	return (sim_state == SIM_RUNING);
+}
+
+int	philo_usleep(t_philo *philo, int ms_sleep)
+{
+	int		ms;
+	int		ms_check;
+	int		sim_state;
+	t_tv	tv_start;
+	t_tv	tv_curr;
+
+	ms = 0;
+	ms_check = 0;
+	sim_state = SIM_RUNING;
+	get_current_time(&tv_start);
+	while (ms < ms_sleep && sim_state == SIM_RUNING)
+	{
+		usleep(US_SIM_SLEEP);
+		get_current_time(&tv_curr);
+		ms = get_time_duration_in_ms(tv_start, tv_curr);
+		ms_check += ms;
+		if (ms_check >= MS_CHECK_SIM_STATE)
+		{
+			get_int_mutex(&philo->m_state, &sim_state);
+			ms_check = 0;
+		}
+	}
+	get_int_mutex(&philo->m_state, &sim_state);
 	return (sim_state);
 }

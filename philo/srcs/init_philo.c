@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/12 17:07:14 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/13 14:39:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int alloc_philos(t_philo_handler *ph)
 	i = 0;
 	while (i < ph->philos)
 	{
+		memset(&ph->philo_lst[i], 0, sizeof(t_philo));
 		ph->philo_lst[i].id = i + 1;
 		ph->philo_lst[i].ph = ph;
 		ph->philo_lst[i].fork1 = &ph->forks[i];
@@ -75,6 +76,12 @@ static int	assign_forks(t_philo_handler *ph)
 			ph->philo_lst[i].fork2 = ph->philo_lst[0].fork1;
 		else
 			ph->philo_lst[i].fork2 = ph->philo_lst[i + 1].fork1;
+			i++;
+	}
+	i = 0;
+	while (i < ph->philos)
+	{
+		philo = &ph->philo_lst[i];
 		if (philo->id % 2 == 0)
 			ft_swap_ptr((void **)&philo->fork1, (void **)&philo->fork2);
 		i++;
@@ -100,6 +107,9 @@ static int init_mutexes(t_philo_handler *ph)
 			res = init_mutex(&philo->m_tv_last_meal.m);
 		if (res == SUCCESS)
 			res = init_mutex(&ph->forks[i]);
+		if (res == SUCCESS)
+			res = init_mutex(&philo->m_state.m);
+		philo->m_state.value = SIM_RUNING;
 		i++;
 	}
 	return (res);
@@ -121,7 +131,6 @@ static int init_start_time(t_philo_handler *ph)
 		philo = &ph->philo_lst[i];
 		philo->m_tv_last_meal.tv.tv_sec = ph->tv_start.tv_sec;
 		philo->m_tv_last_meal.tv.tv_usec = ph->tv_start.tv_usec;
-		philo->m_meals.value = 0;
 		i++;
 	}
 	return (SUCCESS);
