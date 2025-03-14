@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/14 15:38:26 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/14 20:21:35 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS = srcs/philosophers.c \
        srcs/init_philo_2.c \
        srcs/init_philo.c \
        srcs/init_semaphores.c \
+       srcs/philo_free.c \
        srcs/philo_life.c \
        srcs/philo_life_utils.c \
        srcs/philo_monitoring.c \

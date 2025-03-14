@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:18:01 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 20:19:55 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int	main(int argc, char **argv)
 		wait_philo_processes(&ph);
 	}
 	close_semaphores(&ph);
+	philo_free(&ph);
 	return (EXIT_SUCCESS);
 }

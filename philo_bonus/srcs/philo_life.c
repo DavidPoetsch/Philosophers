@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:35:46 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 20:21:13 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ static void	*t_philo_life(void *p)
 		return (NULL);
 	ph = ((t_ptr_wrapper *)p)->ptr_ph;
 	philo = ((t_ptr_wrapper *)p)->ptr_philo;
+	philo->finished = false;
 	update_last_meal_time(philo);
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	while (sim_running(ph, philo))
@@ -127,6 +128,7 @@ void	start_philo_life(t_philo_handler *ph, t_philo *philo)
 	int				res;
 	t_ptr_wrapper	wrapper;
 
+	ph->is_child = true;
 	wrapper = void_ptr_wrapper(ph, philo);
 	res = t_create(&philo->t_mon_philo_state, t_mon_philo_state, &wrapper);
 	if (res != ERROR)
@@ -141,5 +143,7 @@ void	start_philo_life(t_philo_handler *ph, t_philo *philo)
 		t_join(&philo->t_mon_death);
 	if (philo->t_philo_life.state == STATE_THREAD_CREATED)
 		t_join(&philo->t_philo_life);
+	close_semaphores(ph);
+	philo_free(ph);
 	exit(res);
 }

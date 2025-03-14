@@ -6,12 +6,17 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/14 13:32:15 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/14 16:47:57 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+CFLAGS_DEBUG = -Wall -Wextra -Werror -g
+CFLAGS_DEBUG_ASAN = -Wall -Wextra -Werror -g -fsanitize=address,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
+CFLAGS_DEBUG_TSAN = -Wall -Wextra -Werror -g -fsanitize=thread,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
+CFLAGS_DEBUG_HELG = -Wall -Wextra -Werror -g -O0
+DEBUG = 0
 
 BUILD_DIR = ./build
 
@@ -38,7 +43,8 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 # -l tells the linker to link against a specific library.
 # ft refers to the library name. 
 LDFLAGS := ""
-
+LDFLAGS_ASAN = -fsanitize=address,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
+LDFLAGS_TSAN = -fsanitize=thread,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
 
 # **************************************************************************** #
 # * BUILD
@@ -56,7 +62,11 @@ $(TARGET_EXEC): $(OBJS)
 # $< gets the first prerequiste.
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
+ifeq ($(DEBUG), 0)
+	@$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+else
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+endif
 
 re: fclean all
 
@@ -65,7 +75,15 @@ re: fclean all
 # * DEBUG
 debug: clean
 	@echo "$(PINK)Compiling with debug information$(RESET)"
-	$(MAKE) $(TARGET_EXEC) CFLAGS="-Wall -Wextra -Werror -g"
+ifeq ($(DEBUG), 1)
+	$(MAKE) $(TARGET_EXEC) DEBUG=1 CFLAGS="$(CFLAGS_DEBUG_ASAN)" LDFLAGS="$(LDFLAGS_ASAN)"
+else ifeq ($(DEBUG), 2)
+	$(MAKE) $(TARGET_EXEC) DEBUG=1 CFLAGS="$(CFLAGS_DEBUG_TSAN)" LDFLAGS="$(LDFLAGS_TSAN)"
+else ifeq ($(DEBUG), 3)
+	$(MAKE) $(TARGET_EXEC) DEBUG=2 CFLAGS="$(CFLAGS_DEBUG_HELG)"
+else
+	$(MAKE) $(TARGET_EXEC) DEBUG=0 CFLAGS="$(CFLAGS_DEBUG)"
+endif
 	@echo "$(GREEN)Finished '$(TARGET_EXEC)'$(RESET)"
 
 

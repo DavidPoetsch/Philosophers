@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:42:35 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 20:12:23 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_close_err(char *sem_name, char *err)
 	ft_puterr(err);
 }
 
-int	close_semaphore(t_sem *sem)
+int	close_semaphore(t_sem *sem, bool unlink)
 {
 	if (!sem || !sem->name)
 		return (ERROR);
@@ -52,7 +52,7 @@ int	close_semaphore(t_sem *sem)
 	if (sem_close(sem->sem) == FAILED)
 		print_close_err(sem->name, ERR_SEM_CLOSE);
 	sem->state = SEM_STATE_CLOSED;
-	if (sem_unlink(sem->name) == FAILED)
+	if (unlink && sem_unlink(sem->name) == FAILED)
 		print_close_err(sem->name, ERR_SEM_UNLINK);
 	sem->state = SEM_STATE_UNLINKED;
 	if (sem->free_name)

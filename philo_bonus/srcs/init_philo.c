@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:35:15 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 20:06:22 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	alloc_philos(t_philo_handler *ph)
 	i = 0;
 	while (i < ph->philos)
 	{
+		memset(&ph->philo_lst[i], 0, sizeof(t_philo));
 		ph->philo_lst[i].id = i + 1;
 		i++;
 	}
