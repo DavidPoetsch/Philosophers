@@ -6,17 +6,35 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/13 16:07:33 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:35:46 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+/**
+ * @brief ### Eat
+ *
+ * - Get fork access.
+ *
+ * - Take 2 forks.
+ *
+ * - update last meal time.
+ *
+ * - eat for x time.
+ *
+ * - put forks down.
+ *
+ * - update meal count.
+ *
+ * @param ph philo handler
+ * @param philo philo
+ * @return int sim state
+ */
 int	eat(t_philo_handler *ph, t_philo *philo)
 {
-	int	res;
+	int	sim_state;
 
-	res = SIM_RUNING;
 	sem_wait(ph->sem_forks_request.sem);
 	sem_wait(ph->sem_forks.sem);
 	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
@@ -25,69 +43,65 @@ int	eat(t_philo_handler *ph, t_philo *philo)
 	sem_post(ph->sem_forks_request.sem);
 	print_philo_state(ph, philo, PHILO_IS_EATING);
 	update_last_meal_time(philo);
-	res = philo_usleep(philo, ph->time_to_eat);
-	// usleep(ms_to_us(ph->time_to_eat));
+	sim_state = philo_usleep(philo, ph->time_to_eat);
 	sem_post(ph->sem_forks.sem);
 	sem_post(ph->sem_forks.sem);
-	// update_meals_eaten(philo);
 	philo->meals++;
-	return (res);
+	return (sim_state);
 }
 
+/**
+ * @brief ### Sleep
+ *
+ * - After eat philo sleeps for x time.
+ *
+ * @param ph philo handler
+ * @param philo philo
+ * @return int sim state
+ */
 int	go_sleep(t_philo_handler *ph, t_philo *philo)
 {
-	int	res;
+	int	sim_state;
 
-	res = SIM_RUNING;
 	print_philo_state(ph, philo, PHILO_IS_SLEEPING);
-	res = philo_usleep(philo, ph->time_to_sleep);
-	// usleep(ms_to_us(ph->time_to_eat));
-	return (res);
+	sim_state = philo_usleep(philo, ph->time_to_sleep);
+	return (sim_state);
 }
 
+/**
+ * @brief ### Think
+ *
+ * - After sleep, philo is thinking.
+ *
+ * Delay needed for odd number of philos.
+ * The delay is necessary for fair fork access.
+ *
+ * @param ph
+ * @param philo
+ */
 void	think(t_philo_handler *ph, t_philo *philo)
 {
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	if (ph->philos % 2 != 0)
-		usleep(ms_to_us(20));
+		usleep(US_DELAY_THINKING);
 }
 
-static void	send_finished(t_philo_handler *ph)
-{
-	sem_post(ph->sem_philo_finished.sem);
-	// post philo_handler sem_philo_finished
-}
-
-static int	check_sim_running(t_philo_handler *ph, t_philo *philo)
-{
-	int	sim_state;
-	// int	meals;
-
-	if (ph->meal_limit && philo->meals >= ph->meals_per_philo)
-	{
-		if (!philo->finished)
-			send_finished(ph);
-		philo->finished = true;
-	}
-	sim_state = SIM_RUNING;
-	get_int_sem(&philo->sem_sim_state, &sim_state);
-	if (sim_state == SIM_FINISHED)
-		return (SIM_FINISHED);
-	return (SIM_RUNING);
-}
-
+/**
+ * @brief ### Life of a philosopher (EAT - SLEEP - THINK - REPEAT).
+ */
 static void	*t_philo_life(void *p)
 {
 	int				res;
-	t_philo			*philo;
 	t_philo_handler	*ph;
+	t_philo			*philo;
 
 	if (!p)
 		return (NULL);
-	philo = (t_philo *)p;
-	ph = philo->ph;
+	ph = ((t_ptr_wrapper *)p)->ptr_ph;
+	philo = ((t_ptr_wrapper *)p)->ptr_philo;
+	update_last_meal_time(philo);
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
-	while (check_sim_running(ph, philo) == SIM_RUNING)
+	while (sim_running(ph, philo))
 	{
 		res = eat(ph, philo);
 		if (res == SIM_RUNING)
@@ -95,30 +109,37 @@ static void	*t_philo_life(void *p)
 		if (res == SIM_RUNING)
 			think(ph, philo);
 	}
-	// send_finished(ph);
+	send_finished(ph, philo);
 	return (NULL);
 }
 
-void	philo_life(void *p)
+/**
+ * @brief ### Starting philo life process
+ *
+ * - start thread simulation state monitoring.
+ *
+ * - start thread death monitoring.
+ *
+ * - start thread philo life routine.
+ */
+void	start_philo_life(t_philo_handler *ph, t_philo *philo)
 {
-	t_philo	*philo;
-	int		res;
+	int				res;
+	t_ptr_wrapper	wrapper;
 
-	if (!p)
-		return ;
-	philo = (t_philo *)p;
-	res = t_create(&philo->t_mon_sim_state, t_mon_sim_state, philo);
+	wrapper = void_ptr_wrapper(ph, philo);
+	res = t_create(&philo->t_mon_philo_state, t_mon_philo_state, &wrapper);
 	if (res != ERROR)
-		res = t_create(&philo->t_mon_death, t_mon_philo_death, philo);
+		res = t_create(&philo->t_mon_death, t_mon_philo_death, &wrapper);
 	if (res != ERROR)
-		res = t_create(&philo->t_philo_life, t_philo_life, philo);
-	if (philo->t_mon_sim_state.state == STATE_THREAD_CREATED)
-		t_join(&philo->t_mon_sim_state);
+		res = t_create(&philo->t_philo_life, t_philo_life, &wrapper);
+	if (res != SUCCESS)
+		post_simulation_finished(ph);
+	if (philo->t_mon_philo_state.state == STATE_THREAD_CREATED)
+		t_join(&philo->t_mon_philo_state);
 	if (philo->t_mon_death.state == STATE_THREAD_CREATED)
 		t_join(&philo->t_mon_death);
 	if (philo->t_philo_life.state == STATE_THREAD_CREATED)
 		t_join(&philo->t_philo_life);
-	if (res == ERROR)
-		exit(EXIT_FAILURE);
-	exit(EXIT_SUCCESS);
+	exit(res);
 }

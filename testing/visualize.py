@@ -102,7 +102,7 @@ def format_plot(ax, max_philos):
 	ax.grid(True, axis="x", linestyle="--", alpha=0.7)
 
 def show_plot():
-	plt.tight_layout()
+	plt.tight_layout(pad = 0.3)
 	plt.show()
 
 def plot_data(philosophers, max_philos):

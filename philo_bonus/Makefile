@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/13 18:09:42 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/14 15:38:26 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS = srcs/philosophers.c \
        srcs/utils/philo_utils_2.c \
        srcs/utils/time_utils.c \
        srcs/utils/argument_utils.c \
+       srcs/utils/sem_value_utils.c \
        srcs/utils/sem_utils.c \
        srcs/utils/thread_utils.c \
        srcs/close_semaphores.c \
@@ -32,6 +33,7 @@ SRCS = srcs/philosophers.c \
        srcs/sim_monitoring.c \
        srcs/start_philo_process.c \
        srcs/philo_state.c \
+       srcs/void_ptr_wrapper.c \
        srcs/wait_utils.c \
 
 -include ../general.mk

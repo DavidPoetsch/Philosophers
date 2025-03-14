@@ -6,22 +6,16 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:30:47 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/13 16:01:38 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:36:55 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static int init_sem_philo_handler(t_philo_handler *ph)
+static int	init_sem_philo_handler(t_philo_handler *ph)
 {
-	int res;
+	int	res;
 
-	ph->sem_forks.free_name = false;
-	ph->sem_forks_request.free_name = false;
-	ph->sem_print.free_name = false;
-	ph->sem_print_block.free_name = false;
-	ph->sem_philo_finished.free_name = false;
-	ph->sem_stop_simulation.free_name = false;
 	ph->sem_forks.name = SEM_NAME_FORKS;
 	ph->sem_forks_request.name = SEM_NAME_FORKS_REQ;
 	ph->sem_print.name = SEM_NAME_PRINT;
@@ -42,9 +36,9 @@ static int init_sem_philo_handler(t_philo_handler *ph)
 	return (res);
 }
 
-static int create_sem_name(t_sem *sem, const char *prefix, int id)
+static int	create_sem_name(t_sem *sem, const char *prefix, int id)
 {
-	char *char_id;
+	char	*char_id;
 
 	sem->name = NULL;
 	sem->free_name = false;
@@ -66,21 +60,21 @@ static int create_sem_name(t_sem *sem, const char *prefix, int id)
 	return (SUCCESS);
 }
 
-static int create_sem_names(t_philo_handler *ph)
+static int	create_sem_names(t_philo_handler *ph)
 {
-	int i;
-	int res;
-	t_philo *philo;
+	int		i;
+	int		res;
+	t_philo	*philo;
 
 	i = 0;
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		// res = create_sem_name(&philo->sem_meals.sem, SEM_NAME_MEALS, i);
-		// if (res != ERROR)
-		res = create_sem_name(&philo->sem_tv_last_meal.sem, SEM_NAME_LAST_MEAL, i);
+		res = create_sem_name(&philo->sem_tv_last_meal.sem, SEM_NAME_LAST_MEAL,
+				i);
 		if (res != ERROR)
-			res = create_sem_name(&philo->sem_sim_state.sem, SEM_NAME_SIM_STATE, i);
+			res = create_sem_name(&philo->sem_sim_state.sem, SEM_NAME_SIM_STATE,
+					i);
 		if (res == ERROR)
 			return (res);
 		i++;
@@ -88,19 +82,17 @@ static int create_sem_names(t_philo_handler *ph)
 	return (res);
 }
 
-static int init_sem_philos(t_philo_handler *ph)
+static int	init_sem_philos(t_philo_handler *ph)
 {
-	int i;
-	int res;
-	t_philo *philo;
+	int		i;
+	int		res;
+	t_philo	*philo;
 
 	create_sem_names(ph);
 	i = 0;
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		// res = init_semaphore(&philo->sem_meals.sem, 1);
-		// if (res != ERROR)
 		res = init_semaphore(&philo->sem_tv_last_meal.sem, 1);
 		if (res != ERROR)
 			res = init_semaphore(&philo->sem_sim_state.sem, 1);
@@ -112,9 +104,9 @@ static int init_sem_philos(t_philo_handler *ph)
 	return (res);
 }
 
-int init_semaphores(t_philo_handler *ph)
+int	init_semaphores(t_philo_handler *ph)
 {
-	int res;
+	int	res;
 
 	res = init_sem_philo_handler(ph);
 	if (res != ERROR)

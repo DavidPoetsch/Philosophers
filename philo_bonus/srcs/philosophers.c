@@ -6,12 +6,19 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 18:02:51 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:18:01 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+/**
+ * @brief ## Philosophers with semaphores.
+ *
+ * Usage: `./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP]`
+ *
+ * Optional: `[number_of_times_each_philosopher_must_eat]`
+ */
 int	main(int argc, char **argv)
 {
 	t_args			args;
@@ -21,18 +28,13 @@ int	main(int argc, char **argv)
 	memset(&ph, 0, sizeof(t_philo_handler));
 	init_args(&args, argc, argv);
 	res = init_philos(args, &ph);
-	if (res == ERROR)
-	{
-		//todo close semaphores
-		//todo free semaphore names
-		close_semaphores(&ph);
-		return (EXIT_FAILURE);
-	}
-	res = start_sim_mon_thread(&ph);
 	if (res == SUCCESS)
-		start_philo_process(&ph);
-	wait_philo_processes(&ph);
-	pthread_join(ph.ptid_sim_mon, NULL);
+	{
+		res = start_philo_processes(&ph);
+		if (res == SUCCESS)
+			sim_monitoring(&ph);
+		wait_philo_processes(&ph);
+	}
 	close_semaphores(&ph);
 	return (EXIT_SUCCESS);
 }

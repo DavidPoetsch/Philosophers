@@ -6,20 +6,18 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 16:39:27 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:18:23 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 /**
- * @brief ## Philosophers with mutex.
+ * @brief ## Philosophers with mutexes.
  *
- * Usage: `./philo 5 800 200 200`
+ * Usage: `./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP]`
  *
- * Args: `number_of_philosophers, time_to_die, time_to_eat, time_to_sleep`
- *
- * Optional arg: `number_of_times_each_philosopher_must_eat`
+ * Optional: `[number_of_times_each_philosopher_must_eat]`
  */
 int	main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 19:51:52 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:35:30 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,34 @@ static void	print_formated_time(t_philo_handler *ph)
 	if (get_current_time(&tv_curr) == ERROR)
 		return ;
 	ms = get_time_duration_in_ms(ph->tv_start, tv_curr);
-	printf("%10zu ", ms);
+	ft_putnbr((size_t)ms);
+	ft_putstr(" ");
 }
 
 static void	block_printing_after_death(t_philo_handler *ph)
 {
-	int i;
+	int	i;
 
 	i = ph->philos;
 	post_simulation_finished(ph);
-	while(i > 0)
+	while (i > 0)
 	{
 		sem_wait(ph->sem_print_block.sem);
 		i--;
 		if (i == 0)
-			break;
+			break ;
 	}
+}
+
+void	print_state(int id, char *str)
+{
+	ft_putnbr((size_t)id);
+	ft_putstr(str);
 }
 
 void	print_philo_state(t_philo_handler *ph, t_philo *philo, int state)
 {
-	int sim_state;
+	int	sim_state;
 
 	sim_state = SIM_FINISHED;
 	sem_wait(ph->sem_print.sem);
@@ -49,21 +56,20 @@ void	print_philo_state(t_philo_handler *ph, t_philo *philo, int state)
 	{
 		print_formated_time(ph);
 		if (state == PHILO_IS_ALIVE)
-			printf("%d is alive.\n", philo->id);
+			print_state(philo->id, " is alive.\n");
 		else if (state == PHILO_HAS_TAKEN_FORK)
-			printf("%d has taken a fork.\n", philo->id);
+			print_state(philo->id, " has taken a fork.\n");
 		else if (state == PHILO_IS_EATING)
-			printf("%d is eating.\n", philo->id);
+			print_state(philo->id, " is eating.\n");
 		else if (state == PHILO_IS_SLEEPING)
-			printf("%d is sleeping.\n", philo->id);
+			print_state(philo->id, " is sleeping.\n");
 		else if (state == PHILO_IS_THINKING)
-			printf("%d is thinking.\n", philo->id);
+			print_state(philo->id, " is thinking.\n");
 		else if (state == PHILO_IS_DEAD)
 		{
-			printf("%d died.\n", philo->id);
+			print_state(philo->id, " died.\n");
 			block_printing_after_death(ph);
 		}
 	}
-	fflush(stdout); //! delete
 	sem_post(ph->sem_print.sem);
 }

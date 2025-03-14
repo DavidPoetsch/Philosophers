@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:28:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/13 17:22:35 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:08:48 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,10 @@ int	post_simulation_finished(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
-static void	*t_sim_monitoring(void *p)
+void	sim_monitoring(t_philo_handler *ph)
 {
 	int				philo_finished_count;
-	t_philo_handler	*ph;
 
-	if (!p)
-		return (NULL);
-	ph = (t_philo_handler *)p;
 	philo_finished_count = 0;
 	while (1)
 	{
@@ -44,21 +40,4 @@ static void	*t_sim_monitoring(void *p)
 			break ;
 	}
 	post_simulation_finished(ph);
-	// printf("SIM FINISHED\n"); //! delete
-	return (NULL);
-}
-
-int	start_sim_mon_thread(t_philo_handler *ph)
-{
-	int	res;
-
-	res = SUCCESS;
-	if (pthread_create(&ph->ptid_sim_mon, NULL, t_sim_monitoring, ph) != 0)
-		res = ERROR;
-	if (res == ERROR)
-	{
-		ft_puterr(ERR_CREATE_THREAD);
-		post_simulation_finished(ph);
-	}
-	return (SUCCESS);
 }

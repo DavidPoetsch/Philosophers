@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:52:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 17:39:00 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:42:15 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@
 # define ERR_INVALID_TTS "philo: invalid time to sleep.\n"
 # define ERR_INVALID_MEALS "philo: invalid amount of meals per philosopher.\n"
 # define ERR_GETTIMEOFDAY "philo: gettimeofday: failed to get time.\n"
-# define ERR_SEM_INIT "philo: init_semaphore: semaphore initialization failed.\n"
+# define ERR_SEM_INIT \
+	"philo: init_semaphore: semaphore initialization failed.\n"
 # define ERR_SEM_CLOSE "philo: close_semaphore: semaphore close failed.\n"
 # define ERR_SEM_UNLINK "philo: close_semaphore: semaphore unlink failed.\n"
-# define ERR_CREATE_SEM_NAME "philo: create_sem_name: semaphore initialization failed.\n"
+# define ERR_CREATE_SEM_NAME \
+	"philo: create_sem_name: semaphore initialization failed.\n"
 # define ERR_FORK_PROCESS "philo: fork process failed\n"
 # define ERR_CREATE_THREAD "philo: failed to create thread\n"
 #endif

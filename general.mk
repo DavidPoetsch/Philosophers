@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/13 17:38:03 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/14 13:32:15 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ fclean:
 	@rm -rf $(BUILD_DIR)
 	@rm -f $(TARGET_EXEC)
 	@rm -rf out
+	@rm -rf fails
 
 .PHONY: all clean fclean re bonus debug
 

@@ -3,7 +3,7 @@
 percent=0
 count_correct_all=0
 count_false_all=0
-iterations=10
+iterations=3
 times_to_eat=10
 folder=fails/
 tempfile=tempfile

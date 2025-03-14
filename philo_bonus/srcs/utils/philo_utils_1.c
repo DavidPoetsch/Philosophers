@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 18:01:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:37:05 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,30 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
+int	ft_putstr(char *str)
+{
+	if (!str)
+		return (-1);
+	return (write(STDOUT_FILENO, str, ft_strlen(str)));
+}
+
 int	ft_puterr(char *str)
 {
+	if (!str)
+		return (-1);
 	return (write(STDERR_FILENO, str, ft_strlen(str)));
+}
+
+void	ft_putnbr(size_t n)
+{
+	char	c;
+
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+	}
+	c = (n % 10) + '0';
+	write(STDOUT_FILENO, &c, 1);
 }
 
 void	ft_swap_ptr(void **p1, void **p2)

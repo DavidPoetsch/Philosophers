@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 17:08:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 13:58:14 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ static int	eat(t_philo_handler *ph, t_philo *philo)
  */
 static int	go_sleep(t_philo_handler *ph, t_philo *philo)
 {
-	int	res;
+	int	sim_state;
 
 	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
-	res = philo_usleep(philo, ph->time_to_sleep);
-	return (res);
+	sim_state = philo_usleep(philo, ph->time_to_sleep);
+	return (sim_state);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:10 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 16:32:27 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:12:58 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 
 # define DEBUG false
 
-# define TIME_TO_TAKE_FORKS 0
-# define MS_SIM_SLEEP 2
-# define MS_MON_SLEEP 5
-# define MS_DEATH_CHECK 7
+// Times
 
-// SEMAPHORE NAMES
+# define MS_DEATH_CHECK 5
+# define US_SIM_SLEEP 500
+# define US_DELAY_THINKING 1000
+# define MS_CHECK_SIM_STATE 1000
+
+// Sempahore names
+
 # define SEM_NAME_FORKS "/sem_forks"
 # define SEM_NAME_FORKS_REQ "/sem_forks_request"
 # define SEM_NAME_PRINT "/sem_print"
@@ -32,6 +35,8 @@
 # define SEM_NAME_SIM_STATE "/sem_simulation_state"     //! delete
 # define SEM_NAME_MEALS "/sem_philo_meals"              //! delete
 # define SEM_NAME_LAST_MEAL "/sem_philo_last_meal_time" //! delete
+
+// Basics
 
 # define CHILD 0
 # define FAILED -1

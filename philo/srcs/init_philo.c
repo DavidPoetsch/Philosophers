@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 17:23:06 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:34:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,10 @@ static int	init_mutexes(t_philo_handler *ph)
 }
 
 /**
- * @brief ./philo [PHILOS] [TIME_TO_DIE] [TIME_TO_EAT] [TIME_TO_SLEEP].
- *  OPTIONAL [number_of_times_each_philosopher_must_eat].
- * @param args
- * @param ph
- * @return int
+ * @brief ### Initialize philo handler structure.
+ * @param args Program arguments.
+ * @param ph philo handler struct.
+ * @return int SUCCESS or ERROR.
  */
 int	init_philos(t_args args, t_philo_handler *ph)
 {

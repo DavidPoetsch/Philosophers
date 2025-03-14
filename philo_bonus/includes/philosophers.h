@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 18:08:46 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:12:44 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,13 @@
 # include <limits.h>
 # include <pthread.h>
 # include <semaphore.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-void			print_philo_state(t_philo_handler *ph, t_philo *philo,
-					int state);
-int				start_philo_process(t_philo_handler *ph);
-void			philo_life(void *p);
-void			update_meals_eaten(t_philo *philo);
-void			update_last_meal_time(t_philo *philo);
-int				philo_usleep(t_philo *philo, int ms_sleep);
-
-// int	start_philo_mon_threads(t_philo *philo);
-int				start_sim_mon_thread(t_philo_handler *ph);
-int				post_simulation_finished(t_philo_handler *ph);
-void			*t_mon_philo_death(void *p);
-void			*t_mon_sim_state(void *p);
 
 // Init
 
@@ -52,6 +39,27 @@ int				init_start_time(t_philo_handler *ph);
 
 int				parse_arguments(t_args args, t_philo_handler *ph);
 
+// Philo life
+
+int				start_philo_processes(t_philo_handler *ph);
+void			start_philo_life(t_philo_handler *ph, t_philo *philo);
+bool			sim_running(t_philo_handler *ph, t_philo *philo);
+void			send_finished(t_philo_handler *ph, t_philo *philo);
+void			update_last_meal_time(t_philo *philo);
+int				philo_usleep(t_philo *philo, int ms_sleep);
+void			*t_mon_philo_death(void *p);
+void			*t_mon_philo_state(void *p);
+
+// Philo state
+
+void			print_philo_state(t_philo_handler *ph, t_philo *philo,
+					int state);
+
+// Simulation monitoring
+
+int				post_simulation_finished(t_philo_handler *ph);
+void			sim_monitoring(t_philo_handler *ph);
+
 // Utils
 
 char			*ft_strjoin(const char *s1, const char *s2);
@@ -59,7 +67,9 @@ char			*ft_itoa(int n);
 int				ft_atoi(const char *nptr);
 bool			int_check(const char *str);
 size_t			ft_strlen(const char *str);
+int				ft_putstr(char *str);
 int				ft_puterr(char *str);
+void			ft_putnbr(size_t n);
 void			ft_swap_ptr(void **p1, void **p2);
 
 // Semaphore utils
@@ -84,6 +94,10 @@ void			t_join(t_thread_info *thread_info);
 unsigned int	ms_to_us(unsigned int ms);
 size_t			get_time_duration_in_ms(t_tv tv_start, t_tv tv_end);
 int				get_current_time(t_tv *tv);
+
+// Wrapper
+
+t_ptr_wrapper	void_ptr_wrapper(t_philo_handler *ph, t_philo *philo);
 
 // Wait utils
 

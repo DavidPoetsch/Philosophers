@@ -6,18 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/13 16:06:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:07:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-// void	update_meals_eaten(t_philo *philo)
-// {
-// 	sem_wait(philo->sem_meals.sem.sem);
-// 	philo->sem_meals.value += 1;
-// 	sem_post(philo->sem_meals.sem.sem);
-// }
 
 void	update_last_meal_time(t_philo *philo)
 {
@@ -26,25 +19,49 @@ void	update_last_meal_time(t_philo *philo)
 	sem_post(philo->sem_tv_last_meal.sem.sem);
 }
 
-int	philo_usleep(t_philo	*philo, int ms_sleep)
+bool	sim_running(t_philo_handler *ph, t_philo *philo)
 {
-	int	ms;
-	int sim_state;
-	t_tv tv_start;
-	t_tv tv_curr;
+	int	sim_state;
 
-	ms = 0;
+	if (ph->meal_limit && philo->meals >= ph->meals_per_philo)
+		send_finished(ph, philo);
 	sim_state = SIM_RUNING;
-	get_current_time(&tv_start);
-	while (ms <= ms_sleep)
-	{
-		if (sim_state != SIM_RUNING)
-			return (SIM_FINISHED);
-		usleep(ms_to_us(MS_SIM_SLEEP));
-		get_int_sem(&philo->sem_sim_state, &sim_state);
-		get_current_time(&tv_curr);
-		ms = get_time_duration_in_ms(tv_start, tv_curr);
-	}
-	return (SIM_RUNING);
+	get_int_sem(&philo->sem_sim_state, &sim_state);
+	return (sim_state == SIM_RUNING);
 }
 
+int	philo_usleep(t_philo *philo, int ms_sleep)
+{
+	int		ms;
+	int		ms_check;
+	int		sim_state;
+	t_tv	tv_start;
+	t_tv	tv_curr;
+
+	ms = 0;
+	ms_check = 0;
+	sim_state = SIM_RUNING;
+	get_current_time(&tv_start);
+	while (ms < ms_sleep && sim_state == SIM_RUNING)
+	{
+		usleep(US_SIM_SLEEP);
+		get_current_time(&tv_curr);
+		ms = get_time_duration_in_ms(tv_start, tv_curr);
+		ms_check += ms;
+		if (ms_check >= MS_CHECK_SIM_STATE)
+		{
+			get_int_sem(&philo->sem_sim_state, &sim_state);
+			ms_check = 0;
+		}
+	}
+	get_int_sem(&philo->sem_sim_state, &sim_state);
+	return (sim_state);
+}
+
+void	send_finished(t_philo_handler *ph, t_philo *philo)
+{
+	if (philo->finished)
+		return ;
+	sem_post(ph->sem_philo_finished.sem);
+	philo->finished = true;
+}
