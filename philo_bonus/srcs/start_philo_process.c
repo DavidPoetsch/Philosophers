@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:51:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 20:40:14 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/18 11:54:14 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,9 @@ static void	continue_processes(t_philo_handler *ph)
 	}
 }
 
-static void	kill_processes(t_philo_handler *ph)
+static void	post_error(t_philo_handler *ph)
 {
-	int		i;
-	t_philo	*philo;
-
-	i = 0;
-	while (i < ph->philos)
-	{
-		philo = &ph->philo_lst[i];
-		if (philo->process.state == STATE_PROCESS_FORKED)
-			kill(philo->process.pid, SIGKILL);
-		i++;
-	}
+	sem_post(ph->sem_error.sem);
 }
 
 int	start_philo_processes(t_philo_handler *ph)
@@ -91,9 +81,8 @@ int	start_philo_processes(t_philo_handler *ph)
 	int	res;
 
 	res = fork_philo_processes(ph);
-	if (res == SUCCESS)
-		continue_processes(ph);
-	else
-		kill_processes(ph);
+	continue_processes(ph);
+	if (res != SUCCESS)
+		post_error(ph);
 	return (res);
 }

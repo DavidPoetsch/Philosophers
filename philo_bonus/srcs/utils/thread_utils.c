@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:26:03 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/09 19:44:28 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/18 11:40:43 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	t_create(t_thread_info *thread_info, void *(*start_routine)(void *),
 
 void	t_join(t_thread_info *thread_info)
 {
+	if (!thread_info || thread_info->state != STATE_THREAD_CREATED)
+		return ;
 	pthread_join(thread_info->ptid, NULL);
 	thread_info->state = STATE_THREAD_JOINED;
 }

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:10 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:12:58 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/18 10:32:18 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define SEM_NAME_PHILO_FIN "/sem_philo_finished"
 # define SEM_NAME_STOP_SIM "/sem_stop_sim"
+# define SEM_ERROR "/sem_error_philosophers"
 
 # define SEM_NAME_SIM_STATE "/sem_simulation_state"     //! delete
 # define SEM_NAME_MEALS "/sem_philo_meals"              //! delete

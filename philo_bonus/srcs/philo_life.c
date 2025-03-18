@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 20:21:13 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/18 11:52:45 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	think(t_philo_handler *ph, t_philo *philo)
  */
 static void	*t_philo_life(void *p)
 {
-	int				res;
+	int				sim_state;
 	t_philo_handler	*ph;
 	t_philo			*philo;
 
@@ -104,10 +104,10 @@ static void	*t_philo_life(void *p)
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	while (sim_running(ph, philo))
 	{
-		res = eat(ph, philo);
-		if (res == SIM_RUNING)
-			res = go_sleep(ph, philo);
-		if (res == SIM_RUNING)
+		sim_state = eat(ph, philo);
+		if (sim_state == SIM_RUNING)
+			sim_state = go_sleep(ph, philo);
+		if (sim_state == SIM_RUNING)
 			think(ph, philo);
 	}
 	send_finished(ph, philo);
@@ -131,12 +131,12 @@ void	start_philo_life(t_philo_handler *ph, t_philo *philo)
 	ph->is_child = true;
 	wrapper = void_ptr_wrapper(ph, philo);
 	res = t_create(&philo->t_mon_philo_state, t_mon_philo_state, &wrapper);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = t_create(&philo->t_mon_death, t_mon_philo_death, &wrapper);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = t_create(&philo->t_philo_life, t_philo_life, &wrapper);
 	if (res != SUCCESS)
-		post_simulation_finished(ph);
+		sem_post(ph->sem_error.sem);
 	if (philo->t_mon_philo_state.state == STATE_THREAD_CREATED)
 		t_join(&philo->t_mon_philo_state);
 	if (philo->t_mon_death.state == STATE_THREAD_CREATED)

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 20:19:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/18 10:20:11 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void			ft_swap_ptr(void **p1, void **p2);
 
 int				init_semaphores(t_philo_handler *ph);
 int				close_semaphores(t_philo_handler *ph);
-int				init_semaphore(t_sem *sem, int value);
+int				init_semaphore(t_sem *sem, char *name, int value);
 int				close_semaphore(t_sem *sem, bool unlink);
 int				set_int_sem(t_int_sem *t_sem, int value);
 int				get_int_sem(t_int_sem *t_sem, int *value);
