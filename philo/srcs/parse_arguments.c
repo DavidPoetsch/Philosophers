@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:41:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 17:09:10 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 static int	parse_number(char *arg)
 {

@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:17:06 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 17:09:00 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 static double	get_thread_delay(t_philo_handler *ph)
 {

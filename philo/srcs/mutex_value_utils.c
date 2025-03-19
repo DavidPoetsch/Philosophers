@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:12:20 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 17:08:54 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 /**
  * @brief ### Increment int mutex by 1 with INT_MAX limit.

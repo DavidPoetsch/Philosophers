@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:18:23 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 /**
  * @brief ## Philosophers with mutexes.

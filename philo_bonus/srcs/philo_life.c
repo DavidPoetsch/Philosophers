@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/18 11:52:45 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:27:58 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	eat(t_philo_handler *ph, t_philo *philo)
 	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
 	sem_post(ph->sem_forks_request.sem);
 	print_philo_state(ph, philo, PHILO_IS_EATING);
-	update_last_meal_time(philo);
-	sim_state = philo_usleep(philo, ph->time_to_eat);
+	update_last_meal_time(ph, philo);
+	sim_state = philo_usleep(ph, philo, ph->time_to_eat);
 	sem_post(ph->sem_forks.sem);
 	sem_post(ph->sem_forks.sem);
 	philo->meals++;
@@ -64,7 +64,7 @@ int	go_sleep(t_philo_handler *ph, t_philo *philo)
 	int	sim_state;
 
 	print_philo_state(ph, philo, PHILO_IS_SLEEPING);
-	sim_state = philo_usleep(philo, ph->time_to_sleep);
+	sim_state = philo_usleep(ph, philo, ph->time_to_sleep);
 	return (sim_state);
 }
 
@@ -100,7 +100,7 @@ static void	*t_philo_life(void *p)
 	ph = ((t_ptr_wrapper *)p)->ptr_ph;
 	philo = ((t_ptr_wrapper *)p)->ptr_philo;
 	philo->finished = false;
-	update_last_meal_time(philo);
+	update_last_meal_time(ph, philo);
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	while (sim_running(ph, philo))
 	{
@@ -137,13 +137,13 @@ void	start_philo_life(t_philo_handler *ph, t_philo *philo)
 		res = t_create(&philo->t_philo_life, t_philo_life, &wrapper);
 	if (res != SUCCESS)
 		sem_post(ph->sem_error.sem);
+	if (philo->id == ph->philos)
+		sem_post(ph->sem_philos_started.sem);
 	if (philo->t_mon_philo_state.state == STATE_THREAD_CREATED)
 		t_join(&philo->t_mon_philo_state);
 	if (philo->t_mon_death.state == STATE_THREAD_CREATED)
 		t_join(&philo->t_mon_death);
 	if (philo->t_philo_life.state == STATE_THREAD_CREATED)
 		t_join(&philo->t_philo_life);
-	close_semaphores(ph);
-	philo_free(ph);
-	exit(res);
+	philo_exit(ph, res);
 }

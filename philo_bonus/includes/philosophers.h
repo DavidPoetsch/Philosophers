@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/18 10:20:11 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:24:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int				start_philo_processes(t_philo_handler *ph);
 void			start_philo_life(t_philo_handler *ph, t_philo *philo);
 bool			sim_running(t_philo_handler *ph, t_philo *philo);
 void			send_finished(t_philo_handler *ph, t_philo *philo);
-void			update_last_meal_time(t_philo *philo);
-int				philo_usleep(t_philo *philo, int ms_sleep);
+void			update_last_meal_time(t_philo_handler *ph, t_philo *philo);
+int				philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep);
 void			*t_mon_philo_death(void *p);
 void			*t_mon_philo_state(void *p);
 
@@ -54,6 +54,8 @@ void			*t_mon_philo_state(void *p);
 
 void			print_philo_state(t_philo_handler *ph, t_philo *philo,
 					int state);
+void			print_error_msg(t_philo_handler *ph, char *msg,
+					bool post_error);
 
 // Simulation monitoring
 
@@ -104,8 +106,12 @@ t_ptr_wrapper	void_ptr_wrapper(t_philo_handler *ph, t_philo *philo);
 int				wait_philo_processes(t_philo_handler *ph);
 void			wait_for_process(t_process *process);
 
-// Free
+// Clean up
 
 void			philo_free(t_philo_handler *ph);
+void			philo_exit(t_philo_handler *ph, int res);
 
+// Error handler
+int				start_error_handler_thread(t_philo_handler *ph);
+void			join_error_handler_thread(t_philo_handler *ph);
 #endif

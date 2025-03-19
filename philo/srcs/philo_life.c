@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/18 09:23:09 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:57:28 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 /**
  * @brief ### Eat
@@ -96,7 +96,10 @@ static void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
 	lock_mutex(philo->fork1);
 	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
 	while (sim_runing(ph))
-		pthread_mutex_unlock(&philo->fork1->m);
+	{
+		(void)ph;
+	}
+	pthread_mutex_unlock(&philo->fork1->m);
 }
 
 /**

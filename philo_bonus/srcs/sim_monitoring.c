@@ -6,12 +6,23 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:28:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:08:48 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:44:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+/**
+ * @brief ### Post simulation finished
+ * 
+ * Philos wait on the semaphore sem_stop_simulation.
+ * 
+ * When the simulation should stop this function is used to signal
+ * the philos to stop.
+ * 
+ * @param ph philo handler struct.
+ * @return int SUCCESS.
+ */
 int	post_simulation_finished(t_philo_handler *ph)
 {
 	int	i;
@@ -27,6 +38,15 @@ int	post_simulation_finished(t_philo_handler *ph)
 	return (SUCCESS);
 }
 
+/**
+ * @brief ### Simulation monitoring.
+ * 
+ * This function is waiting until every philosopher has finished.
+ * 
+ * Every philosopher needs to post the semaphore sem_philo_finished.
+ * 
+ * @param ph 
+ */
 void	sim_monitoring(t_philo_handler *ph)
 {
 	int				philo_finished_count;

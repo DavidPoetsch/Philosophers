@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/14 19:53:14 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/19 13:56:06 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ run_asan:
 run_tsan:
 	$(MAKE) debug DEBUG=2
 	@printf "$(PINK)./$(TARGET_EXEC) $(ARGS)$(RESET)\n"
-	@./$(TARGET_EXEC) $(ARGS)
+	@TSAN_OPTIONS="die_after_fork=0" ./$(TARGET_EXEC) $(ARGS)
 
 runh:
 	$(MAKE) debug DEBUG=3

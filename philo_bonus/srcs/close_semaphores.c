@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:20:27 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/18 10:30:17 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:10:29 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	close_sem_philo_handler(t_philo_handler *ph)
 	close_semaphore(&ph->sem_philo_finished, unlink);
 	close_semaphore(&ph->sem_stop_simulation, unlink);
 	close_semaphore(&ph->sem_error, unlink);
+	close_semaphore(&ph->sem_philos_started, unlink);
 	return (SUCCESS);
 }
 

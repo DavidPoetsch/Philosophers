@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:01:45 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 17:09:05 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:07:18 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 static int	free_philos(t_philo_handler *ph)
 {

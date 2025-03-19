@@ -81,14 +81,26 @@ fi
 
 print_loading_bar () {
     printf "LOADING\t"
-    for (( x=10; x <= $1; x+=10)) ; do
+    int_val=$(printf "%.0f" "$1")  # Round to nearest integer
+    for (( x=10; x <= int_val; x+=10 )) ; do  
     {
-        if (( $1 % 10 == 0 )) ; then
+        if (( int_val % 10 == 0 )) ; then
             printf "${BH_OK_COLOR}#${RESET}"
         fi
     }
     done
 }
+
+# print_loading_bar () {
+#     printf "LOADING\t"
+#     for (( x=10; x <= $1; x+=10)) ; do
+#     {
+#         if (( $1 % 10 == 0 )) ; then
+#             printf "${BH_OK_COLOR}#${RESET}"
+#         fi
+#     }
+#     done
+# }
 
 visualizer () {
     printf "\n\n${COM_COLOR}Visualize failed tests\t[0]${RESET}\n\n"

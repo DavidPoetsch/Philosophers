@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/18 10:25:21 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:53:07 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	init_semaphore(t_sem *sem, char *name, int value)
 	sem->sem = sem_open(sem->name, O_CREAT | O_EXCL, 0644, value); //! valid ?
 	if (sem->sem == SEM_FAILED)
 	{
-		sem_close(sem->sem);
 		sem_unlink(sem->name);
 		sem->sem = sem_open(sem->name, O_CREAT | O_EXCL, 0644, value);
 		if (sem->sem == SEM_FAILED)

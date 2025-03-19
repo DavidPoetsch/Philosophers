@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:34:37 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:47 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 static int	alloc_forks(t_philo_handler *ph)
 {
@@ -83,7 +83,9 @@ static int	assign_forks(t_philo_handler *ph)
 	{
 		philo = &ph->philo_lst[i];
 		if (philo->id % 2 == 0)
+		{
 			ft_swap_ptr((void **)&philo->fork1, (void **)&philo->fork2);
+		}
 		i++;
 	}
 	return (SUCCESS);

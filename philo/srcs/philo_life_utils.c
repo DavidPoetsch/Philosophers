@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:07:25 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:35:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../includes/philosophers.h"
 
 void	update_meals_eaten(t_philo *philo)
 {

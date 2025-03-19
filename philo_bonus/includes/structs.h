@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/18 10:36:51 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:19:19 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ struct							s_philo_handler
 	t_sem						sem_philo_finished;
 	t_sem						sem_stop_simulation;
 	t_sem						sem_error;
-	t_sem						start_simulation;
+	t_sem						sem_philos_started;
 	t_thread_info		t_error_handler;
 	bool						is_child;
 };
