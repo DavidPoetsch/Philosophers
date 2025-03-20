@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:52:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 09:59:57 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:47:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,10 @@
 # define ERR_MUTEX_DESTROY "philo: mutex destroy failed.\n"
 
 # define ERR_CREATE_THREAD "philo: failed to create thread\n"
+
+# define ERR_MUT_NOT_INIT "philo: mutex is not properly initialized\n"
+# define ERR_MUT_DLK "philo: deadlock detected\n"
+# define ERR_MUT_DLK "philo: deadlock detected\n"
+# define ERR_MUTEX "philo: failed to lock mutex\n"
+
 #endif

@@ -6,14 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 12:06:03 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:28:27 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include "defines.h"
+# include "defines.h" //! check header
 # include "enums.h"
 # include "philo_errors.h"
 # include "structs.h"

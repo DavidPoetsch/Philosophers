@@ -6,14 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 09:29:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:33:14 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include "defines.h"
+# include "defines.h" //! check header
 # include "enums.h"
 # include "philo_errors.h"
 # include "structs.h"
@@ -45,8 +45,8 @@ int				start_philo_processes(t_philo_handler *ph);
 void			start_philo_life(t_philo_handler *ph, t_philo *philo);
 bool			sim_running(t_philo_handler *ph, t_philo *philo);
 void			send_finished(t_philo_handler *ph, t_philo *philo);
-void			update_last_meal_time(t_philo_handler *ph, t_philo *philo);
-int				philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep);
+void			update_last_meal_time(t_philo *philo);
+int				philo_usleep(t_philo *philo, int ms_sleep);
 void			*t_mon_philo_death(void *p);
 void			*t_mon_philo_state(void *p);
 

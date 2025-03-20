@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 11:39:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:31:25 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  */
 static int	eat(t_philo_handler *ph, t_philo *philo)
 {
-	int res;
+	int	res;
 	int	sim_state;
 
 	sim_state = SIM_FINISHED;
@@ -101,7 +101,7 @@ static void	think(t_philo_handler *ph, t_philo *philo)
  */
 static void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
 {
-	int res;
+	int	res;
 
 	if (ph->philos > 1)
 		return ;

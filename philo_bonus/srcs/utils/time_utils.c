@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:46:12 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 14:39:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:27:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ size_t	get_time_duration_in_ms(t_tv tv_start, t_tv tv_end)
 
 int	get_current_time(t_tv *tv)
 {
-	int res;
+	int	res;
 
 	res = gettimeofday(tv, NULL);
 	if (res != 0)

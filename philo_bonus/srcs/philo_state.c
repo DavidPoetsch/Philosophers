@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 14:44:22 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:31:01 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,7 @@ static int	print_formated_time(t_philo_handler *ph)
 	t_tv	tv_curr;
 	size_t	ms;
 
-	if (get_current_time(&tv_curr) == ERROR)
-	{
-		ft_puterr(ERR_GETTIMEOFDAY);
-		sem_post(ph->sem_error.sem);
-		return (ERROR);
-	}
+	get_current_time(&tv_curr);
 	ms = get_time_duration_in_ms(ph->tv_start, tv_curr);
 	ft_putnbr((size_t)ms);
 	ft_putstr(" ");
@@ -46,7 +41,7 @@ static int	print_formated_time(t_philo_handler *ph)
 
 int	print_state(t_philo_handler *ph, int id, char *str)
 {
-	int res;
+	int	res;
 
 	res = print_formated_time(ph);
 	if (res == SUCCESS)
@@ -59,7 +54,7 @@ int	print_state(t_philo_handler *ph, int id, char *str)
 
 void	print_philo_state(t_philo_handler *ph, t_philo *philo, int state)
 {
-	int res;
+	int	res;
 	int	sim_state;
 
 	sim_state = SIM_FINISHED;

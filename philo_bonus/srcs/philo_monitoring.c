@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 14:28:36 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:30:39 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,12 @@ void	*t_mon_philo_state(void *p)
  */
 static bool	philo_died(t_philo_handler *ph, t_philo *philo)
 {
-	int		res;
 	int		ms;
 	t_tv	tv_last_meal;
 	t_tv	tv_curr;
 
 	get_tv_sem(&philo->sem_tv_last_meal, &tv_last_meal);
-	res = get_current_time(&tv_curr);
-	if (res != SUCCESS)
-	{
-		print_error_msg(ph, ERR_GETTIMEOFDAY, true);
-		return (false);
-	}
+	get_current_time(&tv_curr);
 	ms = get_time_duration_in_ms(tv_last_meal, tv_curr);
 	if (ms >= ph->time_to_die)
 	{

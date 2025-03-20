@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 12:12:59 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:31:31 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	check_philo_death(t_philo_handler *ph, t_philo *philo,
 		t_tv *tv_curr)
 {
-	int res;
+	int		res;
 	int		ms;
 	t_tv	tv_last_meal;
 
@@ -37,7 +37,7 @@ static int	check_philo_death(t_philo_handler *ph, t_philo *philo,
 static int	philo_meals_finished(t_philo_handler *ph, t_philo *philo,
 		int *philos_finished)
 {
-	int res;
+	int	res;
 	int	meals;
 
 	if (ph->meal_limit == false)
@@ -81,8 +81,8 @@ static int	check_philos_state(t_philo_handler *ph, t_tv tv_curr)
 
 static bool	general_error(t_philo_handler *ph)
 {
-	int res;
-	int error_code;
+	int	res;
+	int	error_code;
 
 	error_code = SUCCESS;
 	res = get_int_mutex(&ph->m_error, &error_code);

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 09:13:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 14:32:41 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:27:04 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	unlock_waiting_semaphores(t_philo_handler *ph)
 {
 	int	i;
 
-	// sem_post(ph->sem_print.sem);
 	i = 0;
 	while (i < ph->philos)
 	{

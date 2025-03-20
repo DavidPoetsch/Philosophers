@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:43:25 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 11:49:25 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:31:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	set_state_finished(t_philo_handler *ph)
 
 int	start_monitoring_thread(t_philo_handler *ph)
 {
-	int res;
+	int	res;
 
 	res = t_create(&ph->t_mon, philo_monitoring, ph);
 	if (res != SUCCESS)

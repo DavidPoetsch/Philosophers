@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:11:07 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 12:05:22 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:31:20 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_debug_info(t_philo_handler *ph)
 
 bool	fail_count(int value)
 {
-	static int i;
+	static int	i;
 
 	i++;
 	if (i == value)

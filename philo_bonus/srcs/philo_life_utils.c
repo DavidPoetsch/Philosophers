@@ -6,20 +6,16 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 09:16:20 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:32:59 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	update_last_meal_time(t_philo_handler *ph, t_philo *philo)
+void	update_last_meal_time(t_philo *philo)
 {
-	int res;
-
 	sem_wait(philo->sem_tv_last_meal.sem.sem);
-	res = get_current_time(&philo->sem_tv_last_meal.tv);
-	if (res != SUCCESS)
-		print_error_msg(ph, ERR_GETTIMEOFDAY, true);
+	get_current_time(&philo->sem_tv_last_meal.tv);
 	sem_post(philo->sem_tv_last_meal.sem.sem);
 }
 
@@ -49,9 +45,8 @@ int	sim_state_usleep(t_philo *philo, int ms, bool check_now)
 	return (sim_state);
 }
 
-int	philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep)
+int	philo_usleep(t_philo *philo, int ms_sleep)
 {
-	int		res;
 	int		ms;
 	int		sim_state;
 	t_tv	tv_start;
@@ -59,18 +54,13 @@ int	philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep)
 
 	ms = 0;
 	sim_state = SIM_RUNING;
-	res = get_current_time(&tv_start);
-	while (res == SUCCESS && ms < ms_sleep && sim_state == SIM_RUNING)
+	get_current_time(&tv_start);
+	while (ms < ms_sleep && sim_state == SIM_RUNING)
 	{
 		usleep(US_SIM_SLEEP);
-		res = get_current_time(&tv_curr);
+		get_current_time(&tv_curr);
 		ms = get_time_duration_in_ms(tv_start, tv_curr);
 		sim_state = sim_state_usleep(philo, ms, false);
-	}
-	if (res != SUCCESS)
-	{
-		print_error_msg(ph, ERR_GETTIMEOFDAY, true);
-		return (SIM_FINISHED);
 	}
 	return (sim_state_usleep(philo, 0, true));
 }

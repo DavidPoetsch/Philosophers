@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 13:27:58 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 16:33:25 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	eat(t_philo_handler *ph, t_philo *philo)
 	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
 	sem_post(ph->sem_forks_request.sem);
 	print_philo_state(ph, philo, PHILO_IS_EATING);
-	update_last_meal_time(ph, philo);
-	sim_state = philo_usleep(ph, philo, ph->time_to_eat);
+	update_last_meal_time(philo);
+	sim_state = philo_usleep(philo, ph->time_to_eat);
 	sem_post(ph->sem_forks.sem);
 	sem_post(ph->sem_forks.sem);
 	philo->meals++;
@@ -64,7 +64,7 @@ int	go_sleep(t_philo_handler *ph, t_philo *philo)
 	int	sim_state;
 
 	print_philo_state(ph, philo, PHILO_IS_SLEEPING);
-	sim_state = philo_usleep(ph, philo, ph->time_to_sleep);
+	sim_state = philo_usleep(philo, ph->time_to_sleep);
 	return (sim_state);
 }
 
@@ -100,7 +100,7 @@ static void	*t_philo_life(void *p)
 	ph = ((t_ptr_wrapper *)p)->ptr_ph;
 	philo = ((t_ptr_wrapper *)p)->ptr_philo;
 	philo->finished = false;
-	update_last_meal_time(ph, philo);
+	update_last_meal_time(philo);
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	while (sim_running(ph, philo))
 	{
