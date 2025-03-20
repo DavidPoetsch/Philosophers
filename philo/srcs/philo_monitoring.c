@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 12:12:59 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 static int	check_philo_death(t_philo_handler *ph, t_philo *philo,
 		t_tv *tv_curr)
 {
+	int res;
 	int		ms;
 	t_tv	tv_last_meal;
 
-	get_tv_mutex(&philo->m_tv_last_meal, &tv_last_meal);
+	res = get_tv_mutex(&philo->m_tv_last_meal, &tv_last_meal);
+	if (res != SUCCESS)
+	{
+		print_error(ph, ERR_MUTEX_LOCK, res);
+		return (SIM_FINISHED);
+	}
 	ms = get_time_duration_in_ms(tv_last_meal, *tv_curr);
 	if (ms >= ph->time_to_die)
 	{
@@ -31,12 +37,18 @@ static int	check_philo_death(t_philo_handler *ph, t_philo *philo,
 static int	philo_meals_finished(t_philo_handler *ph, t_philo *philo,
 		int *philos_finished)
 {
+	int res;
 	int	meals;
 
 	if (ph->meal_limit == false)
 		return (SIM_RUNING);
 	meals = 0;
-	get_int_mutex(&philo->m_meals, &meals);
+	res = get_int_mutex(&philo->m_meals, &meals);
+	if (res != SUCCESS)
+	{
+		print_error(ph, ERR_MUTEX_LOCK, res);
+		return (SIM_FINISHED);
+	}
 	if (meals >= ph->meals_per_philo)
 		(*philos_finished)++;
 	if (*philos_finished >= ph->philos)
@@ -67,7 +79,22 @@ static int	check_philos_state(t_philo_handler *ph, t_tv tv_curr)
 	return (sim_state);
 }
 
-static void	*philo_monitoring(void *p)
+static bool	general_error(t_philo_handler *ph)
+{
+	int res;
+	int error_code;
+
+	error_code = SUCCESS;
+	res = get_int_mutex(&ph->m_error, &error_code);
+	if (res != SUCCESS)
+	{
+		print_error(ph, ERR_MUTEX_LOCK, res);
+		return (true);
+	}
+	return (error_code != SUCCESS);
+}
+
+void	*philo_monitoring(void *p)
 {
 	int				sim_state;
 	t_philo_handler	*ph;
@@ -83,18 +110,12 @@ static void	*philo_monitoring(void *p)
 			sim_state = SIM_FINISHED;
 		if (sim_state == SIM_RUNING)
 			sim_state = check_philos_state(ph, tv_curr);
-		if (sim_state == SIM_FINISHED)
+		if (sim_state == SIM_FINISHED || general_error(ph))
 		{
 			set_state_finished(ph);
 			break ;
 		}
-		usleep(ms_to_us(MS_MON_SLEEP));
+		usleep(US_MON_SLEEP);
 	}
 	return (NULL);
-}
-
-int	start_monitoring_thread(t_philo_handler *ph)
-{
-	pthread_create(&ph->ptid_mon, NULL, philo_monitoring, ph);
-	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:07:15 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 12:42:51 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 08:56:04 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ enum e_philo_state
 
 enum e_return_values
 {
-	ERROR = 0,
-	SUCCESS = 1,
+	SUCCESS = 0,
+	ERROR = 1,
 };
 
 enum e_mutex_state
@@ -49,4 +49,11 @@ enum e_state_philo_handler
 	PH_STATE_PHILOS_FREE,
 };
 
+enum	e_thread_create_return
+{
+	STATE_THREAD_UNDEFINED,
+	STATE_THREAD_FAILED_TO_CREATE,
+	STATE_THREAD_CREATED,
+	STATE_THREAD_JOINED,
+};
 #endif

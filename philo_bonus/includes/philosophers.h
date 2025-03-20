@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 14:24:26 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 09:29:43 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ int				init_semaphores(t_philo_handler *ph);
 int				close_semaphores(t_philo_handler *ph);
 int				init_semaphore(t_sem *sem, char *name, int value);
 int				close_semaphore(t_sem *sem, bool unlink);
-int				set_int_sem(t_int_sem *t_sem, int value);
-int				get_int_sem(t_int_sem *t_sem, int *value);
-int				set_tv_sem(t_tv_sem *t_sem, t_tv tv_new);
-int				get_tv_sem(t_tv_sem *t_sem, t_tv *tv_res);
+void			set_int_sem(t_int_sem *t_sem, int value);
+void			get_int_sem(t_int_sem *t_sem, int *value);
+void			set_tv_sem(t_tv_sem *t_sem, t_tv tv_new);
+void			get_tv_sem(t_tv_sem *t_sem, t_tv *tv_res);
 
 // Thread utils
 

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:57:28 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 11:39:40 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,28 @@
  */
 static int	eat(t_philo_handler *ph, t_philo *philo)
 {
+	int res;
 	int	sim_state;
 
-	lock_mutex(philo->fork1);
-	print_philo_state_fork(ph, philo, 1);
-	lock_mutex(philo->fork2);
-	print_philo_state_fork(ph, philo, 2);
-	print_philo_state(ph, philo->id, PHILO_IS_EATING);
-	update_last_meal_time(philo);
-	sim_state = philo_usleep(philo, ph->time_to_eat);
-	pthread_mutex_unlock(&philo->fork2->m);
-	pthread_mutex_unlock(&philo->fork1->m);
-	update_meals_eaten(philo);
+	sim_state = SIM_FINISHED;
+	res = lock_mutex(philo->fork1);
+	if (res == SUCCESS)
+	{
+		print_philo_state_fork(ph, philo, 1);
+		res = lock_mutex(philo->fork2);
+		if (res == SUCCESS)
+		{
+			print_philo_state_fork(ph, philo, 2);
+			print_philo_state(ph, philo->id, PHILO_IS_EATING);
+			update_last_meal_time(ph, philo);
+			sim_state = philo_usleep(ph, philo, ph->time_to_eat);
+			pthread_mutex_unlock(&philo->fork2->m);
+		}
+		pthread_mutex_unlock(&philo->fork1->m);
+		update_meals_eaten(ph, philo);
+	}
+	if (res != SUCCESS)
+		print_error(ph, ERR_MUTEX_LOCK, res);
 	return (sim_state);
 }
 
@@ -62,7 +72,7 @@ static int	go_sleep(t_philo_handler *ph, t_philo *philo)
 	int	sim_state;
 
 	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
-	sim_state = philo_usleep(philo, ph->time_to_sleep);
+	sim_state = philo_usleep(ph, philo, ph->time_to_sleep);
 	return (sim_state);
 }
 
@@ -91,15 +101,20 @@ static void	think(t_philo_handler *ph, t_philo *philo)
  */
 static void	lonely_philo_life(t_philo_handler *ph, t_philo *philo)
 {
+	int res;
+
 	if (ph->philos > 1)
 		return ;
-	lock_mutex(philo->fork1);
-	print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
-	while (sim_runing(ph))
+	res = lock_mutex(philo->fork1);
+	if (res == SUCCESS)
 	{
-		(void)ph;
+		print_philo_state(ph, philo->id, PHILO_HAS_TAKEN_FORK);
+		while (sim_runing(ph))
+		{
+			(void)ph;
+		}
+		pthread_mutex_unlock(&philo->fork1->m);
 	}
-	pthread_mutex_unlock(&philo->fork1->m);
 }
 
 /**

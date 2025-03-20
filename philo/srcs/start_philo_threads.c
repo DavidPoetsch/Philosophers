@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:17:06 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 11:50:25 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,43 +27,54 @@ static double	get_thread_delay(t_philo_handler *ph)
 	return (delay);
 }
 
-static void	start_threads_odd_even_philos(t_philo_handler *ph, bool odd)
+static int	start_threads_odd_even_philos(t_philo_handler *ph, bool odd)
 {
+	int		res;
 	int		i;
 	double	delay;
 
 	delay = get_thread_delay(ph);
 	i = 0;
-	while (i < ph->philos)
+	res = SUCCESS;
+	while (res == SUCCESS && i < ph->philos)
 	{
 		if (((i % 2 == 0) && !odd) || ((i % 2 != 0) && odd))
 		{
-			pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life,
-				&ph->philo_lst[i]);
+			res = t_create(&ph->philo_lst[i].t_philo, philo_life,
+					&ph->philo_lst[i]);
 			if (delay > 0)
 				usleep(delay);
 		}
 		i++;
 	}
+	if (res != SUCCESS)
+		print_error(ph, ERR_CREATE_THREAD, res);
+	return (res);
 }
 
 int	start_philo_threads(t_philo_handler *ph)
 {
+	int	res;
 	int	i;
 
 	i = 0;
+	res = SUCCESS;
 	if (ph->philos % 2 != 0)
 	{
-		start_threads_odd_even_philos(ph, false);
-		start_threads_odd_even_philos(ph, true);
-		return (SUCCESS);
+		res = start_threads_odd_even_philos(ph, false);
+		if (res == SUCCESS)
+			res = start_threads_odd_even_philos(ph, true);
 	}
-	i = 0;
-	while (i < ph->philos)
+	else
 	{
-		pthread_create(&ph->philo_lst[i].ptid, NULL, philo_life,
-			&ph->philo_lst[i]);
-		i++;
+		while (res == SUCCESS && i < ph->philos)
+		{
+			res = t_create(&ph->philo_lst[i].t_philo, philo_life,
+					&ph->philo_lst[i]);
+			i++;
+		}
+		if (res != SUCCESS)
+			print_error(ph, ERR_CREATE_THREAD, res);
 	}
-	return (SUCCESS);
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:11:47 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 14:44:42 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ static int	init_mutexes(t_philo_handler *ph)
 	res = init_mutex(&ph->m_print);
 	if (res == SUCCESS)
 		res = init_mutex(&ph->m_sim_state.m);
+	if (res == SUCCESS)
+		res = init_mutex(&ph->m_error.m);
 	i = 0;
 	while (res == SUCCESS && i < ph->philos)
 	{
@@ -138,5 +140,6 @@ int	init_philos(t_args args, t_philo_handler *ph)
 		res = init_mutexes(ph);
 	if (res == SUCCESS)
 		res = init_start_time(ph);
+	ph->m_sim_state.value = SIM_RUNING;
 	return (res);
 }

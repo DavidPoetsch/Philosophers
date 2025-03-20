@@ -1,44 +1,48 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    test.mk                                            :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/20 13:59:06 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/20 14:08:01 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-MAKEFILE = Makefile
+MAKEFILE = test.mk
 
-TARGET_EXEC := philo_bonus
+TARGET_EXEC = test
 
-SRCS = srcs/philosophers.c \
-       srcs/close_semaphores.c \
-       srcs/error_handler.c \
-       srcs/utils/ft_itoa.c \
-       srcs/utils/ft_strjoin.c \
-       srcs/utils/philo_utils_1.c \
-       srcs/utils/philo_utils_2.c \
-       srcs/utils/time_utils.c \
-       srcs/utils/argument_utils.c \
-       srcs/utils/sem_value_utils.c \
-       srcs/utils/sem_utils.c \
-       srcs/utils/thread_utils.c \
-       srcs/parse_arguments.c \
+SRCS = srcs/test.c \
+       srcs/argument_utils.c \
        srcs/init_philo_2.c \
        srcs/init_philo.c \
-       srcs/init_semaphores.c \
-       srcs/philo_free.c \
+       srcs/join_philo_threads.c \
+       srcs/start_philo_threads.c \
        srcs/philo_life.c \
        srcs/philo_life_utils.c \
+       srcs/philo_monitoring_utils.c \
        srcs/philo_monitoring.c \
-       srcs/sim_monitoring.c \
-       srcs/start_philo_process.c \
        srcs/philo_state.c \
-       srcs/void_ptr_wrapper.c \
-       srcs/wait_utils.c \
+       srcs/philo_utils_2.c \
+       srcs/philo_utils.c \
+       srcs/time_utils.c \
+       srcs/mutex_utils.c \
+       srcs/mutex_value_utils.c \
+       srcs/parse_arguments.c \
+       srcs/philo_free.c \
+       srcs/debug.c \
+       srcs/thread_utils.c
 
+# **************************************************************************** #
+# * TEST CRITERION
+LDFLAGS_TEST = -lcriterion
+test_criterion:
+	@echo "$(BLUE)Build    '$(TARGET_EXEC)'$(RESET)"
+	@$(MAKE) -s -f $(MAKEFILE) $(TARGET_EXEC) DEBUG=1 LDFLAGS="$(LDFLAGS_TEST)"
+	@./test
+
+-include ../colors.mk
 -include ../general.mk
 -include ../testing/Makefile

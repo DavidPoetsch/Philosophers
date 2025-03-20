@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:41:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 14:54:27 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	parse_number(char *arg)
 static int	get_arg_philos(t_args args, t_philo_handler *ph)
 {
 	ph->philos = parse_number(args.argv[1]);
-	if (ph->philos <= 0)
+	if (ph->philos <= 0 || ph->philos > 1000)
 	{
 		ft_puterr(ERR_INVALID_PHILOS);
 		return (ERROR);
@@ -83,11 +83,11 @@ int	parse_arguments(t_args args, t_philo_handler *ph)
 		ft_puterr(ERR_INVALID_ARGS);
 		res = ERROR;
 	}
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = get_arg_philos(args, ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = get_arg_times(args, ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = get_arg_meals_per_philo(args, ph);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:52:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/01/14 10:41:26 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 09:59:57 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@
 # define ERR_GETTIMEOFDAY "philo: gettimeofday: failed to get time.\n"
 
 # define ERR_MUTEX_INIT "philo: mutex initialization failed.\n"
+# define ERR_MUTEX_LOCK "philo: mutex lock failed.\n"
 # define ERR_MUTEX_DESTROY "philo: mutex destroy failed.\n"
+
+# define ERR_CREATE_THREAD "philo: failed to create thread\n"
 #endif

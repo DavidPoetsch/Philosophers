@@ -1,20 +1,20 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    test_bonus.mk                                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/20 13:59:06 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/20 15:17:46 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-MAKEFILE = Makefile
+MAKEFILE = test_bonus.mk
 
-TARGET_EXEC := philo_bonus
+TARGET_EXEC = test_bonus
 
-SRCS = srcs/philosophers.c \
+SRCS = srcs/test_bonus.c \
        srcs/close_semaphores.c \
        srcs/error_handler.c \
        srcs/utils/ft_itoa.c \
@@ -38,7 +38,15 @@ SRCS = srcs/philosophers.c \
        srcs/start_philo_process.c \
        srcs/philo_state.c \
        srcs/void_ptr_wrapper.c \
-       srcs/wait_utils.c \
+       srcs/wait_utils.c
 
+# **************************************************************************** #
+# * TEST CRITERION
+LDFLAGS_TEST = -lcriterion
+test_criterion:
+	@echo "$(BLUE)Build    '$(TARGET_EXEC)'$(RESET)"
+	@$(MAKE) -s -f $(MAKEFILE) $(TARGET_EXEC) DEBUG=1 LDFLAGS="$(LDFLAGS_TEST)"
+	@./test
+
+-include ../colors.mk
 -include ../general.mk
--include ../testing/Makefile

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 14:36:14 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 09:16:20 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,18 @@ bool	sim_running(t_philo_handler *ph, t_philo *philo)
 	return (sim_state == SIM_RUNING);
 }
 
-int	sim_state_usleep(t_philo_handler *ph, t_philo *philo, int ms, bool check_now)
+int	sim_state_usleep(t_philo *philo, int ms, bool check_now)
 {
 	static int	ms_curr;
 	int			sim_state;
-	int			res;
 
-	res = SUCCESS;
 	ms_curr += ms;
 	sim_state = SIM_RUNING;
 	if (ms_curr >= MS_CHECK_SIM_STATE || check_now)
 	{
-		res = get_int_sem(&philo->sem_sim_state, &sim_state);
+		get_int_sem(&philo->sem_sim_state, &sim_state);
 		ms_curr = 0;
 	}
-	if (res != SUCCESS)
-		sem_post(ph->sem_error.sem);
 	return (sim_state);
 }
 
@@ -69,14 +65,14 @@ int	philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep)
 		usleep(US_SIM_SLEEP);
 		res = get_current_time(&tv_curr);
 		ms = get_time_duration_in_ms(tv_start, tv_curr);
-		sim_state = sim_state_usleep(ph, philo, ms, false);
+		sim_state = sim_state_usleep(philo, ms, false);
 	}
 	if (res != SUCCESS)
 	{
 		print_error_msg(ph, ERR_GETTIMEOFDAY, true);
 		return (SIM_FINISHED);
 	}
-	return (sim_state_usleep(ph, philo, 0, true));
+	return (sim_state_usleep(philo, 0, true));
 }
 
 void	send_finished(t_philo_handler *ph, t_philo *philo)

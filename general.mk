@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/19 14:04:50 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/20 15:22:46 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ LDFLAGS_TSAN = -fsanitize=thread,undefined,bounds,float-divide-by-zero -fno-omit
 # **************************************************************************** #
 # * BUILD
 all:
-	@$(MAKE) -s $(TARGET_EXEC)
+	@$(MAKE) -s -f $(MAKEFILE) $(TARGET_EXEC)
 	@echo "$(GREEN)Finished '$(TARGET_EXEC)'$(RESET)"
 
 $(TARGET_EXEC): $(OBJS)
@@ -68,7 +68,9 @@ else
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 endif
 
-re: fclean all
+re: 
+	@$(MAKE) -s -f $(MAKEFILE) fclean
+	@$(MAKE) -s -f $(MAKEFILE) all
 
 
 # **************************************************************************** #
@@ -76,13 +78,13 @@ re: fclean all
 debug: clean
 	@echo "$(PINK)Compiling with debug information$(RESET)"
 ifeq ($(DEBUG), 1)
-	$(MAKE) $(TARGET_EXEC) DEBUG=1 CFLAGS="$(CFLAGS_DEBUG_ASAN)" LDFLAGS="$(LDFLAGS_ASAN)"
+	$(MAKE) -f $(MAKEFILE) $(TARGET_EXEC) DEBUG=1 CFLAGS="$(CFLAGS_DEBUG_ASAN)" LDFLAGS="$(LDFLAGS_ASAN)"
 else ifeq ($(DEBUG), 2)
-	$(MAKE) $(TARGET_EXEC) DEBUG=1 CFLAGS="$(CFLAGS_DEBUG_TSAN)" LDFLAGS="$(LDFLAGS_TSAN)"
+	$(MAKE) -f $(MAKEFILE) $(TARGET_EXEC) DEBUG=1 CFLAGS="$(CFLAGS_DEBUG_TSAN)" LDFLAGS="$(LDFLAGS_TSAN)"
 else ifeq ($(DEBUG), 3)
-	$(MAKE) $(TARGET_EXEC) DEBUG=2 CFLAGS="$(CFLAGS_DEBUG_HELG)"
+	$(MAKE) -f $(MAKEFILE) $(TARGET_EXEC) DEBUG=2 CFLAGS="$(CFLAGS_DEBUG_HELG)"
 else
-	$(MAKE) $(TARGET_EXEC) DEBUG=0 CFLAGS="$(CFLAGS_DEBUG)"
+	$(MAKE) -f $(MAKEFILE) $(TARGET_EXEC) DEBUG=1 CFLAGS="$(CFLAGS_DEBUG)"
 endif
 	@echo "$(GREEN)Finished '$(TARGET_EXEC)'$(RESET)"
 
@@ -96,11 +98,13 @@ clean:
 
 fclean:
 	@echo "$(YELLOW)F-Clean  '$(TARGET_EXEC)'$(RESET)"
-	@$(MAKE) -s clean
+	@$(MAKE) -f $(MAKEFILE) -s clean
 	@rm -rf $(BUILD_DIR)
 	@rm -f $(TARGET_EXEC)
 	@rm -rf out
 	@rm -rf fails
+	@rm -rf test
+	@rm -rf test_bonus
 
 .PHONY: all clean fclean re bonus debug
 

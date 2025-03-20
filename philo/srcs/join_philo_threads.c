@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:13:11 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 09:03:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	join_philo_threads(t_philo_handler *ph)
 	i = 0;
 	while (i < ph->philos)
 	{
-		pthread_join(ph->philo_lst[i].ptid, NULL);
+		t_join(&ph->philo_lst[i].t_philo);
 		i++;
 	}
 	return (SUCCESS);

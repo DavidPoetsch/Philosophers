@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 16:40:31 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 09:33:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ typedef struct timeval			t_tv;
 typedef struct s_int_mutex		t_int_mutex;
 typedef struct s_tv_mutex		t_tv_mutex;
 typedef struct s_mutex			t_mutex;
+typedef struct s_thread_info	t_thread_info;
+
+struct							s_thread_info
+{
+	pthread_t					ptid;
+	int							state;
+};
 
 struct							s_args
 {
@@ -61,17 +68,18 @@ struct							s_philo_handler
 	int							time_to_sleep;
 	int							meals_per_philo;
 	bool						meal_limit;
-	pthread_t					ptid_mon;
+	t_thread_info				t_mon;
 	t_mutex						*forks;
 	t_mutex						m_print;
 	t_int_mutex					m_sim_state;
+	t_int_mutex					m_error;
 	int							state;
 };
 
 struct							s_philo
 {
 	int							id;
-	pthread_t					ptid;
+	t_thread_info				t_philo;
 	t_int_mutex					m_state;
 	t_int_mutex					m_meals;
 	t_tv_mutex					m_tv_last_meal;

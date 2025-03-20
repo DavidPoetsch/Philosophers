@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:01:45 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:07:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/20 09:34:23 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	destroy_mutexs(t_philo_handler *ph)
 
 	destroy_mutex(&ph->m_print);
 	destroy_mutex(&ph->m_sim_state.m);
+	destroy_mutex(&ph->m_error.m);
 	i = 0;
 	while (i < ph->philos)
 	{
