@@ -6,12 +6,18 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:07:22 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 15:35:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 11:24:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+/**
+ * @brief Initialize start time for all philosophers.
+ * 
+ * @param ph handler struct
+ * @return int SUCCESS or ERROR
+ */
 int	init_start_time(t_philo_handler *ph)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:12:20 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 12:13:26 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 11:38:23 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	inc_int_mutex(t_int_mutex *t_mut)
 }
 
 /**
- * @brief ### Set the int mutex to give value.
+ * @brief ### Set the int mutex to value.
  *
  * @param t_mut mutex
  * @param value new value
@@ -71,7 +71,7 @@ int	get_int_mutex(t_int_mutex *t_mut, int *value)
 }
 
 /**
- * @brief ### Set the time value mutex to given value.
+ * @brief ### Set the time value mutex to value
  *
  * @param t_mut mutex
  * @param tv_new new time value

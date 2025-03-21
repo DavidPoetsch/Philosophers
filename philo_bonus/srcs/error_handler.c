@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 09:13:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 16:27:04 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 09:45:28 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	start_error_handler_thread(t_philo_handler *ph)
 	int	res;
 
 	res = t_create(&ph->t_error_handler, t_philo_error_handler, ph);
+	if (res != SUCCESS)
+		print_error_msg(ph, ERR_CREATE_THREAD, true);
 	return (res);
 }
 

@@ -6,13 +6,21 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:13:11 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 09:03:24 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 13:00:34 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	join_philo_threads(t_philo_handler *ph)
+/**
+ * @brief ### Join all threads.
+ *
+ * - join philo threads
+ *
+ * - join monitoring thread
+ * @param ph
+ */
+void	join_philo_threads(t_philo_handler *ph)
 {
 	int	i;
 
@@ -22,5 +30,5 @@ int	join_philo_threads(t_philo_handler *ph)
 		t_join(&ph->philo_lst[i].t_philo);
 		i++;
 	}
-	return (SUCCESS);
+	t_join(&ph->t_mon);
 }

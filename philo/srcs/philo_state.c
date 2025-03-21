@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 11:43:42 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 10:17:04 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,58 +44,56 @@ static void	print_state(t_philo_handler *ph, int id, int state)
 
 void	print_philo_state(t_philo_handler *ph, int id, int state)
 {
-	int	res;
 	int	sim_state;
 
 	sim_state = SIM_FINISHED;
-	res = lock_mutex(&ph->m_print);
-	if (res == SUCCESS)
-	{
-		res = get_int_mutex(&ph->m_sim_state, &sim_state);
-		if (res == SUCCESS && sim_state == SIM_RUNING)
-			print_state(ph, id, state);
-		pthread_mutex_unlock(&ph->m_print.m);
-	}
-	if (res != SUCCESS)
-		print_error(ph, ERR_MUTEX_LOCK, res);
+	lock_mutex(&ph->m_print);
+	get_int_mutex(&ph->m_sim_state, &sim_state);
+	if (sim_state == SIM_RUNING)
+		print_state(ph, id, state);
+	pthread_mutex_unlock(&ph->m_print.m);
 }
 
 void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 {
-	int	res;
 	int	sim_state;
 
 	sim_state = SIM_FINISHED;
-	res = lock_mutex(&ph->m_print);
-	if (res == SUCCESS)
+	lock_mutex(&ph->m_print);
+	get_int_mutex(&ph->m_sim_state, &sim_state);
+	if (sim_state == SIM_RUNING)
 	{
-		res = get_int_mutex(&ph->m_sim_state, &sim_state);
-		if (res == SUCCESS && sim_state == SIM_RUNING)
-		{
-			print_formated_time(ph);
-			if (DEBUG && fork == 1)
-				printf("%d has taken fork. 1: (%p)\n", philo->id, philo->fork1);
-			else if (DEBUG && fork == 2)
-				printf("%d has taken fork. 2: (%p)\n", philo->id, philo->fork2);
-			else
-				printf("%d has taken a fork.\n", philo->id);
-		}
-		pthread_mutex_unlock(&ph->m_print.m);
+		print_formated_time(ph);
+		if (DEBUG && fork == 1)
+			printf("%d has taken fork. 1: (%p)\n", philo->id, philo->fork1);
+		else if (DEBUG && fork == 2)
+			printf("%d has taken fork. 2: (%p)\n", philo->id, philo->fork2);
+		else
+			printf("%d has taken a fork.\n", philo->id);
 	}
-	if (res != SUCCESS)
-		print_error(ph, ERR_MUTEX_LOCK, res);
+	pthread_mutex_unlock(&ph->m_print.m);
 }
 
+/**
+ * @brief ### Print error
+ *
+ * - lock print mutex
+ *
+ * - print error
+ *
+ * - set simulation state SIM_FINISHED
+ *
+ * - set error
+ *
+ * @param ph handler struct.
+ * @param msg error message.
+ * @param error error code.
+ */
 void	print_error(t_philo_handler *ph, char *msg, int error)
 {
-	int	res;
-
-	res = lock_mutex(&ph->m_print);
-	if (res == SUCCESS)
-	{
-		ft_puterr(msg);
-		set_int_mutex(&ph->m_error, error);
-		set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
-		pthread_mutex_unlock(&ph->m_print.m);
-	}
+	lock_mutex(&ph->m_print);
+	ft_puterr(msg);
+	set_int_mutex(&ph->m_error, error);
+	set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
+	pthread_mutex_unlock(&ph->m_print.m);
 }

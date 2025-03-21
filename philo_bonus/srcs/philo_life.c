@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 16:33:25 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 09:45:02 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	start_philo_life(t_philo_handler *ph, t_philo *philo)
 	if (res == SUCCESS)
 		res = t_create(&philo->t_philo_life, t_philo_life, &wrapper);
 	if (res != SUCCESS)
-		sem_post(ph->sem_error.sem);
+		print_error_msg(ph, ERR_CREATE_THREAD, true);
 	if (philo->id == ph->philos)
 		sem_post(ph->sem_philos_started.sem);
 	if (philo->t_mon_philo_state.state == STATE_THREAD_CREATED)

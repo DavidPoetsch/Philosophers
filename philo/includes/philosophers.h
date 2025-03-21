@@ -6,14 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 16:28:27 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 14:06:35 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include "defines.h" //! check header
+# include "defines.h"
 # include "enums.h"
 # include "philo_errors.h"
 # include "structs.h"
@@ -49,10 +49,10 @@ int				parse_arguments(t_args args, t_philo_handler *ph);
 // Philo life
 
 void			*philo_life(void *p);
-void			update_meals_eaten(t_philo_handler *ph, t_philo *philo);
-void			update_last_meal_time(t_philo_handler *ph, t_philo *philo);
+void			update_meals_eaten(t_philo *philo);
+void			update_last_meal_time(t_philo *philo);
 bool			sim_runing(t_philo_handler *ph);
-int				philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep);
+int				philo_usleep(t_philo *philo, int ms_sleep);
 int				start_philo_threads(t_philo_handler *ph);
 
 // Monitoring
@@ -90,7 +90,7 @@ int				get_current_time(t_tv *tv);
 // Clean
 
 int				philo_free(t_philo_handler *ph);
-int				join_philo_threads(t_philo_handler *ph);
+void			join_philo_threads(t_philo_handler *ph);
 
 // Debug
 bool			fail_count(int value);

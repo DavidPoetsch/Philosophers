@@ -6,68 +6,47 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 12:10:52 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/21 10:24:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	update_meals_eaten(t_philo_handler *ph, t_philo *philo)
+void	update_meals_eaten(t_philo *philo)
 {
-	int	res;
-
-	res = inc_int_mutex(&philo->m_meals);
-	if (res != SUCCESS)
-		print_error(ph, ERR_MUTEX_LOCK, res);
+	inc_int_mutex(&philo->m_meals);
 }
 
-void	update_last_meal_time(t_philo_handler *ph, t_philo *philo)
+void	update_last_meal_time(t_philo *philo)
 {
-	int	res;
-
-	res = lock_mutex(&philo->m_tv_last_meal.m);
-	if (res == SUCCESS)
-	{
-		get_current_time(&philo->m_tv_last_meal.tv);
-		pthread_mutex_unlock(&philo->m_tv_last_meal.m.m);
-	}
-	else
-		print_error(ph, ERR_MUTEX_LOCK, res);
+	lock_mutex(&philo->m_tv_last_meal.m);
+	get_current_time(&philo->m_tv_last_meal.tv);
+	pthread_mutex_unlock(&philo->m_tv_last_meal.m.m);
 }
 
 bool	sim_runing(t_philo_handler *ph)
 {
-	int	res;
 	int	sim_state;
 
 	sim_state = SIM_FINISHED;
-	res = get_int_mutex(&ph->m_sim_state, &sim_state);
-	if (res != SUCCESS)
-	{
-		print_error(ph, ERR_MUTEX_LOCK, res);
-		return (false);
-	}
+	get_int_mutex(&ph->m_sim_state, &sim_state);
 	return (sim_state == SIM_RUNING);
 }
 
-int	sim_state_usleep(t_philo_handler *ph, t_philo *philo, int *ms_curr,
-		bool check_now)
+int	sim_state_usleep(t_philo *philo, int *ms_curr, bool check_now)
 {
-	int	res;
 	int	sim_state;
 
 	sim_state = SIM_RUNING;
 	if ((*ms_curr) >= MS_CHECK_SIM_STATE || check_now)
 	{
-		res = get_int_mutex(&philo->m_state, &sim_state);
-		if (res != SUCCESS)
-			print_error(ph, ERR_MUTEX_LOCK, res);
+		get_int_mutex(&philo->m_state, &sim_state);
 		(*ms_curr) = 0;
 	}
 	return (sim_state);
 }
 
-int	philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep)
+int	philo_usleep(t_philo *philo, int ms_sleep)
 {
 	int		ms;
 	int		ms_curr;
@@ -85,7 +64,7 @@ int	philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep)
 		get_current_time(&tv_curr);
 		ms = get_time_duration_in_ms(tv_start, tv_curr);
 		ms_curr += ms;
-		sim_state = sim_state_usleep(ph, philo, &ms_curr, false);
+		sim_state = sim_state_usleep(philo, &ms_curr, false);
 	}
-	return (sim_state_usleep(ph, philo, &ms_curr, true));
+	return (sim_state_usleep(philo, &ms_curr, true));
 }
