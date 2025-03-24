@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 08:59:59 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 16:46:53 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ struct							s_philo_handler
 	int							time_to_die;
 	int							time_to_eat;
 	int							time_to_sleep;
+	int							time_to_think;
 	int							meals_per_philo;
 	bool						meal_limit;
 	t_sem						sem_forks_request;

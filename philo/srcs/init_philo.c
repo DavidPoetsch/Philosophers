@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 12:58:59 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 16:34:32 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	assign_forks(t_philo_handler *ph)
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		if (philo->id % 2 == 0)
+		if (philo->id % 2 != 0)
 		{
 			ft_swap_ptr((void **)&philo->fork1, (void **)&philo->fork2);
 		}
@@ -107,14 +107,11 @@ static int	init_mutexes(t_philo_handler *ph)
 	while (res == SUCCESS && i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		res = init_mutex(&philo->m_meals.m);
-		if (res == SUCCESS)
-			res = init_mutex(&philo->m_tv_last_meal.m);
+		res = init_mutex(&philo->m_tv_last_meal.m);
 		if (res == SUCCESS)
 			res = init_mutex(&ph->forks[i]);
 		if (res == SUCCESS)
-			res = init_mutex(&philo->m_state.m);
-		philo->m_state.value = SIM_RUNING;
+			res = init_mutex(&philo->m_meals.m);
 		i++;
 	}
 	return (res);
@@ -141,6 +138,8 @@ int	init_philos(t_args args, t_philo_handler *ph)
 		res = init_mutexes(ph);
 	if (res == SUCCESS)
 		res = init_start_time(ph);
+	if (res == SUCCESS)
+		calculate_time_to_think(ph);
 	ph->m_sim_state.value = SIM_RUNING;
 	return (res);
 }

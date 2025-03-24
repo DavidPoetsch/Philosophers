@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:01:45 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 09:34:23 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 17:21:21 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	destroy_mutexs(t_philo_handler *ph)
 		philo = &ph->philo_lst[i];
 		destroy_mutex(&ph->forks[i]);
 		destroy_mutex(&philo->m_meals.m);
-		destroy_mutex(&philo->m_state.m);
 		destroy_mutex(&philo->m_tv_last_meal.m);
 		i++;
 	}

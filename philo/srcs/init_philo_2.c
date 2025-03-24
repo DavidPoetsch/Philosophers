@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:07:22 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 11:24:10 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 16:46:21 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,14 @@ int	init_start_time(t_philo_handler *ph)
 		i++;
 	}
 	return (SUCCESS);
+}
+
+void	calculate_time_to_think(t_philo_handler *ph)
+{
+	ph->time_to_think = 0;
+	if (ph->time_to_sleep < ph->time_to_eat)
+	{
+		ph->time_to_think = ph->time_to_eat - ph->time_to_sleep;
+		ph->time_to_think += MS_DELAY_THINKING;
+	}
 }

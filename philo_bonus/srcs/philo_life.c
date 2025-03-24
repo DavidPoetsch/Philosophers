@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 09:45:02 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 16:53:11 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	think(t_philo_handler *ph, t_philo *philo)
 {
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	if (ph->philos % 2 != 0)
-		usleep(US_DELAY_THINKING);
+		usleep(ms_to_us(ph->time_to_think));
 }
 
 /**

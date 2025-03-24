@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 08:59:57 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 16:46:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 void			init_args(t_args *args, int argc, char *argv[]);
 int				init_philos(t_args args, t_philo_handler *ph);
 int				init_start_time(t_philo_handler *ph);
+void			calculate_time_to_think(t_philo_handler *ph);
 
 // Parse input
 

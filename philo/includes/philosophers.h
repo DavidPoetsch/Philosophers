@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 08:56:38 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 15:48:03 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 void			init_args(t_args *args, int argc, char *argv[]);
 int				init_philos(t_args args, t_philo_handler *ph);
 int				init_start_time(t_philo_handler *ph);
+void			calculate_time_to_think(t_philo_handler *ph);
 
 // Mutex utils
 
@@ -50,7 +51,7 @@ void			*philo_life(void *p);
 void			update_meals_eaten(t_philo *philo);
 void			update_last_meal_time(t_philo *philo);
 bool			sim_runing(t_philo_handler *ph);
-int				philo_usleep(t_philo *philo, int ms_sleep);
+int				philo_usleep(t_philo_handler *ph, t_philo *philo, int ms_sleep);
 int				start_philo_threads(t_philo_handler *ph);
 
 // Monitoring

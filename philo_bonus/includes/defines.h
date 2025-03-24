@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:10 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 12:08:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 16:47:30 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 // Times
 
 # define MS_DEATH_CHECK 5
+# define MS_DELAY_THINKING 1
+# define MS_CHECK_SIM_STATE 1000
+
 # define US_SIM_SLEEP 500
 # define US_DELAY_THINKING 1000
-# define MS_CHECK_SIM_STATE 1000
 
 // Sempahore names
 
