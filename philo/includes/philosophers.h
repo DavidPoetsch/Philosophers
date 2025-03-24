@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 14:06:35 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 08:56:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 # include "philo_errors.h"
 # include "structs.h"
 # include <limits.h>
-# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <sys/time.h>
 # include <unistd.h>
 
 // Init

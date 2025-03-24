@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:41:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 15:09:03 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 09:28:14 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	parse_number(char *arg)
 static int	get_arg_philos(t_args args, t_philo_handler *ph)
 {
 	ph->philos = parse_number(args.argv[1]);
-	if (ph->philos <= 0 || ph->philos > 1000)
+	if (ph->philos <= 0)
 	{
 		ft_puterr(ERR_INVALID_PHILOS);
 		return (ERROR);

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 20:06:22 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 09:34:13 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	alloc_philos(t_philo_handler *ph)
 
 	ph->philo_lst = (t_philo *)malloc(ph->philos * sizeof(t_philo));
 	if (!ph->philo_lst)
+	{
+		ft_puterr(ERR_MALLOC_PHILOS);
 		return (ERROR);
+	}
 	i = 0;
 	while (i < ph->philos)
 	{

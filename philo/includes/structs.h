@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 09:33:24 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 09:01:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <pthread.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <sys/time.h>
 
 typedef struct s_philo_handler	t_philo_handler;

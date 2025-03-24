@@ -6,26 +6,21 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 16:33:14 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 08:59:57 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include "defines.h" //! check header
+# include "defines.h"
 # include "enums.h"
 # include "philo_errors.h"
 # include "structs.h"
 # include <fcntl.h>
 # include <limits.h>
-# include <pthread.h>
-# include <semaphore.h>
-# include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
 

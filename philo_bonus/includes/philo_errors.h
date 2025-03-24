@@ -6,13 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:52:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/14 15:42:15 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 09:34:11 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_ERRORS_H
 # define PHILO_ERRORS_H
 
+# define ERR_MALLOC_PHILOS "philo: failed to allocate philos.\n"
 # define ERR_INVALID_ARGS "philo: invalid number of arguments.\n"
 # define ERR_INVALID_PHILOS "philo: invalid number of philosophers.\n"
 # define ERR_INVALID_TTD "philo: invalid time to die.\n"

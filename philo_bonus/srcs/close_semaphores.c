@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:20:27 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 16:26:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 09:32:09 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	close_sem_philos(t_philo_handler *ph)
 	t_philo	*philo;
 	bool	unlink;
 
+	if (!ph->philo_lst)
+		return (SUCCESS);
 	unlink = !ph->is_child;
 	i = 0;
 	while (i < ph->philos)
