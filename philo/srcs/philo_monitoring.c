@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 10:21:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:40:04 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	check_philo_death(t_philo_handler *ph, t_philo *philo,
 	ms = get_time_duration_in_ms(tv_last_meal, *tv_curr);
 	if (ms >= ph->time_to_die)
 	{
+		set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
 		print_philo_state(ph, philo->id, PHILO_IS_DEAD);
 		return (SIM_FINISHED);
 	}
@@ -97,7 +98,7 @@ void	*philo_monitoring(void *p)
 			set_state_finished(ph);
 			break ;
 		}
-		usleep(US_MON_SLEEP);
+		usleep(US_MON_PAUSE);
 	}
 	return (NULL);
 }

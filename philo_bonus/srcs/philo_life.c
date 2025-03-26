@@ -6,18 +6,53 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 16:53:11 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:28:27 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
 /**
+ * @brief ### Take forks
+ *
+ * - get fork request semaphore
+ *
+ * - take two forks
+ *
+ * - the forks should be evenly shared as semaphores should follow FIFO order.
+ *
+ * @param ph philo handler struct
+ * @param philo philo struct
+ * @return int simulation state
+ */
+int	take_forks(t_philo_handler *ph, t_philo *philo)
+{
+	int	sim_state;
+
+	sim_state = SIM_FINISHED;
+	sem_wait(ph->sem_forks_request.sem);
+	get_int_sem(&philo->sem_sim_state, &sim_state);
+	if (sim_state == SIM_RUNING)
+	{
+		sem_wait(ph->sem_forks.sem);
+		get_int_sem(&philo->sem_sim_state, &sim_state);
+		if (sim_state == SIM_RUNING)
+			print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
+	}
+	get_int_sem(&philo->sem_sim_state, &sim_state);
+	if (sim_state == SIM_RUNING)
+	{
+		sem_wait(ph->sem_forks.sem);
+		get_int_sem(&philo->sem_sim_state, &sim_state);
+		if (sim_state == SIM_RUNING)
+			print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
+	}
+	sem_post(ph->sem_forks_request.sem);
+	return (sim_state);
+}
+
+/**
  * @brief ### Eat
- *
- * - Get fork access.
- *
- * - Take 2 forks.
  *
  * - update last meal time.
  *
@@ -35,17 +70,14 @@ int	eat(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
 
-	sem_wait(ph->sem_forks_request.sem);
-	sem_wait(ph->sem_forks.sem);
-	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
-	sem_wait(ph->sem_forks.sem);
-	print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
-	sem_post(ph->sem_forks_request.sem);
-	print_philo_state(ph, philo, PHILO_IS_EATING);
-	update_last_meal_time(philo);
-	sim_state = philo_usleep(philo, ph->time_to_eat);
-	sem_post(ph->sem_forks.sem);
-	sem_post(ph->sem_forks.sem);
+	sim_state = SIM_FINISHED;
+	get_int_sem(&philo->sem_sim_state, &sim_state);
+	if (sim_state == SIM_RUNING)
+	{
+		print_philo_state(ph, philo, PHILO_IS_EATING);
+		update_last_meal_time(philo);
+		sim_state = philo_usleep(philo, ph->time_to_eat);
+	}
 	philo->meals++;
 	return (sim_state);
 }
@@ -73,8 +105,8 @@ int	go_sleep(t_philo_handler *ph, t_philo *philo)
  *
  * - After sleep, philo is thinking.
  *
- * Delay needed for odd number of philos.
- * The delay is necessary for fair fork access.
+ * - for the bonus with sempahores we do not need a think time as
+ *   semaphores should follow FIFO order at the next fork request.
  *
  * @param ph
  * @param philo
@@ -82,14 +114,12 @@ int	go_sleep(t_philo_handler *ph, t_philo *philo)
 void	think(t_philo_handler *ph, t_philo *philo)
 {
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
-	if (ph->philos % 2 != 0)
-		usleep(ms_to_us(ph->time_to_think));
 }
 
 /**
  * @brief ### Life of a philosopher (EAT - SLEEP - THINK - REPEAT).
  */
-static void	*t_philo_life(void *p)
+void	*t_philo_life(void *p)
 {
 	int				sim_state;
 	t_philo_handler	*ph;
@@ -104,7 +134,10 @@ static void	*t_philo_life(void *p)
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	while (sim_running(ph, philo))
 	{
-		sim_state = eat(ph, philo);
+		sim_state = take_forks(ph, philo);
+		if (sim_state == SIM_RUNING)
+			sim_state = eat(ph, philo);
+		put_forks_down(ph);
 		if (sim_state == SIM_RUNING)
 			sim_state = go_sleep(ph, philo);
 		if (sim_state == SIM_RUNING)
@@ -112,38 +145,4 @@ static void	*t_philo_life(void *p)
 	}
 	send_finished(ph, philo);
 	return (NULL);
-}
-
-/**
- * @brief ### Starting philo life process
- *
- * - start thread simulation state monitoring.
- *
- * - start thread death monitoring.
- *
- * - start thread philo life routine.
- */
-void	start_philo_life(t_philo_handler *ph, t_philo *philo)
-{
-	int				res;
-	t_ptr_wrapper	wrapper;
-
-	ph->is_child = true;
-	wrapper = void_ptr_wrapper(ph, philo);
-	res = t_create(&philo->t_mon_philo_state, t_mon_philo_state, &wrapper);
-	if (res == SUCCESS)
-		res = t_create(&philo->t_mon_death, t_mon_philo_death, &wrapper);
-	if (res == SUCCESS)
-		res = t_create(&philo->t_philo_life, t_philo_life, &wrapper);
-	if (res != SUCCESS)
-		print_error_msg(ph, ERR_CREATE_THREAD, true);
-	if (philo->id == ph->philos)
-		sem_post(ph->sem_philos_started.sem);
-	if (philo->t_mon_philo_state.state == STATE_THREAD_CREATED)
-		t_join(&philo->t_mon_philo_state);
-	if (philo->t_mon_death.state == STATE_THREAD_CREATED)
-		t_join(&philo->t_mon_death);
-	if (philo->t_philo_life.state == STATE_THREAD_CREATED)
-		t_join(&philo->t_philo_life);
-	philo_exit(ph, res);
 }

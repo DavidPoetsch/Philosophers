@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:28:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 14:44:26 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:22:52 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	post_simulation_finished(t_philo_handler *ph)
 	i = 0;
 	while (i < ph->philos)
 	{
-		sem_post(ph->sem_forks.sem);
-		sem_post(ph->sem_forks_request.sem);
 		sem_post(ph->sem_stop_simulation.sem);
 		i++;
 	}
@@ -45,7 +43,7 @@ int	post_simulation_finished(t_philo_handler *ph)
  * 
  * Every philosopher needs to post the semaphore sem_philo_finished.
  * 
- * @param ph 
+ * @param ph philo handler struct
  */
 void	sim_monitoring(t_philo_handler *ph)
 {

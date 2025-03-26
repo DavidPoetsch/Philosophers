@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   start_philo_process.c                              :+:      :+:    :+:   */
+/*   start_philo_processes.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:51:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 17:00:25 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:36:57 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,22 @@ static int	fork_philo_processes(t_philo_handler *ph)
 			return (ERROR);
 		}
 		else if (philo->process.pid == CHILD)
-			start_philo_life(ph, philo);
+			start_philo_threads(ph, philo);
 		kill(philo->process.pid, SIGSTOP);
 		i++;
 	}
 	return (SUCCESS);
 }
 
+/**
+ * @brief ### Continue processes
+ * 
+ * All processes are stop right after forking.
+ * 
+ * When all of the are created send signal to continue.
+ * 
+ * @param ph 
+ */
 static void	continue_processes(t_philo_handler *ph)
 {
 	int		i;
@@ -53,6 +62,12 @@ static void	continue_processes(t_philo_handler *ph)
 	}
 }
 
+/**
+ * @brief ### Start all philo processes
+ * 
+ * @param ph 
+ * @return int 
+ */
 int	start_philo_processes(t_philo_handler *ph)
 {
 	int	res;

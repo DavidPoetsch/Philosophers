@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/19 13:56:06 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/26 13:04:30 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 # *     OPTIONAL [number_of_times_each_philosopher_must_eat].
 
 # Variables
-ARGS := 5 800 200 200 3
+ARGS := 5 800 200 200 5
 VALG_FLAGS := --trace-children=yes \
 							--errors-for-leak-kinds=all \
 							--leak-check=full \

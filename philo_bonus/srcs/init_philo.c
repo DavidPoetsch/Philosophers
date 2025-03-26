@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 16:48:29 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/24 09:34:13 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ int	init_philos(t_args args, t_philo_handler *ph)
 	if (!ph)
 		return (ERROR);
 	res = parse_arguments(args, ph);
-	if (res == SUCCESS)
+	if (res != ERROR)
 		res = alloc_philos(ph);
-	if (res == SUCCESS)
+	if (res != ERROR)
 		res = init_semaphores(ph);
-	if (res == SUCCESS)
+	if (res != ERROR)
 		res = init_start_time(ph);
-	if (res == SUCCESS)
-		calculate_time_to_think(ph);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 16:46:38 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:26:40 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 void			init_args(t_args *args, int argc, char *argv[]);
 int				init_philos(t_args args, t_philo_handler *ph);
 int				init_start_time(t_philo_handler *ph);
-void			calculate_time_to_think(t_philo_handler *ph);
 
 // Parse input
 
@@ -37,11 +36,13 @@ int				parse_arguments(t_args args, t_philo_handler *ph);
 
 // Philo life
 
+void			*t_philo_life(void *p);
 int				start_philo_processes(t_philo_handler *ph);
-void			start_philo_life(t_philo_handler *ph, t_philo *philo);
+void			start_philo_threads(t_philo_handler *ph, t_philo *philo);
 bool			sim_running(t_philo_handler *ph, t_philo *philo);
 void			send_finished(t_philo_handler *ph, t_philo *philo);
 void			update_last_meal_time(t_philo *philo);
+void			put_forks_down(t_philo_handler *ph);
 int				philo_usleep(t_philo *philo, int ms_sleep);
 void			*t_mon_philo_death(void *p);
 void			*t_mon_philo_state(void *p);

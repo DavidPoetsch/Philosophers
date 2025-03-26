@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:07:15 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 08:56:04 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 10:33:17 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,12 @@ enum	e_thread_create_return
 	STATE_THREAD_CREATED,
 	STATE_THREAD_JOINED,
 };
+
+enum e_philo_fork_state
+{
+	PHILO_HAS_NO_FORKS,
+	PHILO_TOOK_FORK1,
+	PHILO_TOOK_FORK2,
+};
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:30:47 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/19 12:09:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 09:10:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,22 @@ static int	init_sem_philo_handler(t_philo_handler *ph)
 	int	res;
 
 	res = init_semaphore(&ph->sem_forks, SEM_NAME_FORKS, ph->philos);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_semaphore(&ph->sem_forks_request, SEM_NAME_FORKS_REQ, 1);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_semaphore(&ph->sem_print, SEM_NAME_PRINT, 1);
-	if (res != ERROR)
-		res = init_semaphore(&ph->sem_print_block, SEM_NAME_PRINT_BLOCK, 0);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_semaphore(&ph->sem_philo_finished, SEM_NAME_PHILO_FIN, 0);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_semaphore(&ph->sem_stop_simulation, SEM_NAME_STOP_SIM, 0);
-	if (res != ERROR)
-		res = init_semaphore(&ph->sem_error, SEM_ERROR, 0);
-	if (res != ERROR)
-		res = init_semaphore(&ph->sem_philos_started, SEM_PHILOS_STARTED, 0);
+	if (res == SUCCESS)
+		res = init_semaphore(&ph->sem_stop_feedback, SEM_NAME_STOP_FB, 0);
+	if (res == SUCCESS)
+		res = init_semaphore(&ph->sem_error, SEM_NAME_ERROR, 0);
+	if (res == SUCCESS)
+		res = init_semaphore(&ph->sem_philos_started, SEM_NAME_PHILO_START, 0);
+	if (res == SUCCESS)
+		res = init_semaphore(&ph->sem_death, SEM_NAME_DEATH, 1);
 	return (res);
 }
 

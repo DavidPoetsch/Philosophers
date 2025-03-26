@@ -6,26 +6,56 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:17:06 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 16:38:53 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:07:44 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+static int	start_threads_odd_even_philos(t_philo_handler *ph, bool odd)
+{
+	int		res;
+	int		i;
+
+	i = 0;
+	res = SUCCESS;
+	while (res == SUCCESS && i < ph->philos)
+	{
+		if (((i % 2 == 0) && !odd) || ((i % 2 != 0) && odd))
+		{
+			res = t_create(&ph->philo_lst[i].t_philo, philo_life,
+					&ph->philo_lst[i]);
+		}
+		i++;
+	}
+	if (res != SUCCESS)
+		print_error(ph, ERR_CREATE_THREAD, res);
+	return (res);
+}
 
 int	start_philo_threads(t_philo_handler *ph)
 {
 	int	res;
 	int	i;
 
-	res = SUCCESS;
 	i = 0;
-	while (res == SUCCESS && i < ph->philos)
+	res = SUCCESS;
+	if (ph->philos % 2 != 0)
 	{
-		res = t_create(&ph->philo_lst[i].t_philo, philo_life,
-				&ph->philo_lst[i]);
-		i++;
+		res = start_threads_odd_even_philos(ph, false);
+		if (res == SUCCESS)
+			res = start_threads_odd_even_philos(ph, true);
 	}
-	if (res != SUCCESS)
-		print_error(ph, ERR_CREATE_THREAD, res);
+	else
+	{
+		while (res == SUCCESS && i < ph->philos)
+		{
+			res = t_create(&ph->philo_lst[i].t_philo, philo_life,
+					&ph->philo_lst[i]);
+			i++;
+		}
+		if (res != SUCCESS)
+			print_error(ph, ERR_CREATE_THREAD, res);
+	}
 	return (res);
 }

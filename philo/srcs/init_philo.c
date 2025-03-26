@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 16:34:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:19:18 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	alloc_philos(t_philo_handler *ph)
 /**
  * @brief ### Assign forks to philosophers.
  * 
- * - The forks will be swaped for philos with even numbers to prevent deadlock.
+ * - The forks will be swaped for philos with odd numbers to prevent deadlock.
  *
  * - Deadlock example: All Pick up left fork at the same time.
  * @param ph philo_handler struct
@@ -140,6 +140,7 @@ int	init_philos(t_args args, t_philo_handler *ph)
 		res = init_start_time(ph);
 	if (res == SUCCESS)
 		calculate_time_to_think(ph);
-	ph->m_sim_state.value = SIM_RUNING;
+	if (res == SUCCESS)
+		ph->m_sim_state.value = SIM_RUNING;
 	return (res);
 }

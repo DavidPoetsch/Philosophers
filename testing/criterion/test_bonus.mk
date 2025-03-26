@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/20 15:17:46 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/26 13:12:00 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS = srcs/test_bonus.c \
        srcs/utils/sem_value_utils.c \
        srcs/utils/sem_utils.c \
        srcs/utils/thread_utils.c \
+       srcs/utils/void_ptr_wrapper.c \
        srcs/parse_arguments.c \
        srcs/init_philo_2.c \
        srcs/init_philo.c \
@@ -33,11 +34,12 @@ SRCS = srcs/test_bonus.c \
        srcs/philo_free.c \
        srcs/philo_life.c \
        srcs/philo_life_utils.c \
+       srcs/philo_life_utils_2.c \
        srcs/philo_monitoring.c \
        srcs/sim_monitoring.c \
-       srcs/start_philo_process.c \
+       srcs/start_philo_processes.c \
+       srcs/start_philo_threads.c \
        srcs/philo_state.c \
-       srcs/void_ptr_wrapper.c \
        srcs/wait_utils.c
 
 # **************************************************************************** #
@@ -46,7 +48,7 @@ LDFLAGS_TEST = -lcriterion
 test_criterion:
 	@echo "$(BLUE)Build    '$(TARGET_EXEC)'$(RESET)"
 	@$(MAKE) -s -f $(MAKEFILE) $(TARGET_EXEC) DEBUG=1 LDFLAGS="$(LDFLAGS_TEST)"
-	@./test
+	@./test_bonus
 
 -include ../colors.mk
 -include ../general.mk

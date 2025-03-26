@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/20 13:59:06 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/26 13:15:23 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS = srcs/philosophers.c \
        srcs/utils/sem_value_utils.c \
        srcs/utils/sem_utils.c \
        srcs/utils/thread_utils.c \
+       srcs/utils/void_ptr_wrapper.c \
        srcs/parse_arguments.c \
        srcs/init_philo_2.c \
        srcs/init_philo.c \
@@ -33,12 +34,14 @@ SRCS = srcs/philosophers.c \
        srcs/philo_free.c \
        srcs/philo_life.c \
        srcs/philo_life_utils.c \
+       srcs/philo_life_utils_2.c \
        srcs/philo_monitoring.c \
        srcs/sim_monitoring.c \
-       srcs/start_philo_process.c \
+       srcs/start_philo_processes.c \
+       srcs/start_philo_threads.c \
        srcs/philo_state.c \
-       srcs/void_ptr_wrapper.c \
-       srcs/wait_utils.c \
+       srcs/wait_utils.c
 
+-include ../colors.mk
 -include ../general.mk
 -include ../testing/Makefile

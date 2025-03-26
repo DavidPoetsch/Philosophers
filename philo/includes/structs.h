@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 16:32:13 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 10:32:18 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ struct							s_philo
 {
 	int							id;
 	t_thread_info				t_philo;
-	// t_int_mutex					m_state;
 	t_int_mutex					m_meals;
 	t_tv_mutex					m_tv_last_meal;
 	t_mutex						*fork1;
 	t_mutex						*fork2;
 	t_philo_handler				*ph;
+	int							fork_state;
 };
 
 #endif

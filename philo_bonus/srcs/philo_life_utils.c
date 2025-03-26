@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 09:37:16 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:46:56 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	philo_usleep(t_philo *philo, int ms_sleep)
 	get_current_time(&tv_start);
 	while (ms < ms_sleep && sim_state == SIM_RUNING)
 	{
-		usleep(US_SIM_SLEEP);
+		usleep(US_USLEEP_PAUSE);
 		get_current_time(&tv_curr);
 		ms = get_time_duration_in_ms(tv_start, tv_curr);
 		sim_state = sim_state_usleep(philo, ms, false);
