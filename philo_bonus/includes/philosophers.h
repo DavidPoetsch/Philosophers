@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 12:26:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 09:20:18 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int				start_philo_processes(t_philo_handler *ph);
 void			start_philo_threads(t_philo_handler *ph, t_philo *philo);
 bool			sim_running(t_philo_handler *ph, t_philo *philo);
 void			send_finished(t_philo_handler *ph, t_philo *philo);
-void			update_last_meal_time(t_philo *philo);
+void			update_last_meal_time(t_philo *philo, t_tv *tv);
 void			put_forks_down(t_philo_handler *ph);
 int				philo_usleep(t_philo *philo, int ms_sleep);
 void			*t_mon_philo_death(void *p);
@@ -49,7 +49,7 @@ void			*t_mon_philo_state(void *p);
 
 // Philo state
 
-void			print_philo_state(t_philo_handler *ph, t_philo *philo,
+t_tv			print_philo_state(t_philo_handler *ph, t_philo *philo,
 					int state);
 void			print_error_msg(t_philo_handler *ph, char *msg,
 					bool post_error);

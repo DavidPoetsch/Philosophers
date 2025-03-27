@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:51:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 12:36:57 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 09:30:02 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	fork_philo_processes(t_philo_handler *ph)
  * 
  * @param ph 
  */
-static void	continue_processes(t_philo_handler *ph)
+void	continue_processes(t_philo_handler *ph)
 {
 	int		i;
 	t_philo	*philo;

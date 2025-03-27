@@ -6,16 +6,22 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 11:46:56 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 09:20:09 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	update_last_meal_time(t_philo *philo)
+void	update_last_meal_time(t_philo *philo, t_tv *tv)
 {
 	sem_wait(philo->sem_tv_last_meal.sem.sem);
-	get_current_time(&philo->sem_tv_last_meal.tv);
+	if (!tv)
+		get_current_time(&philo->sem_tv_last_meal.tv);
+	else
+	{
+		philo->sem_tv_last_meal.tv.tv_sec = tv->tv_sec;
+		philo->sem_tv_last_meal.tv.tv_usec = tv->tv_usec;
+	}
 	sem_post(philo->sem_tv_last_meal.sem.sem);
 }
 
