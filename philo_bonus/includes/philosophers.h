@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 09:20:18 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:27:07 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void			sim_monitoring(t_philo_handler *ph);
 
 char			*ft_strjoin(const char *s1, const char *s2);
 char			*ft_itoa(int n);
+bool			str_is_numeric(char *str);
 int				ft_atoi(const char *nptr);
 bool			int_check(const char *str);
 size_t			ft_strlen(const char *str);
@@ -91,7 +92,7 @@ void			t_join(t_thread_info *thread_info);
 // Time utils
 
 unsigned int	ms_to_us(unsigned int ms);
-size_t			get_time_duration_in_ms(t_tv tv_start, t_tv tv_end);
+size_t			get_time_duration_in_us(t_tv tv_start, t_tv tv_end);
 int				get_current_time(t_tv *tv);
 
 // Wrapper

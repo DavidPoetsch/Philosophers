@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/23 12:08:33 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/27 09:42:31 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/27 17:41:13 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,10 @@ tests: all
 visu:
 	@printf "$(PINK)python3 ../testing/visualize.py$(RESET)\n"
 	@python3 ../testing/visualize.py
+
+tester: all
+	@printf "$(PINK)../testing/philo_tester/test.sh ./$(TARGET_EXEC)$(RESET)\n"
+	@../testing/philo_tester/test.sh ./$(TARGET_EXEC)
 
 .PHONY: run runv runf tests visu
 

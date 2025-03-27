@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:41:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 09:28:14 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:53:51 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 static int	parse_number(char *arg)
 {
 	if (!int_check(arg))
-		return (0);
+		return (-1);
+	if (!str_is_numeric(arg))
+		return (-1);
 	return (ft_atoi(arg));
 }
 

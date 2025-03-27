@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 11:38:49 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:34:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,38 +31,26 @@ void	update_last_meal_time(t_philo *philo)
 	pthread_mutex_unlock(&philo->m_tv_last_meal.m.m);
 }
 
-int	sim_state_usleep(t_philo_handler *ph, int *ms_curr, bool check_now)
-{
-	int	sim_state;
-
-	sim_state = SIM_RUNING;
-	if ((*ms_curr) >= MS_CHECK_SIM_STATE || check_now)
-	{
-		get_int_mutex(&ph->m_sim_state, &sim_state);
-		(*ms_curr) = 0;
-	}
-	return (sim_state);
-}
-
 int	philo_usleep(t_philo_handler *ph, int ms_sleep)
 {
-	int		ms;
-	int		ms_curr;
+	size_t		us;
+	size_t		us_sleep;
 	int		sim_state;
 	t_tv	tv_start;
 	t_tv	tv_curr;
 
-	ms = 0;
-	ms_curr = 0;
+	us = 0;
+	us_sleep = ms_sleep * 1000;
 	sim_state = SIM_RUNING;
-	get_current_time(&tv_start);
-	while (ms < ms_sleep && sim_state == SIM_RUNING)
+	gettimeofday(&tv_start, NULL);
+	while (us < us_sleep)
 	{
+		get_int_mutex(&ph->m_sim_state, &sim_state);
+		if (sim_state != SIM_RUNING)
+			break;
 		usleep(US_USLEEP_PAUSE);
-		get_current_time(&tv_curr);
-		ms = get_time_duration_in_ms(tv_start, tv_curr);
-		ms_curr += ms;
-		sim_state = sim_state_usleep(ph, &ms_curr, false);
+		gettimeofday(&tv_curr, NULL);
+		us = get_time_duration_in_us(tv_start, tv_curr);
 	}
-	return (sim_state_usleep(ph, &ms_curr, true));
+	return (sim_state);
 }

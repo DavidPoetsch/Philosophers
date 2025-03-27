@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 10:06:48 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:31:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static void	print_formated_time(t_philo_handler *ph)
 {
 	t_tv	tv_curr;
-	size_t	ms;
+	size_t	us;
 
 	get_current_time(&tv_curr);
-	ms = get_time_duration_in_ms(ph->tv_start, tv_curr);
-	printf("%zu ", ms);
+	us = get_time_duration_in_us(ph->tv_start, tv_curr);
+	printf("%zu ", us / 1000);
 }
 
 void	print_philo_state(t_philo_handler *ph, int id, int state)
@@ -27,17 +27,15 @@ void	print_philo_state(t_philo_handler *ph, int id, int state)
 	lock_mutex(&ph->m_print);
 	print_formated_time(ph);
 	if (state == PHILO_IS_ALIVE)
-		printf("%d is alive.\n", id);
-	else if (state == PHILO_HAS_TAKEN_FORK)
-		printf("%d has taken a fork.\n", id);
+		printf("%d is alive\n", id);
 	else if (state == PHILO_IS_EATING)
-		printf("%d is eating.\n", id);
+		printf("%d is eating\n", id);
 	else if (state == PHILO_IS_SLEEPING)
-		printf("%d is sleeping.\n", id);
+		printf("%d is sleeping\n", id);
 	else if (state == PHILO_IS_THINKING)
-		printf("%d is thinking.\n", id);
+		printf("%d is thinking\n", id);
 	else if (state == PHILO_IS_DEAD)
-		printf("%d died.\n", id);
+		printf("%d died\n", id);
 	pthread_mutex_unlock(&ph->m_print.m);
 }
 
@@ -49,11 +47,11 @@ void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 	lock_mutex(&ph->m_print);
 	print_formated_time(ph);
 	if (DEBUG && fork == 1)
-		printf("%d has taken fork. 1: (%p)\n", philo->id, philo->fork1);
+		printf("%d has taken fork 1: (%p)\n", philo->id, philo->fork1);
 	else if (DEBUG && fork == 2)
-		printf("%d has taken fork. 2: (%p)\n", philo->id, philo->fork2);
+		printf("%d has taken fork 2: (%p)\n", philo->id, philo->fork2);
 	else
-		printf("%d has taken a fork.\n", philo->id);
+		printf("%d has taken a fork\n", philo->id);
 	pthread_mutex_unlock(&ph->m_print.m);
 }
 

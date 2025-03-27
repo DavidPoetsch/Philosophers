@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 09:43:12 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:38:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,17 @@ t_tv	print_philo_state(t_philo_handler *ph, t_philo *philo, int state)
 	sem_wait(ph->sem_print.sem);
 	memset(&tv, 0, sizeof(t_tv));
 	if (state == PHILO_IS_ALIVE)
-		print_state(ph, philo->id, " is alive.\n", &tv);
+		print_state(ph, philo->id, " is alive\n", &tv);
 	else if (state == PHILO_HAS_TAKEN_FORK)
-		print_state(ph, philo->id, " has taken a fork.\n", &tv);
+		print_state(ph, philo->id, " has taken a fork\n", &tv);
 	else if (state == PHILO_IS_EATING)
-		print_state(ph, philo->id, " is eating.\n", &tv);
+		print_state(ph, philo->id, " is eating\n", &tv);
 	else if (state == PHILO_IS_SLEEPING)
-		print_state(ph, philo->id, " is sleeping.\n", &tv);
+		print_state(ph, philo->id, " is sleeping\n", &tv);
 	else if (state == PHILO_IS_THINKING)
-		print_state(ph, philo->id, " is thinking.\n", &tv);
+		print_state(ph, philo->id, " is thinking\n", &tv);
 	else if (state == PHILO_IS_DEAD)
-		print_state(ph, philo->id, " died.\n", &tv);
+		print_state(ph, philo->id, " died\n", &tv);
 	sem_post(ph->sem_print.sem);
 	return (tv);
 }

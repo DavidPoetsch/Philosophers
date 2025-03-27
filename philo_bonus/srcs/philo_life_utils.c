@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 09:20:09 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:50:27 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	philo_usleep(t_philo *philo, int ms_sleep)
 	{
 		usleep(US_USLEEP_PAUSE);
 		get_current_time(&tv_curr);
-		ms = get_time_duration_in_ms(tv_start, tv_curr);
+		ms = get_time_duration_in_ms(tv_start, tv_curr); //! use new one
 		sim_state = sim_state_usleep(philo, ms, false);
 	}
 	return (sim_state_usleep(philo, 0, true));

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 18:01:38 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:56:32 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,22 @@ static int	ft_is_space(char c)
 	if (c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v')
 		return (1);
 	return (0);
+}
+
+bool	str_is_numeric(char *str)
+{
+	size_t	i;
+
+	if (!str)
+		return (false);
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 /**

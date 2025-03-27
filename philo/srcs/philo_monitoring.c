@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 11:40:04 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:48:55 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 static int	check_philo_death(t_philo_handler *ph, t_philo *philo,
 		t_tv *tv_curr)
 {
-	int		ms;
+	size_t		us;
 	t_tv	tv_last_meal;
 
 	get_tv_mutex(&philo->m_tv_last_meal, &tv_last_meal);
-	ms = get_time_duration_in_ms(tv_last_meal, *tv_curr);
-	if (ms >= ph->time_to_die)
+	us = get_time_duration_in_us(tv_last_meal, *tv_curr);
+	if (us >= (size_t)(ph->time_to_die * 1000L))
 	{
 		set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
 		print_philo_state(ph, philo->id, PHILO_IS_DEAD);
