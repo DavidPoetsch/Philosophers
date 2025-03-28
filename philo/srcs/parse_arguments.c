@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:41:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 16:56:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:41:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ static int	get_arg_times(t_args args, t_philo_handler *ph)
 		ft_puterr(ERR_INVALID_TTS);
 		return (ERROR);
 	}
+	ph->time_to_die *= 1000ULL;
+	ph->time_to_eat *= 1000ULL;
+	ph->time_to_sleep *= 1000ULL;
 	return (SUCCESS);
 }
 

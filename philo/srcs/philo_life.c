@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 11:42:31 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 16:40:06 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
  * @param philo
  * @return int
  */
-static int	take_forks(t_philo_handler *ph, t_philo *philo)
+static inline	__attribute__((always_inline)) int take_forks(t_philo_handler *ph,
+		t_philo *philo)
 {
 	int	sim_state;
 
@@ -67,7 +68,8 @@ static int	take_forks(t_philo_handler *ph, t_philo *philo)
  * @param philo philo
  * @return int sim state
  */
-static int	eat(t_philo_handler *ph, t_philo *philo)
+static inline	__attribute__((always_inline)) int eat(t_philo_handler *ph,
+		t_philo *philo)
 {
 	int	sim_state;
 
@@ -76,7 +78,7 @@ static int	eat(t_philo_handler *ph, t_philo *philo)
 	if (sim_state == SIM_RUNING)
 	{
 		print_philo_state(ph, philo->id, PHILO_IS_EATING);
-		update_last_meal_time(philo);
+		update_time_to_die(philo, ph->time_to_die);
 		sim_state = philo_usleep(ph, ph->time_to_eat);
 		inc_int_mutex(&philo->m_meals);
 	}
@@ -92,7 +94,8 @@ static int	eat(t_philo_handler *ph, t_philo *philo)
  * @param philo philo
  * @return int sim state
  */
-static int	go_sleep(t_philo_handler *ph, t_philo *philo)
+static inline	__attribute__((always_inline)) int go_sleep(t_philo_handler *ph,
+		t_philo *philo)
 {
 	int	sim_state;
 
@@ -112,7 +115,8 @@ static int	go_sleep(t_philo_handler *ph, t_philo *philo)
  * @param ph
  * @param philo
  */
-static int	think(t_philo_handler *ph, t_philo *philo)
+static inline	__attribute__((always_inline)) int think(t_philo_handler *ph,
+		t_philo *philo)
 {
 	int	sim_state;
 
@@ -136,10 +140,8 @@ void	*philo_life(void *p)
 		return (NULL);
 	philo = (t_philo *)p;
 	ph = philo->ph;
+	update_time_to_die(philo, ph->time_to_die);
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	if (philo->id % 2 == 0)
-		usleep(ms_to_us(10));
-	update_last_meal_time(philo);
 	sim_state = SIM_RUNING;
 	while (sim_state == SIM_RUNING)
 	{

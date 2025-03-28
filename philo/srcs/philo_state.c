@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 17:31:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:09:22 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	print_formated_time(t_philo_handler *ph)
 {
-	t_tv	tv_curr;
-	size_t	us;
+	t_tv				tv_curr;
+	unsigned long long	us;
 
-	get_current_time(&tv_curr);
+	gettimeofday(&tv_curr, NULL);
 	us = get_time_duration_in_us(ph->tv_start, tv_curr);
-	printf("%zu ", us / 1000);
+	printf("%llu ", us / 1000ULL);
 }
 
 void	print_philo_state(t_philo_handler *ph, int id, int state)

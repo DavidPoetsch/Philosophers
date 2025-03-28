@@ -6,12 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 13:00:47 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:14:18 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
-#include <errno.h>
+#include "../../includes/philosophers.h"
 
 /**
  * @brief ### Lock mutex

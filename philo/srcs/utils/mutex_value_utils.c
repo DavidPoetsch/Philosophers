@@ -6,11 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:12:20 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 11:38:23 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:15:42 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../../includes/philosophers.h"
 
 /**
  * @brief ### Increment int mutex by 1 with INT_MAX limit.
@@ -71,41 +71,37 @@ int	get_int_mutex(t_int_mutex *t_mut, int *value)
 }
 
 /**
- * @brief ### Set the time value mutex to value
+ * @brief ### Set the ull mutex to value.
  *
  * @param t_mut mutex
- * @param tv_new new time value
+ * @param value new value
  * @return int SUCCESS or ERROR
  */
-int	set_tv_mutex(t_tv_mutex *t_mut, t_tv tv_new)
+int	set_ull_mutex(t_ull_mutex *t_mut, unsigned long long value)
 {
 	if (!t_mut)
 		return (ERROR);
-	if (pthread_mutex_lock(&t_mut->m.m) == M_LOCK_SUCCESS)
-	{
-		t_mut->tv.tv_sec = tv_new.tv_sec;
-		t_mut->tv.tv_usec = tv_new.tv_usec;
-		pthread_mutex_unlock(&t_mut->m.m);
-		return (SUCCESS);
-	}
-	return (ERROR);
+	if (pthread_mutex_lock(&t_mut->m.m) != M_LOCK_SUCCESS)
+		return (ERROR);
+	t_mut->value = value;
+	pthread_mutex_unlock(&t_mut->m.m);
+	return (SUCCESS);
 }
 
 /**
- * @brief ### Get the value from an t_tv_mutex.
+ * @brief ### Get the value from an t_ull_mutex.
  *
  * @param t_mut mutex
- * @param tv_res timevalue struct pointer (result)
+ * @param value value pointer
  * @return int SUCCESS or ERROR
  */
-int	get_tv_mutex(t_tv_mutex *t_mut, t_tv *tv_res)
+int	get_ull_mutex(t_ull_mutex *t_mut, unsigned long long *value)
 {
-	if (!t_mut || !tv_res)
+	if (!t_mut || !value)
 		return (ERROR);
 	if (pthread_mutex_lock(&t_mut->m.m) == M_LOCK_SUCCESS)
 	{
-		tv_res->tv_sec = t_mut->tv.tv_sec;
-		tv_res->tv_usec = t_mut->tv.tv_usec;
+		*value = t_mut->value;
 		pthread_mutex_unlock(&t_mut->m.m);
 		return (SUCCESS);
 	}

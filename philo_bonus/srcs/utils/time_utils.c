@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:46:12 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 16:27:38 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:03:54 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,22 @@ unsigned int	ms_to_us(unsigned int ms)
 	return (ms * 1000);
 }
 
-size_t	get_time_duration_in_ms(t_tv tv_start, t_tv tv_end)
+unsigned long long	get_curr_us(void)
 {
-	long	seconds;
-	long	microseconds;
-	size_t	milliseconds;
+	t_tv	tv;
 
-	if (tv_start.tv_sec > tv_end.tv_sec)
-		return (-1);
-	seconds = tv_end.tv_sec - tv_start.tv_sec;
-	microseconds = tv_end.tv_usec - tv_start.tv_usec;
-	milliseconds = (seconds * 1000) + (microseconds / 1000);
-	return (milliseconds);
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000000ULL) + tv.tv_usec);
 }
 
-int	get_current_time(t_tv *tv)
+unsigned long long	get_time_duration_in_us(t_tv tv_start, t_tv tv_end)
 {
-	int	res;
+	unsigned long long	seconds;
+	unsigned long long	usec;
 
-	res = gettimeofday(tv, NULL);
-	if (res != 0)
-	{
-		return (ERROR);
-	}
-	return (SUCCESS);
+	if (tv_start.tv_sec > tv_end.tv_sec)
+		return (0);
+	seconds = tv_end.tv_sec - tv_start.tv_sec;
+	usec = tv_end.tv_usec - tv_start.tv_usec;
+	return ((seconds * 1000000) + usec);
 }

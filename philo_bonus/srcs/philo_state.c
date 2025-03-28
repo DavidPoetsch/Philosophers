@@ -6,78 +6,40 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 16:38:26 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:11:05 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-// static void	block_printing(t_philo_handler *ph)
-// {
-// 	int	i;
-
-// 	i = ph->philos;
-// 	post_simulation_finished(ph);
-// 	while (i > 0)
-// 	{
-// 		sem_wait(ph->sem_print_block.sem);
-// 		i--;
-// 		if (i == 0)
-// 			break ;
-// 	}
-// }
-
-static int	print_formated_time(t_philo_handler *ph, t_tv *tv)
+void	print_state(t_philo_handler *ph, int id, char *str,
+		unsigned long long *curr_us)
 {
-	size_t	ms;
-
-	if (!tv)
-		return (ERROR);
-	if (get_current_time(tv) == ERROR)
-	{
-		ft_puterr(ERR_GETTIMEOFDAY);
-		sem_post(ph->sem_error.sem);
-		return (ERROR);
-	}
-	ms = get_time_duration_in_ms(ph->tv_start, *tv);
-	ft_putnbr((size_t)ms);
-	ft_putstr(" ");
-	return (SUCCESS);
+	*curr_us = get_curr_us();
+	printf("%llu %d %s", (*curr_us) / 1000ULL, id, str);
 }
 
-int	print_state(t_philo_handler *ph, int id, char *str, t_tv *tv)
+unsigned long long	print_philo_state(t_philo_handler *ph, t_philo *philo,
+		int state)
 {
-	int	res;
-
-	res = print_formated_time(ph, tv);
-	if (res == SUCCESS)
-	{
-		ft_putnbr((size_t)id);
-		ft_putstr(str);
-	}
-	return (res);
-}
-
-t_tv	print_philo_state(t_philo_handler *ph, t_philo *philo, int state)
-{
-	t_tv	tv;
+	unsigned long long	curr_us;
 
 	sem_wait(ph->sem_print.sem);
-	memset(&tv, 0, sizeof(t_tv));
+	curr_us = 0;
 	if (state == PHILO_IS_ALIVE)
-		print_state(ph, philo->id, " is alive\n", &tv);
+		print_state(ph, philo->id, " is alive\n", &curr_us);
 	else if (state == PHILO_HAS_TAKEN_FORK)
-		print_state(ph, philo->id, " has taken a fork\n", &tv);
+		print_state(ph, philo->id, " has taken a fork\n", &curr_us);
 	else if (state == PHILO_IS_EATING)
-		print_state(ph, philo->id, " is eating\n", &tv);
+		print_state(ph, philo->id, " is eating\n", &curr_us);
 	else if (state == PHILO_IS_SLEEPING)
-		print_state(ph, philo->id, " is sleeping\n", &tv);
+		print_state(ph, philo->id, " is sleeping\n", &curr_us);
 	else if (state == PHILO_IS_THINKING)
-		print_state(ph, philo->id, " is thinking\n", &tv);
+		print_state(ph, philo->id, " is thinking\n", &curr_us);
 	else if (state == PHILO_IS_DEAD)
-		print_state(ph, philo->id, " died\n", &tv);
+		print_state(ph, philo->id, " died\n", &curr_us);
 	sem_post(ph->sem_print.sem);
-	return (tv);
+	return (curr_us);
 }
 
 void	print_error_msg(t_philo_handler *ph, char *msg, bool post_error)

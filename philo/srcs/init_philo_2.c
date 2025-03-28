@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:07:22 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 09:24:47 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 13:56:57 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	init_start_time(t_philo_handler *ph)
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		philo->m_tv_last_meal.tv.tv_sec = ph->tv_start.tv_sec;
-		philo->m_tv_last_meal.tv.tv_usec = ph->tv_start.tv_usec;
+		update_time_to_die(philo, ph->time_to_die);
 		i++;
 	}
 	return (SUCCESS);
@@ -41,10 +40,10 @@ int	init_start_time(t_philo_handler *ph)
 
 void	calculate_time_to_think(t_philo_handler *ph)
 {
-	ph->time_to_think = MS_DELAY_THINKING;
+	ph->time_to_think = US_DELAY_THINKING;
 	if (ph->time_to_sleep < ph->time_to_eat)
 	{
 		ph->time_to_think = ph->time_to_eat - ph->time_to_sleep;
-		ph->time_to_think += MS_DELAY_THINKING;
+		ph->time_to_think += US_DELAY_THINKING;
 	}
 }

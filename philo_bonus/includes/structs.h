@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 09:05:31 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:13:58 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_args			t_args;
 typedef struct timeval			t_tv;
 typedef struct s_sem			t_sem;
 typedef struct s_int_sem		t_int_sem;
-typedef struct s_tv_sem			t_tv_sem;
+typedef struct s_ull_sem		t_ull_sem;
 typedef struct s_process		t_process;
 typedef struct s_thread_info	t_thread_info;
 typedef struct s_ptr_wrapper	t_ptr_wrapper;
@@ -50,9 +50,9 @@ struct							s_int_sem
 	t_sem						sem;
 };
 
-struct							s_tv_sem
+struct							s_ull_sem
 {
-	t_tv						tv;
+	unsigned long long			value;
 	t_sem						sem;
 };
 

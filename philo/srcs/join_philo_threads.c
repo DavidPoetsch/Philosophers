@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:13:11 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/21 13:00:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/28 11:57:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void	join_philo_threads(t_philo_handler *ph)
 		t_join(&ph->philo_lst[i].t_philo);
 		i++;
 	}
+	set_int_mutex(&ph->m_all_philos_finished, 1);
 	t_join(&ph->t_mon);
 }
