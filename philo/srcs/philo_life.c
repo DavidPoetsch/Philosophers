@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 16:40:06 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/31 15:28:21 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
  * @param philo
  * @return int
  */
-static inline	__attribute__((always_inline)) int take_forks(t_philo_handler *ph,
-		t_philo *philo)
+int take_forks(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
 
@@ -68,18 +67,18 @@ static inline	__attribute__((always_inline)) int take_forks(t_philo_handler *ph,
  * @param philo philo
  * @return int sim state
  */
-static inline	__attribute__((always_inline)) int eat(t_philo_handler *ph,
-		t_philo *philo)
+int eat(t_philo_handler *ph, t_philo *philo)
 {
+	unsigned long long us_curr;
 	int	sim_state;
 
 	sim_state = SIM_FINISHED;
 	get_int_mutex(&ph->m_sim_state, &sim_state);
 	if (sim_state == SIM_RUNING)
 	{
-		print_philo_state(ph, philo->id, PHILO_IS_EATING);
-		update_time_to_die(philo, ph->time_to_die);
-		sim_state = philo_usleep(ph, ph->time_to_eat);
+		us_curr = print_philo_state(ph, philo->id, PHILO_IS_EATING);
+		update_time_to_die(philo, us_curr);
+		sim_state = philo_usleep(ph, philo->time_to_eat);
 		inc_int_mutex(&philo->m_meals);
 	}
 	return (sim_state);
@@ -94,13 +93,12 @@ static inline	__attribute__((always_inline)) int eat(t_philo_handler *ph,
  * @param philo philo
  * @return int sim state
  */
-static inline	__attribute__((always_inline)) int go_sleep(t_philo_handler *ph,
-		t_philo *philo)
+int go_sleep(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
 
 	print_philo_state(ph, philo->id, PHILO_IS_SLEEPING);
-	sim_state = philo_usleep(ph, ph->time_to_sleep);
+	sim_state = philo_usleep(ph, philo->time_to_sleep);
 	return (sim_state);
 }
 
@@ -115,15 +113,14 @@ static inline	__attribute__((always_inline)) int go_sleep(t_philo_handler *ph,
  * @param ph
  * @param philo
  */
-static inline	__attribute__((always_inline)) int think(t_philo_handler *ph,
-		t_philo *philo)
+int think(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
 
 	sim_state = SIM_RUNING;
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
 	if (ph->philos % 2 != 0)
-		sim_state = philo_usleep(ph, ph->time_to_think);
+		sim_state = philo_usleep(ph, philo->time_to_think);
 	return (sim_state);
 }
 
@@ -140,10 +137,9 @@ void	*philo_life(void *p)
 		return (NULL);
 	philo = (t_philo *)p;
 	ph = philo->ph;
-	update_time_to_die(philo, ph->time_to_die);
+	update_time_to_die(philo, 0);
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
-	sim_state = SIM_RUNING;
-	while (sim_state == SIM_RUNING)
+	while (sim_running(ph, philo))
 	{
 		sim_state = take_forks(ph, philo);
 		if (sim_state == SIM_RUNING)

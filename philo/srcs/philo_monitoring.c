@@ -6,14 +6,14 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 16:31:38 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/31 16:24:59 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static inline	__attribute__((always_inline)) int check_philo_death(t_philo_handler *ph,
-		t_philo *philo)
+static inline	__attribute__((always_inline))
+int check_philo_death(t_philo_handler *ph, t_philo *philo)
 {
 	int					all_philos_finished;
 	unsigned long long	time_of_death;
@@ -21,7 +21,7 @@ static inline	__attribute__((always_inline)) int check_philo_death(t_philo_handl
 	all_philos_finished = 0;
 	time_of_death = 0;
 	get_ull_mutex(&philo->m_time_of_death, &time_of_death);
-	if (get_curr_us() >= time_of_death)
+	if (get_curr_us() / 1000ULL >= time_of_death)
 	{
 		set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
 		while (!all_philos_finished)
@@ -32,7 +32,8 @@ static inline	__attribute__((always_inline)) int check_philo_death(t_philo_handl
 	return (SIM_RUNING);
 }
 
-static inline	__attribute__((always_inline)) int philo_meals_finished(t_philo_handler *ph,
+static inline	__attribute__((always_inline))
+int philo_meals_finished(t_philo_handler *ph,
 		t_philo *philo, int *philos_finished)
 {
 	int	meals;
@@ -48,7 +49,8 @@ static inline	__attribute__((always_inline)) int philo_meals_finished(t_philo_ha
 	return (SIM_RUNING);
 }
 
-static inline	__attribute__((always_inline)) int check_philos_state(t_philo_handler *ph)
+static inline	__attribute__((always_inline))
+int check_philos_state(t_philo_handler *ph)
 {
 	int	i;
 	int	sim_state;

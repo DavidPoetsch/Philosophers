@@ -6,49 +6,56 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 11:55:33 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/31 12:31:30 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static int	alloc_forks(t_philo_handler *ph)
+static int	alloc_memory_block(t_philo_handler **ph, t_input input)
 {
-	if (!ph)
-		return (ERROR);
-	ph->forks = (t_mutex *)malloc(ph->philos * sizeof(t_mutex));
-	if (!ph->forks)
-	{
-		ft_puterr(ERR_MALLOC_FORKS);
-		free(ph->philo_lst);
-		ph->philo_lst = NULL;
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
+	size_t			mem_size;
+	void			*memory_block;
+	t_philo_handler	*ph_ptr;
 
-static int	alloc_philos(t_philo_handler *ph)
-{
-	int	i;
-
-	if (!ph)
-		return (ERROR);
-	ph->state = PH_STATE_UNDEFINED;
-	ph->philo_lst = (t_philo *)malloc(ph->philos * sizeof(t_philo));
-	if (!ph->philo_lst)
+	mem_size = sizeof(t_philo_handler) + input.philos * sizeof(t_philo);
+	memory_block = malloc(mem_size);
+	if (!memory_block)
 	{
 		ft_puterr(ERR_MALLOC_PHILOS);
 		return (ERROR);
 	}
-	if (alloc_forks(ph) == ERROR)
+	memset(memory_block, 0, mem_size);
+	ph_ptr = (t_philo_handler *)memory_block;
+	ph_ptr->philo_lst = (t_philo *)((char *)memory_block
+			+ sizeof(t_philo_handler));
+	*ph = ph_ptr;
+	return (SUCCESS);
+}
+
+static int	init_philos_structs(t_philo_handler *ph, t_input input)
+{
+	t_philo *philo;
+	int	i;
+
+	if (!ph)
 		return (ERROR);
+	ph->philos = input.philos;
+	ph->meals_per_philo = input.meals_per_philo;
+	ph->meal_limit = (input.meals_per_philo > 0);
+	ph->m_sim_state.value = SIM_RUNING;
+	ph->state = PH_STATE_UNDEFINED;
 	i = 0;
 	while (i < ph->philos)
 	{
-		memset(&ph->philo_lst[i], 0, sizeof(t_philo));
-		ph->philo_lst[i].id = i + 1;
-		ph->philo_lst[i].ph = ph;
-		ph->philo_lst[i].fork1 = &ph->forks[i];
+		philo = &ph->philo_lst[i];
+		philo->time_to_die = input.time_to_die;
+		philo->time_to_eat = input.time_to_eat;
+		philo->time_to_sleep = input.time_to_sleep;
+		calculate_time_to_think(ph, philo);
+		philo->id = i + 1;
+		philo->ph = ph;
+		philo->fork1 = &philo->own_fork;
 		i++;
 	}
 	ph->state = PH_STATE_PHILOS_INIT;
@@ -57,7 +64,7 @@ static int	alloc_philos(t_philo_handler *ph)
 
 /**
  * @brief ### Assign forks to philosophers.
- * 
+ *
  * - The forks will be swaped for philos with odd numbers to prevent deadlock.
  *
  * - Deadlock example: All Pick up left fork at the same time.
@@ -111,7 +118,7 @@ static int	init_mutexes(t_philo_handler *ph)
 		philo = &ph->philo_lst[i];
 		res = init_mutex(&philo->m_time_of_death.m);
 		if (res == SUCCESS)
-			res = init_mutex(&ph->forks[i]);
+			res = init_mutex(&philo->own_fork);
 		if (res == SUCCESS)
 			res = init_mutex(&philo->m_meals.m);
 		i++;
@@ -125,24 +132,25 @@ static int	init_mutexes(t_philo_handler *ph)
  * @param ph philo handler struct.
  * @return int SUCCESS or ERROR.
  */
-int	init_philos(t_args args, t_philo_handler *ph)
+int	init_philos(t_args args, t_philo_handler **ph)
 {
-	int	res;
+	t_philo_handler	*new_philo_handler;
+	t_input			input;
+	int				res;
 
-	if (!ph)
-		return (ERROR);
-	res = parse_arguments(args, ph);
+	new_philo_handler = NULL;
+	memset(&input, 0, sizeof(t_input));
+	res = parse_arguments(args, &input);
 	if (res == SUCCESS)
-		res = alloc_philos(ph);
+		res = alloc_memory_block(&new_philo_handler, input);
 	if (res == SUCCESS)
-		res = assign_forks(ph);
+		res = init_philos_structs(new_philo_handler, input);
 	if (res == SUCCESS)
-		res = init_mutexes(ph);
+		res = init_mutexes(new_philo_handler);
 	if (res == SUCCESS)
-		res = init_start_time(ph);
+		res = assign_forks(new_philo_handler);
 	if (res == SUCCESS)
-		calculate_time_to_think(ph);
-	if (res == SUCCESS)
-		ph->m_sim_state.value = SIM_RUNING;
+		res = init_start_time(new_philo_handler);
+	*ph = new_philo_handler;
 	return (res);
 }

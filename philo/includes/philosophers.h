@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 16:41:26 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:18:41 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
 // Init
 
 void				init_args(t_args *args, int argc, char *argv[]);
-int					init_philos(t_args args, t_philo_handler *ph);
+int					init_philos(t_args args, t_philo_handler **ph);
 int					init_start_time(t_philo_handler *ph);
-void				calculate_time_to_think(t_philo_handler *ph);
+void				calculate_time_to_think(t_philo_handler *ph,
+						t_philo *philo);
 
 // Mutex utils
 
@@ -43,20 +44,18 @@ int					get_ull_mutex(t_ull_mutex *t_mut,
 						unsigned long long *ull_res);
 
 // Parse input
-
-int					parse_arguments(t_args args, t_philo_handler *ph);
+int					parse_arguments(t_args args, t_input *input);
 
 // Philo life
 
 void				*philo_life(void *p);
 void				put_forks_down(t_philo *philo);
-void				update_time_to_die(t_philo *philo, unsigned long long ttd);
+void				update_time_to_die(t_philo *philo,
+						unsigned long long us_curr);
 int					philo_usleep(t_philo_handler *ph,
 						unsigned long long us_sleep);
-// int					philo_usleep(t_philo_handler *ph,
-// 						unsigned long long us_sleep);
 int					start_philo_threads(t_philo_handler *ph);
-
+bool				sim_running(t_philo_handler *ph, t_philo *philo);
 // Monitoring
 
 void				*philo_monitoring(void *p);
@@ -65,7 +64,7 @@ int					start_monitoring_thread(t_philo_handler *ph);
 
 // Print philo state
 
-void				print_philo_state(t_philo_handler *ph, int id, int state);
+unsigned long long	print_philo_state(t_philo_handler *ph, int id, int state);
 void				print_philo_state_fork(t_philo_handler *ph, t_philo *philo,
 						int fork);
 void				print_error(t_philo_handler *ph, char *msg, int error);
@@ -87,15 +86,12 @@ void				t_join(t_thread_info *thread_info);
 
 // Time utils
 unsigned int		ms_to_us(unsigned int ms);
-unsigned long long	get_time_duration_in_us(t_tv tv_start, t_tv tv_end);
+unsigned long long	get_time_duration_in_ms(t_tv tv_start, t_tv tv_end);
 unsigned long long	get_curr_us(void);
 
 // Clean
 
 int					philo_free(t_philo_handler *ph);
 void				join_philo_threads(t_philo_handler *ph);
-
-// Debug
-bool				fail_count(int value);
 
 #endif

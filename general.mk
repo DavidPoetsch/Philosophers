@@ -6,12 +6,12 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/20 15:22:46 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/03/31 09:32:57 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -O3 -Wall -Wextra -Werror
 CFLAGS_DEBUG = -Wall -Wextra -Werror -g
 CFLAGS_DEBUG_ASAN = -Wall -Wextra -Werror -g -fsanitize=address,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
 CFLAGS_DEBUG_TSAN = -Wall -Wextra -Werror -g -fsanitize=thread,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
