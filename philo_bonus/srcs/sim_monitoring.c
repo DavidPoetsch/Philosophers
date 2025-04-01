@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:28:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 17:16:53 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:25:56 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ void	sim_monitoring(t_philo_handler *ph)
 		if (philo_finished_count >= ph->philos)
 			break ;
 	}
-	sem_post(ph->sem_stop_feedback.sem);
 	post_simulation_finished(ph);
 }

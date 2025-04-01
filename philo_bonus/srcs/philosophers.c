@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 09:30:48 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:20:01 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	main(int argc, char **argv)
 		res = start_philo_processes(&ph);
 	if (res == SUCCESS)
 		sim_monitoring(&ph);
-	join_error_handler_thread(&ph);
 	wait_philo_processes(&ph);
+	join_error_handler_thread(&ph);
 	close_semaphores(&ph);
 	philo_free(&ph);
 	return (EXIT_SUCCESS);

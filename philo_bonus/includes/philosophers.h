@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 16:04:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:05:28 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 
 // Init
 
@@ -95,7 +96,6 @@ void				t_join(t_thread_info *thread_info);
 
 // Time utils
 
-unsigned int		ms_to_us(unsigned int ms);
 unsigned long long	get_curr_us(void);
 
 // Wrapper

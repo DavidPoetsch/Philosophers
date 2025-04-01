@@ -6,17 +6,11 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:46:12 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 17:22:44 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:05:37 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philosophers.h"
-
-inline	__attribute__((always_inline))
-unsigned int	ms_to_us(unsigned int ms)
-{
-	return (ms * 1000);
-}
 
 inline	__attribute__((always_inline))
 unsigned long long	get_curr_us(void)

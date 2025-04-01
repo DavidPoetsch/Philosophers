@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 17:17:02 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:48:17 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,25 @@ void	*t_mon_philo_state(void *p)
 
 static void	wait_for_other_philos_to_finish(t_philo_handler *ph)
 {
+	int	i;
+
 	post_simulation_finished(ph);
-	sem_wait(ph->sem_stop_feedback.sem);
+	i = ph->philos;
+	while (i > 0)
+	{
+		sem_wait(ph->sem_stop_feedback.sem);
+		i--;
+	}
 }
 
 /**
- * @brief Check if philo died based on the previous eating time.
+ * @brief ### Check if philo died based on the previous eating time.
+ * 
+ * - Block death prints of other
+ * 
+ * - Wait until every philo posted on sem_stop_feedback
+ * 
+ * - Print death time.
  */
 static bool	philo_died(t_philo_handler *ph, t_philo *philo)
 {

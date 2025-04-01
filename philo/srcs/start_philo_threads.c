@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:17:06 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/31 16:26:42 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:18:10 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ bool	is_odd(int nr)
 static int	start_philo_threads_conditioned(t_philo_handler *ph,
 		bool (*condition)(int))
 {
-	int	res;
-	int	i;
+	t_philo	*philo;
+	int		res;
+	int		i;
 
 	if (!ph)
 		return (ERROR);
@@ -34,11 +35,9 @@ static int	start_philo_threads_conditioned(t_philo_handler *ph,
 	res = SUCCESS;
 	while (res == SUCCESS && i < ph->philos)
 	{
-		if (!condition || condition(i + 1))
-		{
-			res = t_create(&ph->philo_lst[i].t_philo, philo_life,
-					&ph->philo_lst[i]);
-		}
+		philo = &ph->philo_lst[i];
+		if (!condition || condition(philo->id))
+			res = t_create(&philo->t_philo, philo_life, philo);
 		i++;
 	}
 	if (res != SUCCESS)
@@ -51,7 +50,7 @@ int	start_philo_threads(t_philo_handler *ph)
 	int	res;
 
 	res = start_philo_threads_conditioned(ph, &is_odd);
-	usleep(2000);
+	usleep(DELAY_T_CREATE);
 	if (res == SUCCESS)
 		res = start_philo_threads_conditioned(ph, &is_even);
 	return (res);

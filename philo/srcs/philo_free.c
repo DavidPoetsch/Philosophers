@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:01:45 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 09:07:47 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:11:26 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static int	destroy_mutexs(t_philo_handler *ph)
 int	philo_free(t_philo_handler *ph)
 {
 	if (!ph)
-		return (SUCCESS);
-	if (ph->state != PH_STATE_PHILOS_INIT)
 		return (SUCCESS);
 	destroy_mutexs(ph);
 	free(ph);

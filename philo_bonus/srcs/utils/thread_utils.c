@@ -6,12 +6,20 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:26:03 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 12:30:11 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:59:44 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+/**
+ * @brief ### Create thread
+ * 
+ * @param thread_info thread info struct
+ * @param start_routine start routine
+ * @param arg argument pointer
+ * @return int returns SUCCESS or ERROR
+ */
 int	t_create(t_thread_info *thread_info, void *(*start_routine)(void *),
 		void *arg)
 {
@@ -27,6 +35,13 @@ int	t_create(t_thread_info *thread_info, void *(*start_routine)(void *),
 	return (SUCCESS);
 }
 
+/**
+ * @brief ### Join thread
+ * 
+ * - Checks if state == STATE_THREAD_CREATED
+ * 
+ * @param thread_info thread info struct
+ */
 void	t_join(t_thread_info *thread_info)
 {
 	if (!thread_info || thread_info->state != STATE_THREAD_CREATED)

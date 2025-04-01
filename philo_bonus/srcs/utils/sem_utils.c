@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:47:44 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/20 16:27:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:54:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_semaphore(t_sem *sem, char *name, int value)
 	return (SUCCESS);
 }
 
-void	print_close_err(char *sem_name, char *err)
+static void	print_close_err(char *sem_name, char *err)
 {
 	ft_puterr("close ");
 	ft_puterr(sem_name);

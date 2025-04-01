@@ -6,18 +6,17 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:46:12 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 09:25:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:05:45 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philosophers.h"
 
-inline	__attribute__((always_inline))
-unsigned int	ms_to_us(unsigned int ms)
-{
-	return (ms * 1000);
-}
-
+/**
+ * @brief ### Get current microseconds
+ * 
+ * - inline function
+ */
 inline	__attribute__((always_inline))
 unsigned long long	get_curr_us(void)
 {

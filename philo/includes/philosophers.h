@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 16:38:51 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:05:48 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ int					t_create(t_thread_info *thread_info,
 void				t_join(t_thread_info *thread_info);
 
 // Time utils
-unsigned int		ms_to_us(unsigned int ms);
-unsigned long long	get_time_duration_in_ms(t_tv tv_start, t_tv tv_end);
 unsigned long long	get_curr_us(void);
 
 // Clean
