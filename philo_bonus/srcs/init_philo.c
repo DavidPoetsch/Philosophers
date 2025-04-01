@@ -6,13 +6,23 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/24 09:34:13 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 11:13:44 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	alloc_philos(t_philo_handler *ph)
+static void	init_philo_handler(t_philo_handler *ph, t_input input)
+{
+	ph->time_to_die = input.time_to_die;
+	ph->time_to_eat = input.time_to_eat;
+	ph->time_to_sleep = input.time_to_sleep;
+	ph->philos = input.philos;
+	ph->meals_per_philo = input.meals_per_philo;
+	ph->meal_limit = (input.meals_per_philo > 0);
+}
+
+static int	alloc_philos(t_philo_handler *ph)
 {
 	int	i;
 
@@ -40,16 +50,20 @@ int	alloc_philos(t_philo_handler *ph)
  */
 int	init_philos(t_args args, t_philo_handler *ph)
 {
-	int	res;
+	int		res;
+	t_input	input;
 
 	if (!ph)
 		return (ERROR);
-	res = parse_arguments(args, ph);
-	if (res != ERROR)
+	memset(&input, 0, sizeof(t_input));
+	res = parse_arguments(args, &input);
+	if (res == SUCCESS)
+		init_philo_handler(ph, input);
+	if (res == SUCCESS)
 		res = alloc_philos(ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_semaphores(ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_start_time(ph);
 	return (res);
 }

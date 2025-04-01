@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:10 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/31 16:11:02 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:15:20 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 #  define DEBUG false
 # endif
 
-# define MS_CHECK_SIM_STATE 250
-
-# define US_DELAY_THINKING 200
-# define US_USLEEP_PAUSE 300
-# define US_MON_PAUSE 250
+# define DELAY_THINKING 200
+# define USLEEP_PAUSE 200
+# define MON_PAUSE 250
 
 # define M_LOCK_SUCCESS 0
 

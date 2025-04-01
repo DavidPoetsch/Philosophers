@@ -6,16 +6,16 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/31 09:32:57 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/04/01 13:34:06 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-CFLAGS_DEBUG = -Wall -Wextra -Werror -g
-CFLAGS_DEBUG_ASAN = -Wall -Wextra -Werror -g -fsanitize=address,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
-CFLAGS_DEBUG_TSAN = -Wall -Wextra -Werror -g -fsanitize=thread,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
-CFLAGS_DEBUG_HELG = -Wall -Wextra -Werror -g -O0
+CFLAGS_DEBUG = -O3 -Wall -Wextra -Werror -g
+CFLAGS_DEBUG_ASAN = -O3 -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS_DEBUG_TSAN = -O3 -Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS_DEBUG_HELG = -O3 -Wall -Wextra -Werror -g -O0
 DEBUG = 0
 
 BUILD_DIR = ./build
@@ -43,8 +43,8 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 # -l tells the linker to link against a specific library.
 # ft refers to the library name. 
 LDFLAGS := ""
-LDFLAGS_ASAN = -fsanitize=address,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
-LDFLAGS_TSAN = -fsanitize=thread,undefined,bounds,float-divide-by-zero -fno-omit-frame-pointer
+LDFLAGS_ASAN = -fsanitize=address
+LDFLAGS_TSAN = -fsanitize=thread
 
 # **************************************************************************** #
 # * BUILD

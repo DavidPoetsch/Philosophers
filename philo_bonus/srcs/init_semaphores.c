@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:30:47 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 09:10:37 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:17:32 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static int	create_sem_names(t_philo_handler *ph)
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		sem = &philo->sem_tv_last_meal.sem;
-		res = create_sem_name(sem, SEM_NAME_LAST_MEAL, i);
+		sem = &philo->sem_time_of_death.sem;
+		res = create_sem_name(sem, SEM_NAME_TIME_OF_DEATH, i);
 		if (res != ERROR)
 		{
 			sem = &philo->sem_sim_state.sem;
@@ -96,7 +96,7 @@ static int	init_sem_philos(t_philo_handler *ph)
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		res = init_semaphore(&philo->sem_tv_last_meal.sem, NULL, 1);
+		res = init_semaphore(&philo->sem_time_of_death.sem, NULL, 1);
 		if (res != ERROR)
 			res = init_semaphore(&philo->sem_sim_state.sem, NULL, 1);
 		philo->sem_sim_state.value = SIM_RUNING;

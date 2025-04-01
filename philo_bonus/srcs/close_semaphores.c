@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:20:27 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 09:05:42 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:17:40 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	close_sem_philos(t_philo_handler *ph)
 	while (i < ph->philos)
 	{
 		philo = &ph->philo_lst[i];
-		close_semaphore(&philo->sem_tv_last_meal.sem, unlink);
+		close_semaphore(&philo->sem_time_of_death.sem, unlink);
 		close_semaphore(&philo->sem_sim_state.sem, unlink);
 		i++;
 	}

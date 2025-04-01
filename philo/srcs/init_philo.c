@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/31 12:31:30 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:20:34 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static int	alloc_memory_block(t_philo_handler **ph, t_input input)
 
 static int	init_philos_structs(t_philo_handler *ph, t_input input)
 {
-	t_philo *philo;
-	int	i;
+	t_philo	*philo;
+	int		i;
 
 	if (!ph)
 		return (ERROR);

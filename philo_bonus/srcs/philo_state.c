@@ -6,40 +6,50 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 14:11:05 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:20:11 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	print_state(t_philo_handler *ph, int id, char *str,
-		unsigned long long *curr_us)
+static inline void	print_state(unsigned long long us_duration, int id,
+		char *str)
 {
-	*curr_us = get_curr_us();
-	printf("%llu %d %s", (*curr_us) / 1000ULL, id, str);
+	printf("%llu %d %s\n", us_duration / 1000ULL, id, str);
 }
 
 unsigned long long	print_philo_state(t_philo_handler *ph, t_philo *philo,
 		int state)
 {
 	unsigned long long	curr_us;
+	unsigned long long	us_duration;
 
 	sem_wait(ph->sem_print.sem);
-	curr_us = 0;
+	curr_us = get_curr_us();
+	us_duration = curr_us - ph->start_time;
 	if (state == PHILO_IS_ALIVE)
-		print_state(ph, philo->id, " is alive\n", &curr_us);
+		print_state(us_duration, philo->id, "is alive");
 	else if (state == PHILO_HAS_TAKEN_FORK)
-		print_state(ph, philo->id, " has taken a fork\n", &curr_us);
+		print_state(us_duration, philo->id, "has taken a fork");
 	else if (state == PHILO_IS_EATING)
-		print_state(ph, philo->id, " is eating\n", &curr_us);
+		print_state(us_duration, philo->id, "is eating");
 	else if (state == PHILO_IS_SLEEPING)
-		print_state(ph, philo->id, " is sleeping\n", &curr_us);
+		print_state(us_duration, philo->id, "is sleeping");
 	else if (state == PHILO_IS_THINKING)
-		print_state(ph, philo->id, " is thinking\n", &curr_us);
-	else if (state == PHILO_IS_DEAD)
-		print_state(ph, philo->id, " died\n", &curr_us);
+		print_state(us_duration, philo->id, "is thinking");
 	sem_post(ph->sem_print.sem);
 	return (curr_us);
+}
+
+void	print_philo_dead(t_philo_handler *ph, t_philo *philo,
+		unsigned long long tod)
+{
+	unsigned long long	us_duration;
+
+	sem_wait(ph->sem_print.sem);
+	us_duration = tod - ph->start_time;
+	print_state(us_duration, philo->id, "died");
+	sem_post(ph->sem_print.sem);
 }
 
 void	print_error_msg(t_philo_handler *ph, char *msg, bool post_error)

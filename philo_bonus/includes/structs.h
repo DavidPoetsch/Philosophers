@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 14:13:58 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:31:54 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_ull_sem		t_ull_sem;
 typedef struct s_process		t_process;
 typedef struct s_thread_info	t_thread_info;
 typedef struct s_ptr_wrapper	t_ptr_wrapper;
+typedef struct s_input			t_input;
 
 struct							s_args
 {
@@ -69,14 +70,23 @@ struct							s_thread_info
 	int							state;
 };
 
+struct							s_input
+{
+	int							philos;
+	unsigned long long			time_to_die;
+	unsigned long long			time_to_eat;
+	unsigned long long			time_to_sleep;
+	int							meals_per_philo;
+};
+
 struct							s_philo_handler
 {
 	t_philo						*philo_lst;
 	int							philos;
-	t_tv						tv_start;
-	int							time_to_die;
-	int							time_to_eat;
-	int							time_to_sleep;
+	unsigned long long			start_time;
+	unsigned long long			time_to_die;
+	unsigned long long			time_to_eat;
+	unsigned long long			time_to_sleep;
 	int							meals_per_philo;
 	bool						meal_limit;
 	t_sem						sem_forks_request;
@@ -87,6 +97,7 @@ struct							s_philo_handler
 	t_sem						sem_stop_feedback;
 	t_sem						sem_philos_started;
 	t_sem						sem_death;
+	t_sem						sem_start;
 	t_sem						sem_error;
 	t_thread_info				t_error_handler;
 	bool						is_child;
@@ -100,7 +111,7 @@ struct							s_philo
 	t_thread_info				t_philo_life;
 	t_thread_info				t_mon_philo_state;
 	t_thread_info				t_mon_death;
-	t_tv_sem					sem_tv_last_meal;
+	t_ull_sem					sem_time_of_death;
 	t_int_sem					sem_sim_state;
 	bool						finished;
 };

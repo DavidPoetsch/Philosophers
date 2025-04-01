@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 17:51:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 09:30:02 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:44:48 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	start_philo_processes(t_philo_handler *ph)
 {
 	int	res;
 
+	init_start_time(ph);
 	res = fork_philo_processes(ph);
 	continue_processes(ph);
 	if (res != SUCCESS)

@@ -6,35 +6,37 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/31 16:24:59 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:23:04 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
 static inline	__attribute__((always_inline))
-int check_philo_death(t_philo_handler *ph, t_philo *philo)
+int	check_philo_death(t_philo_handler *ph, t_philo *philo)
 {
 	int					all_philos_finished;
 	unsigned long long	time_of_death;
+	unsigned long long	curr_us;
 
 	all_philos_finished = 0;
 	time_of_death = 0;
 	get_ull_mutex(&philo->m_time_of_death, &time_of_death);
-	if (get_curr_us() / 1000ULL >= time_of_death)
+	curr_us = get_curr_us();
+	if (curr_us >= time_of_death)
 	{
 		set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
 		while (!all_philos_finished)
 			get_int_mutex(&ph->m_all_philos_finished, &all_philos_finished);
-		print_philo_state(ph, philo->id, PHILO_IS_DEAD);
+		print_philo_dead(ph, philo, curr_us);
 		return (SIM_FINISHED);
 	}
 	return (SIM_RUNING);
 }
 
 static inline	__attribute__((always_inline))
-int philo_meals_finished(t_philo_handler *ph,
-		t_philo *philo, int *philos_finished)
+int	philo_meals_finished(t_philo_handler *ph, t_philo *philo,
+	int *philos_finished)
 {
 	int	meals;
 
@@ -50,7 +52,7 @@ int philo_meals_finished(t_philo_handler *ph,
 }
 
 static inline	__attribute__((always_inline))
-int check_philos_state(t_philo_handler *ph)
+int	check_philos_state(t_philo_handler *ph)
 {
 	int	i;
 	int	sim_state;
@@ -74,14 +76,14 @@ int check_philos_state(t_philo_handler *ph)
 	return (sim_state);
 }
 
-// static bool	general_error(t_philo_handler *ph)
-// {
-// 	int	error_code;
+static	bool	general_error(t_philo_handler *ph)
+{
+	int	error_code;
 
-// 	error_code = ERROR;
-// 	get_int_mutex(&ph->m_error, &error_code);
-// 	return (error_code != SUCCESS);
-// }
+	error_code = ERROR;
+	get_int_mutex(&ph->m_error, &error_code);
+	return (error_code != SUCCESS);
+}
 
 void	*philo_monitoring(void *p)
 {
@@ -91,15 +93,12 @@ void	*philo_monitoring(void *p)
 	if (!p)
 		return (NULL);
 	ph = (t_philo_handler *)p;
-	while (1)
+	sim_state = SIM_RUNING;
+	while (sim_state == SIM_RUNING && !general_error(ph))
 	{
 		sim_state = check_philos_state(ph);
-		if (sim_state == SIM_FINISHED)
-		{
-			set_state_finished(ph);
-			break ;
-		}
-		usleep(US_MON_PAUSE);
+		usleep(MON_PAUSE);
 	}
+	set_state_finished(ph);
 	return (NULL);
 }

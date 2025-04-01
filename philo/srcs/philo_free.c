@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:01:45 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/31 12:29:52 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 09:07:47 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ int	philo_free(t_philo_handler *ph)
 	if (ph->state != PH_STATE_PHILOS_INIT)
 		return (SUCCESS);
 	destroy_mutexs(ph);
+	free(ph);
 	return (SUCCESS);
 }

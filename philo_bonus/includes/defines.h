@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:10 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 16:58:11 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:26:38 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@
 
 // Times
 
-# define US_DEATH_CHECK_PAUSE 200
-# define US_USLEEP_PAUSE 100
-# define MS_CHECK_SIM_STATE 1234
+# define USLEEP_PAUSE 250
+# define DEATH_CHECK_PAUSE 250
 
 // Sempahore names (philo handler)
 
@@ -38,7 +37,7 @@
 // Sempahore names (philo)
 
 # define SEM_NAME_SIM_STATE "/sem_simulation_state"
-# define SEM_NAME_LAST_MEAL "/sem_philo_last_meal_time"
+# define SEM_NAME_TIME_OF_DEATH "/sem_philo_time_of_death"
 
 // Basics
 

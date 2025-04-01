@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:38:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 16:56:32 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 09:12:36 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ bool	str_is_numeric(char *str)
 {
 	size_t	i;
 
-	if (!str)
+	if (!str || str[0] == '\0')
 		return (false);
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (!ft_isdigit(str[i]))
 			return (false);

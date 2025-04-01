@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/31 15:28:21 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:20:43 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @param philo
  * @return int
  */
-int take_forks(t_philo_handler *ph, t_philo *philo)
+int	take_forks(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
 
@@ -39,7 +39,7 @@ int take_forks(t_philo_handler *ph, t_philo *philo)
 			while (sim_state == SIM_RUNING)
 			{
 				get_int_mutex(&ph->m_sim_state, &sim_state);
-				usleep(MS_CHECK_SIM_STATE);
+				usleep(MON_PAUSE);
 			}
 			return (sim_state);
 		}
@@ -67,10 +67,10 @@ int take_forks(t_philo_handler *ph, t_philo *philo)
  * @param philo philo
  * @return int sim state
  */
-int eat(t_philo_handler *ph, t_philo *philo)
+int	eat(t_philo_handler *ph, t_philo *philo)
 {
-	unsigned long long us_curr;
-	int	sim_state;
+	unsigned long long	us_curr;
+	int					sim_state;
 
 	sim_state = SIM_FINISHED;
 	get_int_mutex(&ph->m_sim_state, &sim_state);
@@ -93,7 +93,7 @@ int eat(t_philo_handler *ph, t_philo *philo)
  * @param philo philo
  * @return int sim state
  */
-int go_sleep(t_philo_handler *ph, t_philo *philo)
+int	go_sleep(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
 
@@ -113,7 +113,7 @@ int go_sleep(t_philo_handler *ph, t_philo *philo)
  * @param ph
  * @param philo
  */
-int think(t_philo_handler *ph, t_philo *philo)
+int	think(t_philo_handler *ph, t_philo *philo)
 {
 	int	sim_state;
 
@@ -137,7 +137,7 @@ void	*philo_life(void *p)
 		return (NULL);
 	philo = (t_philo *)p;
 	ph = philo->ph;
-	update_time_to_die(philo, 0);
+	update_time_to_die(philo, get_curr_us());
 	print_philo_state(ph, philo->id, PHILO_IS_THINKING);
 	while (sim_running(ph, philo))
 	{

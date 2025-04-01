@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/31 13:18:41 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:38:51 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int					start_monitoring_thread(t_philo_handler *ph);
 // Print philo state
 
 unsigned long long	print_philo_state(t_philo_handler *ph, int id, int state);
+void				print_philo_dead(t_philo_handler *ph, t_philo *philo,
+						unsigned long long tod);
 void				print_philo_state_fork(t_philo_handler *ph, t_philo *philo,
 						int fork);
 void				print_error(t_philo_handler *ph, char *msg, int error);

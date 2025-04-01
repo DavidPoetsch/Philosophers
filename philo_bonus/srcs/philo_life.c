@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/27 09:43:15 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:20:16 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,15 @@ int	take_forks(t_philo_handler *ph, t_philo *philo)
  */
 int	eat(t_philo_handler *ph, t_philo *philo)
 {
-	t_tv	tv;
-	int		sim_state;
+	unsigned long long	us_curr;
+	int					sim_state;
 
-	memset(&tv, 0, sizeof(tv));
 	sim_state = SIM_FINISHED;
 	get_int_sem(&philo->sem_sim_state, &sim_state);
 	if (sim_state == SIM_RUNING)
 	{
-		tv = print_philo_state(ph, philo, PHILO_IS_EATING);
-		update_last_meal_time(philo, &tv);
+		us_curr = print_philo_state(ph, philo, PHILO_IS_EATING);
+		update_time_to_die(philo, ph->time_to_die, us_curr);
 		sim_state = philo_usleep(philo, ph->time_to_eat);
 	}
 	philo->meals++;
@@ -131,8 +130,7 @@ void	*t_philo_life(void *p)
 		return (NULL);
 	ph = ((t_ptr_wrapper *)p)->ptr_ph;
 	philo = ((t_ptr_wrapper *)p)->ptr_philo;
-	philo->finished = false;
-	update_last_meal_time(philo, NULL);
+	update_time_to_die(philo, ph->time_to_die, get_curr_us());
 	print_philo_state(ph, philo, PHILO_IS_THINKING);
 	while (sim_running(ph, philo))
 	{

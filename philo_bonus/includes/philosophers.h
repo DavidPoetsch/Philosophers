@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 14:12:00 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:04:34 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "structs.h"
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -32,16 +33,17 @@ int					init_start_time(t_philo_handler *ph);
 
 // Parse input
 
-int					parse_arguments(t_args args, t_philo_handler *ph);
+int					parse_arguments(t_args args, t_input *input);
 
 // Philo life
 
 void				*t_philo_life(void *p);
 int					start_philo_processes(t_philo_handler *ph);
 void				start_philo_threads(t_philo_handler *ph, t_philo *philo);
+void				update_time_to_die(t_philo *philo, unsigned long long ttd,
+						unsigned long long us_curr);
 bool				sim_running(t_philo_handler *ph, t_philo *philo);
 void				send_finished(t_philo_handler *ph, t_philo *philo);
-void				update_last_meal_time(t_philo *philo, t_tv *tv);
 void				put_forks_down(t_philo_handler *ph);
 int					philo_usleep(t_philo *philo, unsigned long long us_sleep);
 void				*t_mon_philo_death(void *p);
@@ -53,6 +55,8 @@ unsigned long long	print_philo_state(t_philo_handler *ph, t_philo *philo,
 						int state);
 void				print_error_msg(t_philo_handler *ph, char *msg,
 						bool post_error);
+void				print_philo_dead(t_philo_handler *ph, t_philo *philo,
+						unsigned long long tod);
 
 // Simulation monitoring
 
@@ -80,8 +84,8 @@ int					init_semaphore(t_sem *sem, char *name, int value);
 int					close_semaphore(t_sem *sem, bool unlink);
 void				set_int_sem(t_int_sem *t_sem, int value);
 void				get_int_sem(t_int_sem *t_sem, int *value);
-void				set_tv_sem(t_tv_sem *t_sem, t_tv tv_new);
-void				get_tv_sem(t_tv_sem *t_sem, t_tv *tv_res);
+void				set_ull_sem(t_ull_sem *t_sem, unsigned long long value);
+void				get_ull_sem(t_ull_sem *t_sem, unsigned long long *value);
 
 // Thread utils
 
@@ -92,7 +96,6 @@ void				t_join(t_thread_info *thread_info);
 // Time utils
 
 unsigned int		ms_to_us(unsigned int ms);
-unsigned long long	get_time_duration_in_us(t_tv tv_start, t_tv tv_end);
 unsigned long long	get_curr_us(void);
 
 // Wrapper
