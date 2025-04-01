@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 20:10:10 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 21:11:11 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ struct							s_philo
 	t_thread_info				t_mon_philo_state;
 	t_thread_info				t_mon_death;
 	t_ull_sem					sem_time_of_death;
+	unsigned long long			local_time_of_death;
 	t_int_sem					sem_sim_state;
 	bool						finished;
 };

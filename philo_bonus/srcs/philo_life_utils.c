@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 16:32:17 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 21:12:44 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	update_time_to_die(t_philo *philo, unsigned long long ttd,
 		unsigned long long us_curr)
 {
 	sem_wait(philo->sem_time_of_death.sem.sem);
-	philo->sem_time_of_death.value = (us_curr + ttd);
+	philo->local_time_of_death = (us_curr + ttd);
+	philo->sem_time_of_death.value = philo->local_time_of_death;
 	sem_post(philo->sem_time_of_death.sem.sem);
 }
 
@@ -34,6 +35,8 @@ bool	sim_running(t_philo_handler *ph, t_philo *philo)
 
 	if (ph->meal_limit && philo->meals >= ph->meals_per_philo)
 		send_finished(ph, philo);
+	if (get_curr_us() >= philo->local_time_of_death)
+		return (false);
 	sim_state = SIM_RUNING;
 	get_int_sem(&philo->sem_sim_state, &sim_state);
 	return (sim_state == SIM_RUNING);

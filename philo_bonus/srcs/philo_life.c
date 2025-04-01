@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 20:25:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/01 21:12:53 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,13 @@ int	take_forks(t_philo_handler *ph, t_philo *philo)
 		sem_wait(ph->sem_forks.sem);
 		get_int_sem(&philo->sem_sim_state, &sim_state);
 		if (sim_state == SIM_RUNING)
+		{
 			print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
-	}
-	get_int_sem(&philo->sem_sim_state, &sim_state);
-	if (sim_state == SIM_RUNING)
-	{
-		sem_wait(ph->sem_forks.sem);
-		get_int_sem(&philo->sem_sim_state, &sim_state);
-		if (sim_state == SIM_RUNING)
-			print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
+			sem_wait(ph->sem_forks.sem);
+			get_int_sem(&philo->sem_sim_state, &sim_state);
+			if (sim_state == SIM_RUNING)
+				print_philo_state(ph, philo, PHILO_HAS_TAKEN_FORK);
+		}
 	}
 	sem_post(ph->sem_forks_request.sem);
 	return (sim_state);
