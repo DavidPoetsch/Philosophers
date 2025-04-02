@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:53:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 19:02:34 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 12:44:53 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ struct							s_philo_handler
 	t_mutex						m_print;
 	t_int_mutex					m_sim_state;
 	t_int_mutex					m_error;
-	t_int_mutex					m_all_philos_finished;
+	bool						someone_died;
 	int							state;
 };
 

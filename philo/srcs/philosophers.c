@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 19:14:49 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 12:11:29 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	main(int argc, char **argv)
 		res = start_monitoring_thread(ph);
 	if (res == SUCCESS)
 		res = start_philo_threads(ph);
-	if (res == SUCCESS)
-		join_philo_threads(ph);
+	join_philo_threads(ph);
 	philo_free(ph);
 	if (res != SUCCESS)
 		return (EXIT_FAILURE);

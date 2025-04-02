@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:41:16 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 10:10:09 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 12:38:27 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	parse_number(char *arg)
 static int	get_arg_philos(t_args args, t_input *input)
 {
 	input->philos = parse_number(args.argv[1]);
-	if (input->philos <= 0)
+	if (input->philos <= 0 || input->philos > 200)
 	{
 		ft_puterr(ERR_INVALID_PHILOS);
 		return (ERROR);
@@ -35,19 +35,19 @@ static int	get_arg_philos(t_args args, t_input *input)
 static int	get_arg_times(t_args args, t_input *input)
 {
 	input->time_to_die = parse_number(args.argv[2]);
-	if (input->time_to_die <= 0)
+	if (input->time_to_die < 60)
 	{
 		ft_puterr(ERR_INVALID_TTD);
 		return (ERROR);
 	}
 	input->time_to_eat = parse_number(args.argv[3]);
-	if (input->time_to_eat <= 0)
+	if (input->time_to_eat < 60)
 	{
 		ft_puterr(ERR_INVALID_TTE);
 		return (ERROR);
 	}
 	input->time_to_sleep = parse_number(args.argv[4]);
-	if (input->time_to_sleep <= 0)
+	if (input->time_to_sleep < 60)
 	{
 		ft_puterr(ERR_INVALID_TTS);
 		return (ERROR);

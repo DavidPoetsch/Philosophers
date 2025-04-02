@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 17:21:58 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 12:47:00 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@ unsigned long long	print_philo_state(t_philo_handler *ph, int id, int state)
 
 	lock_mutex(&ph->m_print);
 	curr_us = get_curr_us();
-	us_duration = curr_us - ph->start_time;
-	if (state == PHILO_IS_ALIVE)
-		print_state(us_duration, id, "is alive");
-	else if (state == PHILO_IS_EATING)
-		print_state(us_duration, id, "is eating");
-	else if (state == PHILO_IS_SLEEPING)
-		print_state(us_duration, id, "is sleeping");
-	else if (state == PHILO_IS_THINKING)
-		print_state(us_duration, id, "is thinking");
-	else if (state == PHILO_IS_DEAD)
-		print_state(us_duration, id, "died");
+	if (!ph->someone_died)
+	{
+		us_duration = curr_us - ph->start_time;
+		if (state == PHILO_IS_ALIVE)
+			print_state(us_duration, id, "is alive");
+		else if (state == PHILO_IS_EATING)
+			print_state(us_duration, id, "is eating");
+		else if (state == PHILO_IS_SLEEPING)
+			print_state(us_duration, id, "is sleeping");
+		else if (state == PHILO_IS_THINKING)
+			print_state(us_duration, id, "is thinking");
+	}
 	pthread_mutex_unlock(&ph->m_print.m);
 	return (curr_us);
 }
@@ -47,6 +48,7 @@ void	print_philo_dead(t_philo_handler *ph, t_philo *philo,
 
 	lock_mutex(&ph->m_print);
 	us_duration = tod - ph->start_time;
+	ph->someone_died = true;
 	print_state(us_duration, philo->id, "died");
 	pthread_mutex_unlock(&ph->m_print.m);
 }

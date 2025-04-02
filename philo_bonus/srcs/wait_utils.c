@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:13:22 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/26 09:20:27 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 14:02:32 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	wait_philo_processes(t_philo_handler *ph)
 {
 	int	i;
 
-	if (!ph->philo_lst)
+	if (!ph || !ph->philo_lst)
 		return (SUCCESS);
 	i = 0;
 	while (i < ph->philos)

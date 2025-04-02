@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:12:55 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 21:12:44 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 12:48:59 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	philo_usleep(t_philo *philo, unsigned long long us_sleep)
 	us_end = us_curr + us_sleep;
 	while (us_curr < us_end)
 	{
-		if (i++ >= 5000)
+		if (i++ >= 2000)
 		{
 			get_int_sem(&philo->sem_sim_state, &sim_state);
 			i = 0;

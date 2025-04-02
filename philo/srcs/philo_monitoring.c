@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 17:23:04 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 12:47:16 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	check_philo_death(t_philo_handler *ph, t_philo *philo)
 	if (curr_us >= time_of_death)
 	{
 		set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
-		while (!all_philos_finished)
-			get_int_mutex(&ph->m_all_philos_finished, &all_philos_finished);
 		print_philo_dead(ph, philo, curr_us);
 		return (SIM_FINISHED);
 	}
