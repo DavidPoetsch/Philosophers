@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 09:13:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 13:27:53 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 09:01:47 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ int	start_error_handler_thread(t_philo_handler *ph)
 
 	res = t_create(&ph->t_error_handler, t_philo_error_handler, ph);
 	if (res != SUCCESS)
+	{
 		print_error_msg(ph, ERR_CREATE_THREAD, true);
+		post_simulation_finished(ph);
+		unlock_waiting_semaphores(ph);
+	}
 	return (res);
 }
 

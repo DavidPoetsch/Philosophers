@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:28:30 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 20:25:56 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/02 09:05:58 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	post_simulation_finished(t_philo_handler *ph)
 {
 	int	i;
 
+	if (!ph)
+		return (SUCCESS);
 	i = 0;
 	while (i < ph->philos)
 	{

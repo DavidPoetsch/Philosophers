@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/03/26 13:15:23 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/04/02 09:14:25 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,4 +44,4 @@ SRCS = srcs/philosophers.c \
 
 -include ../colors.mk
 -include ../general.mk
--include ../testing/Makefile
+# -include ../testing/Makefile
