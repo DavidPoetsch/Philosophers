@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:30:47 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/02 12:29:38 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/03 09:24:47 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	init_semaphores(t_philo_handler *ph)
 	int	res;
 
 	res = init_sem_philo_handler(ph);
-	if (res != ERROR)
+	if (res == SUCCESS)
 		res = init_sem_philos(ph);
 	return (res);
 }

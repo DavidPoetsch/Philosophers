@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/02 12:45:22 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/03 10:01:43 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	alloc_memory_block(t_philo_handler **ph, t_input input)
 	t_philo_handler	*ph_ptr;
 
 	mem_size = sizeof(t_philo_handler) + input.philos * sizeof(t_philo);
-	memory_block = malloc(mem_size);
+	memory_block = (void*)malloc(mem_size);
 	if (!memory_block)
 	{
 		ft_puterr(ERR_MALLOC_PHILOS);

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/02 13:51:29 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/03 12:04:47 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,5 @@ void	*t_philo_life(void *p)
 			think(ph, philo);
 	}
 	send_finished(ph, philo);
-	sem_post(ph->sem_stop_feedback.sem);
 	return (NULL);
 }

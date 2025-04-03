@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/04/02 14:12:47 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/04/03 08:51:50 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,4 +145,4 @@ fclean:
 # and we don't want those errors to show up.
 -include $(DEPS)
 
-# -include ../testing/Makefile
+-include ../testing/Makefile

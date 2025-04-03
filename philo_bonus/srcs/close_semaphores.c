@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:20:27 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 20:10:40 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/03 09:03:17 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	close_sem_philo_handler(t_philo_handler *ph)
 {
 	bool	unlink;
 
+	if (!ph)
+		return (SUCCESS);
 	unlink = !ph->is_child;
 	close_semaphore(&ph->sem_forks_request, unlink);
 	close_semaphore(&ph->sem_forks, unlink);
@@ -35,7 +37,7 @@ static int	close_sem_philos(t_philo_handler *ph)
 	t_philo	*philo;
 	bool	unlink;
 
-	if (!ph->philo_lst)
+	if (!ph || !ph->philo_lst)
 		return (SUCCESS);
 	unlink = !ph->is_child;
 	i = 0;
@@ -51,6 +53,8 @@ static int	close_sem_philos(t_philo_handler *ph)
 
 int	close_semaphores(t_philo_handler *ph)
 {
+	if (!ph)
+		return (SUCCESS);
 	close_sem_philo_handler(ph);
 	close_sem_philos(ph);
 	return (SUCCESS);

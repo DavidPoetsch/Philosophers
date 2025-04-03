@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/02 09:06:50 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/03 10:02:52 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	main(int argc, char **argv)
 	memset(&ph, 0, sizeof(t_philo_handler));
 	init_args(&args, argc, argv);
 	res = init_philos(args, &ph);
-	if (res == SUCCESS)
-		res = start_philo_processes(&ph);
+	if (res != SUCCESS)
+		philo_exit(&ph, EXIT_FAILURE);
+	res = start_philo_processes(&ph);
 	if (res == SUCCESS)
 		res = start_error_handler_thread(&ph);
 	if (res == SUCCESS)
@@ -38,7 +39,8 @@ int	main(int argc, char **argv)
 		post_simulation_finished(&ph);
 	wait_philo_processes(&ph);
 	join_error_handler_thread(&ph);
-	close_semaphores(&ph);
 	philo_free(&ph);
+	if (res != SUCCESS)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
