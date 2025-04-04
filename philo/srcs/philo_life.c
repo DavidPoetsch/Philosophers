@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:06:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 17:20:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/04 10:30:08 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
  *
  * - Take fork 2
  *
- * @param ph
- * @param philo
- * @return int
+ * @param ph philo handler
+ * @param philo philo
+ * @return int sim state
  */
 int	take_forks(t_philo_handler *ph, t_philo *philo)
 {
@@ -110,8 +110,8 @@ int	go_sleep(t_philo_handler *ph, t_philo *philo)
  * Delay needed for odd number of philos.
  * The delay is necessary for fair fork access.
  *
- * @param ph
- * @param philo
+ * @param ph philo handler
+ * @param philo philo
  */
 int	think(t_philo_handler *ph, t_philo *philo)
 {

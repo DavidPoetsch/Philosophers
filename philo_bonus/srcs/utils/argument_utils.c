@@ -6,12 +6,21 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:29:34 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/13 18:01:08 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/04 10:49:50 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philosophers.h"
 
+/**
+ * @brief ### Initialize arguments
+ * 
+ * - puts programm arguments into an args struct
+ * 
+ * @param args args struct
+ * @param argc 
+ * @param argv 
+ */
 void	init_args(t_args *args, int argc, char *argv[])
 {
 	args->argc = argc;

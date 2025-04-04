@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:07:09 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/03 10:02:11 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/04 09:37:31 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv)
 	int				res;
 
 	init_args(&args, argc, argv);
+	ph = NULL;
 	res = init_philos(args, &ph);
 	if (res == SUCCESS)
 		res = start_monitoring_thread(ph);

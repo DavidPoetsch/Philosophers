@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:12:20 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/03/28 14:15:42 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:05:49 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
  */
 int	inc_int_mutex(t_int_mutex *t_mut)
 {
+	int	res;
+
+	res = SUCCESS;
 	if (!t_mut)
 		return (ERROR);
 	if (pthread_mutex_lock(&t_mut->m.m) != M_LOCK_SUCCESS)
@@ -27,9 +30,9 @@ int	inc_int_mutex(t_int_mutex *t_mut)
 	if (t_mut->value < INT_MAX)
 		t_mut->value += 1;
 	else
-		return (ERROR);
+		res = ERROR;
 	pthread_mutex_unlock(&t_mut->m.m);
-	return (SUCCESS);
+	return (res);
 }
 
 /**

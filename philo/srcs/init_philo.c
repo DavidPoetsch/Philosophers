@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:01:13 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/03 10:01:43 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/04 09:40:19 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ static int	alloc_memory_block(t_philo_handler **ph, t_input input)
 	void			*memory_block;
 	t_philo_handler	*ph_ptr;
 
+	if (!ph)
+		return (ERROR);
 	mem_size = sizeof(t_philo_handler) + input.philos * sizeof(t_philo);
-	memory_block = (void*)malloc(mem_size);
+	memory_block = (void *)malloc(mem_size);
 	if (!memory_block)
 	{
 		ft_puterr(ERR_MALLOC_PHILOS);
@@ -76,6 +78,8 @@ static int	assign_forks(t_philo_handler *ph)
 	int		i;
 	t_philo	*philo;
 
+	if (!ph)
+		return (ERROR);
 	i = 0;
 	while (i < ph->philos)
 	{
@@ -91,9 +95,7 @@ static int	assign_forks(t_philo_handler *ph)
 	{
 		philo = &ph->philo_lst[i];
 		if (philo->id % 2 != 0)
-		{
 			ft_swap_ptr((void **)&philo->fork1, (void **)&philo->fork2);
-		}
 		i++;
 	}
 	return (SUCCESS);
@@ -105,6 +107,8 @@ static int	init_mutexes(t_philo_handler *ph)
 	int		i;
 	t_philo	*philo;
 
+	if (!ph)
+		return (ERROR);
 	res = init_mutex(&ph->m_print);
 	if (res == SUCCESS)
 		res = init_mutex(&ph->m_sim_state.m);
@@ -136,6 +140,8 @@ int	init_philos(t_args args, t_philo_handler **ph)
 	t_input			input;
 	int				res;
 
+	if (!ph)
+		return (ERROR);
 	new_philo_handler = NULL;
 	memset(&input, 0, sizeof(t_input));
 	res = parse_arguments(args, &input);

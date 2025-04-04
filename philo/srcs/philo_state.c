@@ -6,18 +6,37 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/02 12:47:00 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:05:45 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+/**
+ * @brief ### Prints state in format `[ms] [philo] [message]`
+ *
+ * @param us_duration duration in microseconds
+ * @param id id of philo
+ * @param str message
+ */
 static inline void	print_state(unsigned long long us_duration, int id,
 		char *str)
 {
 	printf("%llu %d %s\n", us_duration / 1000ULL, id, str);
 }
 
+/**
+ * @brief ### Print philo state
+ *
+ * - check if someone died
+ *
+ * - if all alive print state
+ *
+ * @param ph
+ * @param id
+ * @param state
+ * @return unsigned long long
+ */
 unsigned long long	print_philo_state(t_philo_handler *ph, int id, int state)
 {
 	unsigned long long	curr_us;
@@ -41,6 +60,17 @@ unsigned long long	print_philo_state(t_philo_handler *ph, int id, int state)
 	return (curr_us);
 }
 
+/**
+ * @brief ### Print philo died
+ *
+ * - set `someone_died` to `true`
+ *
+ * - print died message
+ *
+ * @param ph philo handler
+ * @param philo philo
+ * @param tod time of death
+ */
 void	print_philo_dead(t_philo_handler *ph, t_philo *philo,
 		unsigned long long tod)
 {
@@ -53,6 +83,15 @@ void	print_philo_dead(t_philo_handler *ph, t_philo *philo,
 	pthread_mutex_unlock(&ph->m_print.m);
 }
 
+/**
+ * @brief ### Print fork message
+ *
+ * - in case `DEBUG` is true, the address of the fork is printed as well.
+ *
+ * @param ph philo handler
+ * @param philo philo
+ * @param tod time of death
+ */
 void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 {
 	unsigned long long	curr_us;
@@ -67,7 +106,7 @@ void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 		if (fork == 1)
 			printf("%d has taken fork 1: (%p)\n", philo->id, &philo->fork1);
 		else if (fork == 2)
-			printf("%d has taken fork 2: (%p)\n", philo->id, philo->fork2);
+			printf("%d has taken fork 2: (%p)\n", philo->id, &philo->fork2);
 	}
 	else
 		print_state(us_duration, philo->id, "has taken a fork");

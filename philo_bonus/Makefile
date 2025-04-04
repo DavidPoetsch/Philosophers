@@ -6,7 +6,7 @@
 #    By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/21 13:23:49 by dpotsch           #+#    #+#              #
-#    Updated: 2025/04/03 08:51:54 by dpotsch          ###   ########.fr        #
+#    Updated: 2025/04/04 11:30:46 by dpotsch          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ CFLAGS = -O3 -Wall -Wextra -Werror
 CFLAGS_DEBUG = -O3 -Wall -Wextra -Werror -g
 CFLAGS_DEBUG_ASAN = -O3 -Wall -Wextra -Werror -g -fsanitize=address
 CFLAGS_DEBUG_TSAN = -O3 -Wall -Wextra -Werror -g -fsanitize=thread
-CFLAGS_DEBUG_HELG = -O3 -Wall -Wextra -Werror -g -O0
+CFLAGS_DEBUG_HELG = -O3 -Wall -Wextra -Werror -g
 DEBUG = 0
 
 BUILD_DIR = ./build
