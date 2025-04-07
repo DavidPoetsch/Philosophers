@@ -17,7 +17,7 @@
 #  define DEBUG false
 # endif
 
-# define DELAY_THINKING 200
+# define DELAY_THINKING 1000
 # define USLEEP_PAUSE 200
 # define MON_PAUSE 250
 # define DELAY_T_CREATE 2000
