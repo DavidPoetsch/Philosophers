@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/04 12:05:45 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/07 11:04:58 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,19 @@ void	print_philo_state_fork(t_philo_handler *ph, t_philo *philo, int fork)
 	lock_mutex(&ph->m_print);
 	curr_us = get_curr_us();
 	us_duration = curr_us - ph->start_time;
-	if (DEBUG)
+	if (!ph->someone_died)
 	{
-		printf("%llu ", us_duration / 1000ULL);
-		if (fork == 1)
-			printf("%d has taken fork 1: (%p)\n", philo->id, &philo->fork1);
-		else if (fork == 2)
-			printf("%d has taken fork 2: (%p)\n", philo->id, &philo->fork2);
+		if (DEBUG)
+		{
+			printf("%llu ", us_duration / 1000ULL);
+			if (fork == 1)
+				printf("%d has taken fork 1: (%p)\n", philo->id, &philo->fork1);
+			else if (fork == 2)
+				printf("%d has taken fork 2: (%p)\n", philo->id, &philo->fork2);
+		}
+		else
+			print_state(us_duration, philo->id, "has taken a fork");
 	}
-	else
-		print_state(us_duration, philo->id, "has taken a fork");
 	pthread_mutex_unlock(&ph->m_print.m);
 }
 
