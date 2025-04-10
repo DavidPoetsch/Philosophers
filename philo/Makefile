@@ -138,11 +138,11 @@ fclean:
 	@rm -rf test
 	@rm -rf test_bonus
 
-.PHONY: all clean fclean re bonus debug
+.PHONY: all clean fclean re debug
 
 # Include the .d dependencies. The - at the front suppresses the errors of 
 # missing dependencies. Initially, all the .d files will be missing, 
 # and we don't want those errors to show up.
 -include $(DEPS)
 
-# -include ../testing/Makefile
+#-include ../testing/Makefile
