@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:10:26 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/04 12:05:12 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/11 10:13:53 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static inline int	check_philos_state(t_philo_handler *ph)
 	return (sim_state);
 }
 
-static bool	general_error(t_philo_handler *ph)
+bool	general_error(t_philo_handler *ph)
 {
 	int	error_code;
 

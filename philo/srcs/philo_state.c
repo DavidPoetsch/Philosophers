@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:10:54 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/07 11:01:03 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/11 10:12:24 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	print_philo_dead(t_philo_handler *ph, t_philo *philo,
 	lock_mutex(&ph->m_print);
 	us_duration = tod - ph->start_time;
 	ph->someone_died = true;
-	print_state(us_duration, philo->id, "died");
+	if (!general_error(ph))
+		print_state(us_duration, philo->id, "died");
 	pthread_mutex_unlock(&ph->m_print.m);
 }
 
@@ -135,6 +136,7 @@ void	print_error(t_philo_handler *ph, char *msg, int error)
 {
 	lock_mutex(&ph->m_print);
 	ft_puterr(msg);
+	ph->someone_died = true;
 	set_int_mutex(&ph->m_error, error);
 	set_int_mutex(&ph->m_sim_state, SIM_FINISHED);
 	pthread_mutex_unlock(&ph->m_print.m);

@@ -6,7 +6,7 @@
 /*   By: dpotsch <poetschdavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:05:46 by dpotsch           #+#    #+#             */
-/*   Updated: 2025/04/01 20:05:48 by dpotsch          ###   ########.fr       */
+/*   Updated: 2025/04/11 10:13:43 by dpotsch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ bool				sim_running(t_philo_handler *ph, t_philo *philo);
 void				*philo_monitoring(void *p);
 void				set_state_finished(t_philo_handler *ph);
 int					start_monitoring_thread(t_philo_handler *ph);
+bool				general_error(t_philo_handler *ph);
 
 // Print philo state
 
